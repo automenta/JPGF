@@ -79,8 +79,8 @@ private class Chart(var nextCat:Int) {
   def hasCategory(oldCat:Int, cons:Int, begin:Int, end:Int):Boolean =
     categoryBookKeeper.contains((oldCat, cons, begin, end))
 
-  def getCategory(oldCat:Int, cons:Int, begin:Int, end:Int):Option[Int] =
-    categoryBookKeeper.get((oldCat, cons, begin, end))
+  def getCategory(oldCat:Int, cons:Int, begin:Int, end:Int):Option[Integer] =
+    categoryBookKeeper.get((oldCat, cons, begin, end)).map(i => i:Integer)
 
   def generateFreshCategory(oldCat:Int, l:Int, j:Int, k:Int):Int = {
     val cat = this.nextCat
@@ -128,22 +128,22 @@ private class ActiveSet {
         }
     }
 
-  def get(cat:Int):Iterator[(ActiveItem, Int, Int)] =
+  def get(cat:Int):Iterator[(ActiveItem, Integer, Integer)] =
     this.store.get(cat) match {
       case None => return Iterator.empty
       case Some(amap) => {
         for( k <- amap.keys.iterator ;
              (item, d) <- amap(k).iterator)
-            yield (item, d, k)
+            yield (item, d:Integer, k:Integer)
       }
     }
 
-  def get(cat:Int, cons:Int):Seq[(ActiveItem,Int)] =
+  def get(cat:Int, cons:Int):Seq[(ActiveItem,Integer)] =
     this.store.get(cat) match {
       case None => return Nil
       case Some(map) => map.get(cons) match {
         case None => return Nil
-        case Some(s) => return s.toSeq
+        case Some(s) => return s.map(x => (x._1, x._2:Integer)) toSeq
       }
     }
 }
