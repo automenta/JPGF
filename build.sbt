@@ -1,5 +1,7 @@
 name := "jpgf"
 
+organization := "org.grammaticalframework"
+
 version := "1.0"
 
 resolvers += "Typesafe Repository" at "http://repo.typesafe.com/typesafe/releases/"
