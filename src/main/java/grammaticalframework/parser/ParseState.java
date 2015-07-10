@@ -170,9 +170,9 @@ public class ParseState {
         return this.trie.predict();
     }
 
-    public java.util.List<grammaticalframework.Trees.Absyn.Tree> getTrees() {
+    public java.util.List<grammaticalframework.Trees.absyn.Tree> getTrees() {
         scala.collection.Iterator<Tree> parseTrees = TreeBuilder.buildTrees(chart, startcat, position).iterator();
-        java.util.List<grammaticalframework.Trees.Absyn.Tree> v = new java.util.ArrayList();
+        java.util.List<grammaticalframework.Trees.absyn.Tree> v = new java.util.ArrayList();
         while (parseTrees.hasNext())
             v.add(TreeConverter.intermediate2abstract(parseTrees.next()));
 

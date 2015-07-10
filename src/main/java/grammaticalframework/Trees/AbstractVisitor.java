@@ -20,20 +20,20 @@ package grammaticalframework.Trees;
 /** BNFC-Generated Abstract Visitor */
 public class AbstractVisitor<R,A> implements AllVisitor<R,A> {
 /* Tree */
-    public R visit(grammaticalframework.Trees.Absyn.Lambda p, A arg) { return visitDefault(p, arg); }
-    public R visit(grammaticalframework.Trees.Absyn.Variable p, A arg) { return visitDefault(p, arg); }
-    public R visit(grammaticalframework.Trees.Absyn.Application p, A arg) { return visitDefault(p, arg); }
-    public R visit(grammaticalframework.Trees.Absyn.Literal p, A arg) { return visitDefault(p, arg); }
-    public R visit(grammaticalframework.Trees.Absyn.MetaVariable p, A arg) { return visitDefault(p, arg); }
-    public R visit(grammaticalframework.Trees.Absyn.Function p, A arg) { return visitDefault(p, arg); }
-    public R visitDefault(grammaticalframework.Trees.Absyn.Tree p, A arg) {
+    public R visit(grammaticalframework.Trees.absyn.Lambda p, A arg) { return visitDefault(p, arg); }
+    public R visit(grammaticalframework.Trees.absyn.Variable p, A arg) { return visitDefault(p, arg); }
+    public R visit(grammaticalframework.Trees.absyn.Application p, A arg) { return visitDefault(p, arg); }
+    public R visit(grammaticalframework.Trees.absyn.Literal p, A arg) { return visitDefault(p, arg); }
+    public R visit(grammaticalframework.Trees.absyn.MetaVariable p, A arg) { return visitDefault(p, arg); }
+    public R visit(grammaticalframework.Trees.absyn.Function p, A arg) { return visitDefault(p, arg); }
+    public R visitDefault(grammaticalframework.Trees.absyn.Tree p, A arg) {
       throw new IllegalArgumentException(this.getClass().getName() + ": " + p);
     }
 /* Lit */
-    public R visit(grammaticalframework.Trees.Absyn.IntLiteral p, A arg) { return visitDefault(p, arg); }
-    public R visit(grammaticalframework.Trees.Absyn.FloatLiteral p, A arg) { return visitDefault(p, arg); }
-    public R visit(grammaticalframework.Trees.Absyn.StringLiteral p, A arg) { return visitDefault(p, arg); }
-    public R visitDefault(grammaticalframework.Trees.Absyn.Lit p, A arg) {
+    public R visit(grammaticalframework.Trees.absyn.IntLiteral p, A arg) { return visitDefault(p, arg); }
+    public R visit(grammaticalframework.Trees.absyn.FloatLiteral p, A arg) { return visitDefault(p, arg); }
+    public R visit(grammaticalframework.Trees.absyn.StringLiteral p, A arg) { return visitDefault(p, arg); }
+    public R visitDefault(grammaticalframework.Trees.absyn.Lit p, A arg) {
       throw new IllegalArgumentException(this.getClass().getName() + ": " + p);
     }
 

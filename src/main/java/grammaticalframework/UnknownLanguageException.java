@@ -18,16 +18,22 @@
 package grammaticalframework;
 
 public class UnknownLanguageException extends Exception {
+
+    private final Object concretes;
     private String language;
-    public UnknownLanguageException(String language) {
-	this.language = language;
+
+
+    public UnknownLanguageException(String language, Object concretes) {
+        this.language = language;
+        this.concretes = concretes;
+
     }
-    
+
     public String getLanguage() {
 	return this.language;
     }
     
     public String toString() {
-	return "Unknown language: " + language;
+	return "Unknown language: " + language + " ; available=" + concretes ;
     }
 }

@@ -59,7 +59,7 @@ public class PrettyPrinter
 
 
   //  print and show methods are defined for each category.
-  public static String print(grammaticalframework.Trees.Absyn.Tree foo)
+  public static String print(grammaticalframework.Trees.absyn.Tree foo)
   {
     pp(foo, 0);
     trim();
@@ -67,14 +67,14 @@ public class PrettyPrinter
     buf_.delete(0,buf_.length());
     return temp;
   }
-  public static String show(grammaticalframework.Trees.Absyn.Tree foo)
+  public static String show(grammaticalframework.Trees.absyn.Tree foo)
   {
     sh(foo);
     String temp = buf_.toString();
     buf_.delete(0,buf_.length());
     return temp;
   }
-  public static String print(grammaticalframework.Trees.Absyn.Lit foo)
+  public static String print(grammaticalframework.Trees.absyn.Lit foo)
   {
     pp(foo, 0);
     trim();
@@ -82,7 +82,7 @@ public class PrettyPrinter
     buf_.delete(0,buf_.length());
     return temp;
   }
-  public static String show(grammaticalframework.Trees.Absyn.Lit foo)
+  public static String show(grammaticalframework.Trees.absyn.Lit foo)
   {
     sh(foo);
     String temp = buf_.toString();
@@ -91,11 +91,11 @@ public class PrettyPrinter
   }
   /***   You shouldn't need to change anything beyond this point.   ***/
 
-  private static void pp(grammaticalframework.Trees.Absyn.Tree foo, int _i_)
+  private static void pp(grammaticalframework.Trees.absyn.Tree foo, int _i_)
   {
-    if (foo instanceof grammaticalframework.Trees.Absyn.Lambda)
+    if (foo instanceof grammaticalframework.Trees.absyn.Lambda)
     {
-       grammaticalframework.Trees.Absyn.Lambda _lambda = (grammaticalframework.Trees.Absyn.Lambda) foo;
+       grammaticalframework.Trees.absyn.Lambda _lambda = (grammaticalframework.Trees.absyn.Lambda) foo;
        if (_i_ > 0) render(_L_PAREN);
        render("\\");
        pp(_lambda.ident_, 0);
@@ -103,17 +103,17 @@ public class PrettyPrinter
        pp(_lambda.tree_, 0);
        if (_i_ > 0) render(_R_PAREN);
     }
-    else     if (foo instanceof grammaticalframework.Trees.Absyn.Variable)
+    else     if (foo instanceof grammaticalframework.Trees.absyn.Variable)
     {
-       grammaticalframework.Trees.Absyn.Variable _variable = (grammaticalframework.Trees.Absyn.Variable) foo;
+       grammaticalframework.Trees.absyn.Variable _variable = (grammaticalframework.Trees.absyn.Variable) foo;
        if (_i_ > 0) render(_L_PAREN);
        render("$");
        pp(_variable.integer_, 0);
        if (_i_ > 0) render(_R_PAREN);
     }
-    else     if (foo instanceof grammaticalframework.Trees.Absyn.Application)
+    else     if (foo instanceof grammaticalframework.Trees.absyn.Application)
     {
-       grammaticalframework.Trees.Absyn.Application _application = (grammaticalframework.Trees.Absyn.Application) foo;
+       grammaticalframework.Trees.absyn.Application _application = (grammaticalframework.Trees.absyn.Application) foo;
        if (_i_ > 0) render(_L_PAREN);
        render("(");
        pp(_application.tree_1, 0);
@@ -121,49 +121,49 @@ public class PrettyPrinter
        render(")");
        if (_i_ > 0) render(_R_PAREN);
     }
-    else     if (foo instanceof grammaticalframework.Trees.Absyn.Literal)
+    else     if (foo instanceof grammaticalframework.Trees.absyn.Literal)
     {
-       grammaticalframework.Trees.Absyn.Literal _literal = (grammaticalframework.Trees.Absyn.Literal) foo;
+       grammaticalframework.Trees.absyn.Literal _literal = (grammaticalframework.Trees.absyn.Literal) foo;
        if (_i_ > 0) render(_L_PAREN);
        pp(_literal.lit_, 0);
        if (_i_ > 0) render(_R_PAREN);
     }
-    else     if (foo instanceof grammaticalframework.Trees.Absyn.MetaVariable)
+    else     if (foo instanceof grammaticalframework.Trees.absyn.MetaVariable)
     {
-       grammaticalframework.Trees.Absyn.MetaVariable _metavariable = (grammaticalframework.Trees.Absyn.MetaVariable) foo;
+       grammaticalframework.Trees.absyn.MetaVariable _metavariable = (grammaticalframework.Trees.absyn.MetaVariable) foo;
        if (_i_ > 0) render(_L_PAREN);
        render("META_");
        pp(_metavariable.integer_, 0);
        if (_i_ > 0) render(_R_PAREN);
     }
-    else     if (foo instanceof grammaticalframework.Trees.Absyn.Function)
+    else     if (foo instanceof grammaticalframework.Trees.absyn.Function)
     {
-       grammaticalframework.Trees.Absyn.Function _function = (grammaticalframework.Trees.Absyn.Function) foo;
+       grammaticalframework.Trees.absyn.Function _function = (grammaticalframework.Trees.absyn.Function) foo;
        if (_i_ > 0) render(_L_PAREN);
        pp(_function.ident_, 0);
        if (_i_ > 0) render(_R_PAREN);
     }
   }
 
-  private static void pp(grammaticalframework.Trees.Absyn.Lit foo, int _i_)
+  private static void pp(grammaticalframework.Trees.absyn.Lit foo, int _i_)
   {
-    if (foo instanceof grammaticalframework.Trees.Absyn.IntLiteral)
+    if (foo instanceof grammaticalframework.Trees.absyn.IntLiteral)
     {
-       grammaticalframework.Trees.Absyn.IntLiteral _intliteral = (grammaticalframework.Trees.Absyn.IntLiteral) foo;
+       grammaticalframework.Trees.absyn.IntLiteral _intliteral = (grammaticalframework.Trees.absyn.IntLiteral) foo;
        if (_i_ > 0) render(_L_PAREN);
        pp(_intliteral.integer_, 0);
        if (_i_ > 0) render(_R_PAREN);
     }
-    else     if (foo instanceof grammaticalframework.Trees.Absyn.FloatLiteral)
+    else     if (foo instanceof grammaticalframework.Trees.absyn.FloatLiteral)
     {
-       grammaticalframework.Trees.Absyn.FloatLiteral _floatliteral = (grammaticalframework.Trees.Absyn.FloatLiteral) foo;
+       grammaticalframework.Trees.absyn.FloatLiteral _floatliteral = (grammaticalframework.Trees.absyn.FloatLiteral) foo;
        if (_i_ > 0) render(_L_PAREN);
        pp(_floatliteral.double_, 0);
        if (_i_ > 0) render(_R_PAREN);
     }
-    else     if (foo instanceof grammaticalframework.Trees.Absyn.StringLiteral)
+    else     if (foo instanceof grammaticalframework.Trees.absyn.StringLiteral)
     {
-       grammaticalframework.Trees.Absyn.StringLiteral _stringliteral = (grammaticalframework.Trees.Absyn.StringLiteral) foo;
+       grammaticalframework.Trees.absyn.StringLiteral _stringliteral = (grammaticalframework.Trees.absyn.StringLiteral) foo;
        if (_i_ > 0) render(_L_PAREN);
        printQuoted(_stringliteral.string_);
        if (_i_ > 0) render(_R_PAREN);
@@ -171,53 +171,53 @@ public class PrettyPrinter
   }
 
 
-  private static void sh(grammaticalframework.Trees.Absyn.Tree foo)
+  private static void sh(grammaticalframework.Trees.absyn.Tree foo)
   {
-    if (foo instanceof grammaticalframework.Trees.Absyn.Lambda)
+    if (foo instanceof grammaticalframework.Trees.absyn.Lambda)
     {
-       grammaticalframework.Trees.Absyn.Lambda _lambda = (grammaticalframework.Trees.Absyn.Lambda) foo;
+       grammaticalframework.Trees.absyn.Lambda _lambda = (grammaticalframework.Trees.absyn.Lambda) foo;
        render("(");
        render("Lambda");
        sh(_lambda.ident_);
        sh(_lambda.tree_);
        render(")");
     }
-    if (foo instanceof grammaticalframework.Trees.Absyn.Variable)
+    if (foo instanceof grammaticalframework.Trees.absyn.Variable)
     {
-       grammaticalframework.Trees.Absyn.Variable _variable = (grammaticalframework.Trees.Absyn.Variable) foo;
+       grammaticalframework.Trees.absyn.Variable _variable = (grammaticalframework.Trees.absyn.Variable) foo;
        render("(");
        render("Variable");
        sh(_variable.integer_);
        render(")");
     }
-    if (foo instanceof grammaticalframework.Trees.Absyn.Application)
+    if (foo instanceof grammaticalframework.Trees.absyn.Application)
     {
-       grammaticalframework.Trees.Absyn.Application _application = (grammaticalframework.Trees.Absyn.Application) foo;
+       grammaticalframework.Trees.absyn.Application _application = (grammaticalframework.Trees.absyn.Application) foo;
        render("(");
        render("Application");
        sh(_application.tree_1);
        sh(_application.tree_2);
        render(")");
     }
-    if (foo instanceof grammaticalframework.Trees.Absyn.Literal)
+    if (foo instanceof grammaticalframework.Trees.absyn.Literal)
     {
-       grammaticalframework.Trees.Absyn.Literal _literal = (grammaticalframework.Trees.Absyn.Literal) foo;
+       grammaticalframework.Trees.absyn.Literal _literal = (grammaticalframework.Trees.absyn.Literal) foo;
        render("(");
        render("Literal");
        sh(_literal.lit_);
        render(")");
     }
-    if (foo instanceof grammaticalframework.Trees.Absyn.MetaVariable)
+    if (foo instanceof grammaticalframework.Trees.absyn.MetaVariable)
     {
-       grammaticalframework.Trees.Absyn.MetaVariable _metavariable = (grammaticalframework.Trees.Absyn.MetaVariable) foo;
+       grammaticalframework.Trees.absyn.MetaVariable _metavariable = (grammaticalframework.Trees.absyn.MetaVariable) foo;
        render("(");
        render("MetaVariable");
        sh(_metavariable.integer_);
        render(")");
     }
-    if (foo instanceof grammaticalframework.Trees.Absyn.Function)
+    if (foo instanceof grammaticalframework.Trees.absyn.Function)
     {
-       grammaticalframework.Trees.Absyn.Function _function = (grammaticalframework.Trees.Absyn.Function) foo;
+       grammaticalframework.Trees.absyn.Function _function = (grammaticalframework.Trees.absyn.Function) foo;
        render("(");
        render("Function");
        sh(_function.ident_);
@@ -225,27 +225,27 @@ public class PrettyPrinter
     }
   }
 
-  private static void sh(grammaticalframework.Trees.Absyn.Lit foo)
+  private static void sh(grammaticalframework.Trees.absyn.Lit foo)
   {
-    if (foo instanceof grammaticalframework.Trees.Absyn.IntLiteral)
+    if (foo instanceof grammaticalframework.Trees.absyn.IntLiteral)
     {
-       grammaticalframework.Trees.Absyn.IntLiteral _intliteral = (grammaticalframework.Trees.Absyn.IntLiteral) foo;
+       grammaticalframework.Trees.absyn.IntLiteral _intliteral = (grammaticalframework.Trees.absyn.IntLiteral) foo;
        render("(");
        render("IntLiteral");
        sh(_intliteral.integer_);
        render(")");
     }
-    if (foo instanceof grammaticalframework.Trees.Absyn.FloatLiteral)
+    if (foo instanceof grammaticalframework.Trees.absyn.FloatLiteral)
     {
-       grammaticalframework.Trees.Absyn.FloatLiteral _floatliteral = (grammaticalframework.Trees.Absyn.FloatLiteral) foo;
+       grammaticalframework.Trees.absyn.FloatLiteral _floatliteral = (grammaticalframework.Trees.absyn.FloatLiteral) foo;
        render("(");
        render("FloatLiteral");
        sh(_floatliteral.double_);
        render(")");
     }
-    if (foo instanceof grammaticalframework.Trees.Absyn.StringLiteral)
+    if (foo instanceof grammaticalframework.Trees.absyn.StringLiteral)
     {
-       grammaticalframework.Trees.Absyn.StringLiteral _stringliteral = (grammaticalframework.Trees.Absyn.StringLiteral) foo;
+       grammaticalframework.Trees.absyn.StringLiteral _stringliteral = (grammaticalframework.Trees.absyn.StringLiteral) foo;
        render("(");
        render("StringLiteral");
        sh(_stringliteral.string_);

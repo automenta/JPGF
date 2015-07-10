@@ -18,7 +18,7 @@
 package grammaticalframework;
 
 import java.util.*;
-import grammaticalframework.Trees.Absyn.Tree;
+import grammaticalframework.Trees.absyn.Tree;
 import java.io.IOException;
 
 public class GenerateTreesTest extends PGFTestCase {

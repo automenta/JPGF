@@ -23,7 +23,7 @@ public class Test
     /* pLit */
     try
     {
-      grammaticalframework.Trees.Absyn.Tree parse_tree = p.pTree();
+      grammaticalframework.Trees.absyn.Tree parse_tree = p.pTree();
       System.out.println();
       System.out.println("Parse Succesful!");
       System.out.println();

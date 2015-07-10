@@ -17,10 +17,11 @@
  */
 package grammaticalframework;
 
-import grammaticalframework.Trees.Absyn.Tree;
+import grammaticalframework.Trees.absyn.Tree;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
 public class AnswerTest extends PGFTestCase
 {
@@ -32,8 +33,8 @@ public class AnswerTest extends PGFTestCase
     PGF pgf;
 
     public void setUp() throws IOException {
-	pgf = getPGF("Answer.pgf");
-    }
+		pgf = getPGF("Answer.pgf");
+	}
 
     public void testLinearization()
 	throws UnknownLanguageException, Linearizer.LinearizerException

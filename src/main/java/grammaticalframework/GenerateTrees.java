@@ -17,7 +17,7 @@
  */
 package grammaticalframework;
 
-import grammaticalframework.Trees.Absyn.*;
+import grammaticalframework.Trees.absyn.*;
 import grammaticalframework.reader.*;
 import java.util.*;
 

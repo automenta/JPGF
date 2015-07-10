@@ -115,10 +115,10 @@ public class parser extends java_cup.runtime.lr_parser {
 
 
 
-  public grammaticalframework.Trees.Absyn.Tree pTree() throws Exception
+  public grammaticalframework.Trees.absyn.Tree pTree() throws Exception
   {
 	java_cup.runtime.Symbol res = parse();
-	return (grammaticalframework.Trees.Absyn.Tree) res.value;
+	return (grammaticalframework.Trees.absyn.Tree) res.value;
   }
 
 public <B,A extends java.util.LinkedList<? super B>> A cons_(B x, A xs) { xs.addFirst(x); return xs; }
@@ -162,9 +162,9 @@ class CUP$parser$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 9: // Lit ::= _STRING_ 
             {
-              grammaticalframework.Trees.Absyn.Lit RESULT =null;
+              grammaticalframework.Trees.absyn.Lit RESULT =null;
 		String p_1 = (String)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		 RESULT = new grammaticalframework.Trees.Absyn.StringLiteral(p_1);
+		 RESULT = new grammaticalframework.Trees.absyn.StringLiteral(p_1);
               CUP$parser$result = parser.getSymbolFactory().newSymbol("Lit",1, RESULT);
             }
           return CUP$parser$result;
@@ -172,9 +172,9 @@ class CUP$parser$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 8: // Lit ::= _DOUBLE_ 
             {
-              grammaticalframework.Trees.Absyn.Lit RESULT =null;
+              grammaticalframework.Trees.absyn.Lit RESULT =null;
 		Double p_1 = (Double)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		 RESULT = new grammaticalframework.Trees.Absyn.FloatLiteral(p_1);
+		 RESULT = new grammaticalframework.Trees.absyn.FloatLiteral(p_1);
               CUP$parser$result = parser.getSymbolFactory().newSymbol("Lit",1, RESULT);
             }
           return CUP$parser$result;
@@ -182,9 +182,9 @@ class CUP$parser$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 7: // Lit ::= _INTEGER_ 
             {
-              grammaticalframework.Trees.Absyn.Lit RESULT =null;
+              grammaticalframework.Trees.absyn.Lit RESULT =null;
 		Integer p_1 = (Integer)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		 RESULT = new grammaticalframework.Trees.Absyn.IntLiteral(p_1);
+		 RESULT = new grammaticalframework.Trees.absyn.IntLiteral(p_1);
               CUP$parser$result = parser.getSymbolFactory().newSymbol("Lit",1, RESULT);
             }
           return CUP$parser$result;
@@ -192,9 +192,9 @@ class CUP$parser$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 6: // Tree ::= _IDENT_ 
             {
-              grammaticalframework.Trees.Absyn.Tree RESULT =null;
+              grammaticalframework.Trees.absyn.Tree RESULT =null;
 		String p_1 = (String)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		 RESULT = new grammaticalframework.Trees.Absyn.Function(p_1);
+		 RESULT = new grammaticalframework.Trees.absyn.Function(p_1);
               CUP$parser$result = parser.getSymbolFactory().newSymbol("Tree",0, RESULT);
             }
           return CUP$parser$result;
@@ -202,9 +202,9 @@ class CUP$parser$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 5: // Tree ::= _SYMB_5 _INTEGER_ 
             {
-              grammaticalframework.Trees.Absyn.Tree RESULT =null;
+              grammaticalframework.Trees.absyn.Tree RESULT =null;
 		Integer p_2 = (Integer)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		 RESULT = new grammaticalframework.Trees.Absyn.MetaVariable(p_2);
+		 RESULT = new grammaticalframework.Trees.absyn.MetaVariable(p_2);
               CUP$parser$result = parser.getSymbolFactory().newSymbol("Tree",0, RESULT);
             }
           return CUP$parser$result;
@@ -212,9 +212,9 @@ class CUP$parser$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 4: // Tree ::= Lit 
             {
-              grammaticalframework.Trees.Absyn.Tree RESULT =null;
-		grammaticalframework.Trees.Absyn.Lit p_1 = (grammaticalframework.Trees.Absyn.Lit)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		 RESULT = new grammaticalframework.Trees.Absyn.Literal(p_1);
+              grammaticalframework.Trees.absyn.Tree RESULT =null;
+		grammaticalframework.Trees.absyn.Lit p_1 = (grammaticalframework.Trees.absyn.Lit)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
+		 RESULT = new grammaticalframework.Trees.absyn.Literal(p_1);
               CUP$parser$result = parser.getSymbolFactory().newSymbol("Tree",0, RESULT);
             }
           return CUP$parser$result;
@@ -222,10 +222,10 @@ class CUP$parser$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 3: // Tree ::= _SYMB_3 Tree Tree _SYMB_4 
             {
-              grammaticalframework.Trees.Absyn.Tree RESULT =null;
-		grammaticalframework.Trees.Absyn.Tree p_2 = (grammaticalframework.Trees.Absyn.Tree)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-2)).value;
-		grammaticalframework.Trees.Absyn.Tree p_3 = (grammaticalframework.Trees.Absyn.Tree)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
-		 RESULT = new grammaticalframework.Trees.Absyn.Application(p_2,p_3);
+              grammaticalframework.Trees.absyn.Tree RESULT =null;
+		grammaticalframework.Trees.absyn.Tree p_2 = (grammaticalframework.Trees.absyn.Tree)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-2)).value;
+		grammaticalframework.Trees.absyn.Tree p_3 = (grammaticalframework.Trees.absyn.Tree)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
+		 RESULT = new grammaticalframework.Trees.absyn.Application(p_2,p_3);
               CUP$parser$result = parser.getSymbolFactory().newSymbol("Tree",0, RESULT);
             }
           return CUP$parser$result;
@@ -233,9 +233,9 @@ class CUP$parser$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 2: // Tree ::= _SYMB_2 _INTEGER_ 
             {
-              grammaticalframework.Trees.Absyn.Tree RESULT =null;
+              grammaticalframework.Trees.absyn.Tree RESULT =null;
 		Integer p_2 = (Integer)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		 RESULT = new grammaticalframework.Trees.Absyn.Variable(p_2);
+		 RESULT = new grammaticalframework.Trees.absyn.Variable(p_2);
               CUP$parser$result = parser.getSymbolFactory().newSymbol("Tree",0, RESULT);
             }
           return CUP$parser$result;
@@ -243,10 +243,10 @@ class CUP$parser$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 1: // Tree ::= _SYMB_0 _IDENT_ _SYMB_1 Tree 
             {
-              grammaticalframework.Trees.Absyn.Tree RESULT =null;
+              grammaticalframework.Trees.absyn.Tree RESULT =null;
 		String p_2 = (String)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-2)).value;
-		grammaticalframework.Trees.Absyn.Tree p_4 = (grammaticalframework.Trees.Absyn.Tree)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		 RESULT = new grammaticalframework.Trees.Absyn.Lambda(p_2,p_4);
+		grammaticalframework.Trees.absyn.Tree p_4 = (grammaticalframework.Trees.absyn.Tree)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
+		 RESULT = new grammaticalframework.Trees.absyn.Lambda(p_2,p_4);
               CUP$parser$result = parser.getSymbolFactory().newSymbol("Tree",0, RESULT);
             }
           return CUP$parser$result;
@@ -255,7 +255,7 @@ class CUP$parser$actions {
           case 0: // $START ::= Tree EOF 
             {
               Object RESULT =null;
-		grammaticalframework.Trees.Absyn.Tree start_val = (grammaticalframework.Trees.Absyn.Tree)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
+		grammaticalframework.Trees.absyn.Tree start_val = (grammaticalframework.Trees.absyn.Tree)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
 		RESULT = start_val;
               CUP$parser$result = parser.getSymbolFactory().newSymbol("$START",0, RESULT);
             }

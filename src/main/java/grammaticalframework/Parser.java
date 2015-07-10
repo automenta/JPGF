@@ -19,7 +19,6 @@ package grammaticalframework;
 
 import grammaticalframework.reader.*;
 import grammaticalframework.parser.*;
-import grammaticalframework.Trees.Absyn.Tree;
 
 
 public class Parser {
@@ -63,7 +62,7 @@ public class Parser {
      **/
     // FIXME: not using the start category ??
     // FIXME: Return collection
-    public java.util.List<grammaticalframework.Trees.Absyn.Tree> parseToTrees(String[] tokens) throws ParseError {
+    public java.util.List<grammaticalframework.Trees.absyn.Tree> parseToTrees(String[] tokens) throws ParseError {
 	    return this.parse(tokens).getTrees();
     }
 

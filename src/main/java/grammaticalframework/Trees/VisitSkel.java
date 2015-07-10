@@ -1,5 +1,5 @@
 package grammaticalframework.Trees;
-import grammaticalframework.Trees.Absyn.*;
+import grammaticalframework.Trees.absyn.*;
 /*** BNFC-Generated Visitor Design Pattern Skeleton. ***/
 /* This implements the common visitor design pattern.
    Tests show it to be slightly less efficient than the
@@ -11,7 +11,7 @@ public class VisitSkel
 {
   public class TreeVisitor<R,A> implements Tree.Visitor<R,A>
   {
-    public R visit(grammaticalframework.Trees.Absyn.Lambda p, A arg)
+    public R visit(grammaticalframework.Trees.absyn.Lambda p, A arg)
     {
       /* Code For Lambda Goes Here */
 
@@ -20,7 +20,7 @@ public class VisitSkel
 
       return null;
     }
-    public R visit(grammaticalframework.Trees.Absyn.Variable p, A arg)
+    public R visit(grammaticalframework.Trees.absyn.Variable p, A arg)
     {
       /* Code For Variable Goes Here */
 
@@ -28,7 +28,7 @@ public class VisitSkel
 
       return null;
     }
-    public R visit(grammaticalframework.Trees.Absyn.Application p, A arg)
+    public R visit(grammaticalframework.Trees.absyn.Application p, A arg)
     {
       /* Code For Application Goes Here */
 
@@ -37,7 +37,7 @@ public class VisitSkel
 
       return null;
     }
-    public R visit(grammaticalframework.Trees.Absyn.Literal p, A arg)
+    public R visit(grammaticalframework.Trees.absyn.Literal p, A arg)
     {
       /* Code For Literal Goes Here */
 
@@ -45,7 +45,7 @@ public class VisitSkel
 
       return null;
     }
-    public R visit(grammaticalframework.Trees.Absyn.MetaVariable p, A arg)
+    public R visit(grammaticalframework.Trees.absyn.MetaVariable p, A arg)
     {
       /* Code For MetaVariable Goes Here */
 
@@ -53,7 +53,7 @@ public class VisitSkel
 
       return null;
     }
-    public R visit(grammaticalframework.Trees.Absyn.Function p, A arg)
+    public R visit(grammaticalframework.Trees.absyn.Function p, A arg)
     {
       /* Code For Function Goes Here */
 
@@ -65,7 +65,7 @@ public class VisitSkel
   }
   public class LitVisitor<R,A> implements Lit.Visitor<R,A>
   {
-    public R visit(grammaticalframework.Trees.Absyn.IntLiteral p, A arg)
+    public R visit(grammaticalframework.Trees.absyn.IntLiteral p, A arg)
     {
       /* Code For IntLiteral Goes Here */
 
@@ -73,7 +73,7 @@ public class VisitSkel
 
       return null;
     }
-    public R visit(grammaticalframework.Trees.Absyn.FloatLiteral p, A arg)
+    public R visit(grammaticalframework.Trees.absyn.FloatLiteral p, A arg)
     {
       /* Code For FloatLiteral Goes Here */
 
@@ -81,7 +81,7 @@ public class VisitSkel
 
       return null;
     }
-    public R visit(grammaticalframework.Trees.Absyn.StringLiteral p, A arg)
+    public R visit(grammaticalframework.Trees.absyn.StringLiteral p, A arg)
     {
       /* Code For StringLiteral Goes Here */
 

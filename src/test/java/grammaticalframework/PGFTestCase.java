@@ -17,7 +17,7 @@
  */
 package grammaticalframework;
 
-import grammaticalframework.Trees.Absyn.Tree;
+import grammaticalframework.Trees.absyn.Tree;
 import grammaticalframework.Trees.Yylex;
 import grammaticalframework.Trees.parser;
 import grammaticalframework.reader.*;

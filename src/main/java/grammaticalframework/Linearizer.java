@@ -17,7 +17,7 @@
  */
 package grammaticalframework;
 
-import grammaticalframework.Trees.Absyn.*;
+import grammaticalframework.Trees.absyn.*;
 import grammaticalframework.linearizer.*;
 import grammaticalframework.reader.*;
 
