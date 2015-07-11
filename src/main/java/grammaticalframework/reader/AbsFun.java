@@ -25,6 +25,7 @@ public class AbsFun {
     public final double weight;
     
     public AbsFun(String name, Type type, int arity, Eq[] _eqs, double weight) {
+
 	this.name = name;
 	this.type = type;
 	this.arity = arity;

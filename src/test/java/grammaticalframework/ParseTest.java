@@ -20,6 +20,7 @@ public class ParseTest {
     @Test
     public void parseGF_File() throws Exception {
         String filename = "math.gf";
+
         File f = new File(
                 PGFTestCase.class.getResource(filename).getFile() );
 

@@ -23,6 +23,7 @@ public class Type {
     private Expr[] exprs;
 
     public Type(Hypo[] _hypos, String _str, Expr[] _exprs) {
+
 	hypos = _hypos; 
 	str = _str;
 	exprs = _exprs;
@@ -30,14 +31,17 @@ public class Type {
 
     public String toString() {
 	StringBuffer sb = new StringBuffer();
-	for (Hypo h: hypos) {
-	    if (h.type.isFunctionType())
-		sb.append('(');
-	    sb.append(h);
-	    if (h.type.isFunctionType())
-		sb.append(')');
-	    sb.append(" -> ");
-	}
+		if  (hypos!=null) {
+			for (Hypo h : hypos) {
+				if (h == null) continue;
+				if (h.type.isFunctionType())
+					sb.append('(');
+				sb.append(h);
+				if (h.type.isFunctionType())
+					sb.append(')');
+				sb.append(" -> ");
+			}
+		}
 	sb.append(str);
 	for (Expr e: exprs) {
 	    sb.append(' ');

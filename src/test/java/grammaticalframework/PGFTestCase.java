@@ -43,6 +43,7 @@ public abstract class PGFTestCase extends TestCase {
         PGF pgf = fromFile(fullname);
         return pgf;
     }
+
     
     /* **** Support function for using abstract trees **** */
 

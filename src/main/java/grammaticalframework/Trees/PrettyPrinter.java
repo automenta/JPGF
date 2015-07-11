@@ -1,9 +1,16 @@
 package grammaticalframework.Trees;
 
+/** WARNING with the STringBuilder buffer this class is not thread safe.
+ * ThreadLocal could do it
+ */
 public class PrettyPrinter
 {
-  //For certain applications increasing the initial size of the buffer may improve performance.
-  private static final int INITIAL_BUFFER_SIZE = 128;
+    //For certain applications increasing the initial size of the buffer may improve performance.
+    private static final int INITIAL_BUFFER_SIZE = 128;
+
+    private static int _n_ = 0;
+    private final static StringBuilder buf_ = new StringBuilder(INITIAL_BUFFER_SIZE);
+
   //You may wish to change the parentheses used in precedence.
   private static final String _L_PAREN = "(";
   private static final String _R_PAREN = ")";
@@ -285,7 +292,5 @@ public class PrettyPrinter
     while (buf_.length() > 0 && buf_.charAt(buf_.length()-1) == ' ')
         buf_.deleteCharAt(buf_.length()-1);
   }
-  private static int _n_ = 0;
-  private static StringBuilder buf_ = new StringBuilder(INITIAL_BUFFER_SIZE);
 }
 

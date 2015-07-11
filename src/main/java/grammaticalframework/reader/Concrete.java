@@ -58,7 +58,7 @@ public class Concrete {
         return name;
     }
 
-    public class UnknownCategory extends Exception {
+    public static class UnknownCategory extends Exception {
 	private final String cat;
 	
 	public UnknownCategory(String c) {

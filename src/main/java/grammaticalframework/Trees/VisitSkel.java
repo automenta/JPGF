@@ -41,7 +41,7 @@ public class VisitSkel
     {
       /* Code For Literal Goes Here */
 
-      p.lit_.accept(new LitVisitor<R,A>(), arg);
+      p.lit_.accept(new LitVisitor<R, A>(), arg);
 
       return null;
     }
@@ -63,7 +63,7 @@ public class VisitSkel
     }
 
   }
-  public class LitVisitor<R,A> implements Lit.Visitor<R,A>
+  public static class LitVisitor<R,A> implements Lit.Visitor<R,A>
   {
     public R visit(grammaticalframework.Trees.absyn.IntLiteral p, A arg)
     {

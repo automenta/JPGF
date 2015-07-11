@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 
+import static grammaticalframework.PGFBuilder.fromFile;
 import static grammaticalframework.PGFTestCase.getPGF;
 
 /**
@@ -18,7 +19,9 @@ import static grammaticalframework.PGFTestCase.getPGF;
  */
 public class ParserEn {
     public static void main(String[] args) throws UnknownLanguageException, Linearizer.LinearizerException, IOException, ParseError {
-        PGF pgf = getPGF("Phrasebook.pgf");
+        //PGF pgf = getPGF("Phrasebook.pgf");
+        PGF pgf = fromFile("/tmp/SUMO.pgf");
+
 
         String language = "PhrasebookEng"; //"DisambPhrasebookEng";
 

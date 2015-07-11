@@ -22,6 +22,7 @@ import grammaticalframework.parser.*;
 
 
 public class Parser {
+    public static final String[] EMPTY = new String[0];
     private Concrete language;
     private String startcat;
     /* ******************************** API ******************************** */
@@ -91,7 +92,7 @@ public class Parser {
      * @return the corresponding parse-state
      **/
     public ParseState parse() throws ParseError {
-        return this.parse(new String[0]);
+        return this.parse(EMPTY);
     }
 
 }
