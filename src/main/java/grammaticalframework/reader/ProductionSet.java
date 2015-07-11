@@ -16,40 +16,40 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 package grammaticalframework.reader;
+
 import java.util.HashSet;
+import java.util.Set;
 
 public class ProductionSet {
-    private int id;
-    private Production[] prods;
+    private final int id;
+    public final Set<Production> prods;
 
     public ProductionSet(int _id, Production[] _prods) {
         id = _id;
-        prods = _prods;
+
+        this.prods = new HashSet<Production>(_prods.length);
+        for(int i=0; i < _prods.length; i++)
+            prods.add(_prods[i]);
+
+
     }
 
     public int length() {
-        return this.prods.length;
+        return this.prods.size();
     }
     
-    public Production[] productions() {
-        return this.prods;
-    }
+
 
     public String toString() {
         String ss = "Id : "+id+" , Productions : [";
-        for(int i=0; i<prods.length; i++)
-            ss+=(" "+prods[i].toString());
+        for (Production p : prods)
+            ss+=(" " + p.toString());
         ss+="]";
         return ss;
     }
 
     public int getId() {return id; }
-    public Production[] getProductions() {return prods;}
 
-    public HashSet<Production> getSetOfProductions() {
-        HashSet<Production> hs = new HashSet<Production>();
-        for(int i=0; i<prods.length; i++)
-            hs.add(prods[i]);
-        return hs;
-    }
+    public Set<Production> getProductions() {return prods;}
+
 }

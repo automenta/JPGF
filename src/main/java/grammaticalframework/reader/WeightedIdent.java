@@ -18,10 +18,10 @@
 package grammaticalframework.reader;
 
 public class WeightedIdent {
-    private final Double weight;
+    private final double weight;
     private final String ident;
 
-    public WeightedIdent(String i, Double weight) {
+    public WeightedIdent(String i, double weight) {
 	this.ident = i;
 	this.weight = weight;
     }
@@ -34,4 +34,13 @@ public class WeightedIdent {
 	return this.weight;
     }
 
+    /** weight, returned as a percent (0..100) */
+    public int weightPercent() {
+        return (int)(weight * 100.0);
+    }
+
+    @Override
+    public String toString() {
+        return ident + "(" + weightPercent() + "%)";
+    }
 }

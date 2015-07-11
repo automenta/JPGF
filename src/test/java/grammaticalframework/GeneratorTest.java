@@ -4,7 +4,11 @@ package grammaticalframework;
 import grammaticalframework.Trees.absyn.Tree;
 import org.junit.Test;
 
-public class GeneratorTest extends PGFTestCase {
+import java.util.List;
+
+import static grammaticalframework.PGFTestCase.getPGF;
+
+public class GeneratorTest  {
 
 
     @Test
@@ -17,12 +21,17 @@ public class GeneratorTest extends PGFTestCase {
 
         //System.out.println( PrettyPrinter.print(randomTree) );
 
-
         System.out.println(randomTree);
-        System.out.println(linearizer.linearizeString(randomTree));
+
+        final String lin = linearizer.linearizeString(randomTree);
+        System.out.println(lin);
+
+        Parser p = new Parser(pgf, "PhrasebookEng");
+
+        List<Tree> parsed = p.parseToTrees(lin);
+        System.out.println(parsed);
     }
 
-    public GeneratorTest(String name) {  super(name);     }
 
     /*
       public static void main(String[] args)

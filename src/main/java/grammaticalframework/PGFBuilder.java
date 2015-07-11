@@ -169,10 +169,10 @@ class PGFReader {
 
     private Map<String, Integer> readIndex(String s) {
         String[] items = s.split(" +");
-        Map<String, Integer> index = new HashMap<String, Integer>();
+        Map<String, Integer> index = new HashMap<String, Integer>(items.length);
         for (String item : items) {
             String[] i = item.split(":");
-            index.put(i[0], new Integer(i[1]));
+            index.put(i[0], Integer.valueOf(i[1]));
         }
         return index;
     }
@@ -833,7 +833,7 @@ class PGFReader {
         return vec;
     }
 
-    private int makeInt16(int j1, int j2) {
+    private static int makeInt16(int j1, int j2) {
         int i = 0;
         i |= j1 & 0xFF;
         i <<= 8;

@@ -26,6 +26,8 @@ import junit.framework.TestCase;
 import java.io.IOException;
 import java.io.StringReader;
 
+import static grammaticalframework.PGFBuilder.*;
+
 public abstract class PGFTestCase extends TestCase {
 
     public PGFTestCase(String name) {
@@ -34,10 +36,10 @@ public abstract class PGFTestCase extends TestCase {
     
     /* **** Support function for oppening pdf files **** */
 
-    protected PGF getPGF(String filename) throws IOException {
+    public static PGF getPGF(String filename) throws IOException {
         String fullname =
-                this.getClass().getResource(filename).getFile();
-        PGF pgf = PGFBuilder.fromFile(fullname);
+                PGFTestCase.class.getResource(filename).getFile();
+        PGF pgf = fromFile(fullname);
         return pgf;
     }
     

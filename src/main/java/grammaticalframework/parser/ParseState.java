@@ -93,9 +93,9 @@ public class ParseState {
                     scala.Tuple3<ActiveItem, Integer, Integer> t = oldactive.next();
                     int r = t._3().intValue();
                     // (xprime, dprime, r)
-                    ActiveItem i = new ActiveItem(new Integer(this.position),
-                            new Integer(n), f, B, r,
-                            new Integer(0));
+                    ActiveItem i = new ActiveItem(this.position,
+                            n, f, B, r,
+                            0);
                     //log.finest("Adding "+ i + " to the agenda")
                     agenda.push(i);
                 }

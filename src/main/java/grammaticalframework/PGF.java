@@ -64,7 +64,7 @@ public class PGF {
      * @return the concrete grammar of null if there is no grammr with
      * that name.
      */
-    public Concrete concrete(String name) throws UnknownLanguageException {
+    public Concrete getConcrete(String name) throws UnknownLanguageException {
         Concrete l = this.concretes.get(name);
         if (l == null)
             throw new UnknownLanguageException(name, concretes);

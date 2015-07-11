@@ -33,7 +33,7 @@ public class Parser {
     public Parser(PGF pgf, String language)
         throws UnknownLanguageException
     {
-        this(pgf, pgf.concrete(language));
+        this(pgf, pgf.getConcrete(language));
     }
 
     
@@ -66,6 +66,10 @@ public class Parser {
 	    return this.parse(tokens).getTrees();
     }
 
+    public java.util.List<grammaticalframework.Trees.absyn.Tree> parseToTrees(String tokens) throws ParseError {
+        return parseToTrees(tokenize(tokens));
+    }
+
     /**
      * Parse the given string
      * uses a very basic tokenizer that split on whitespaces.
@@ -73,7 +77,11 @@ public class Parser {
      * @return the corresponding parse-state
      **/
     public ParseState parse(String phrase) throws ParseError {
-        return this.parse(phrase.split(" "));
+        return this.parse(tokenize(phrase));
+    }
+
+    private String[] tokenize(String phrase) {
+        return phrase.split(" ");
     }
 
     /**

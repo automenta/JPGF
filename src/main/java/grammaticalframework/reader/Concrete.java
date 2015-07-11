@@ -20,6 +20,7 @@ package grammaticalframework.reader;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class Concrete {
     private String name;
@@ -114,7 +115,7 @@ public class Concrete {
         Production [] prods = new Production[size];
         int i = 0;
         for (ProductionSet ps : this.prods)
-            for (Production p: ps.productions()) {
+            for (Production p: ps.getProductions()) {
                 prods[i] = p;
                 i++;
             }
@@ -125,12 +126,10 @@ public class Concrete {
         return "concrete"  + this.name;
     }
 
-    public HashMap<Integer,HashSet<Production>> getSetOfProductions() {
-        HashMap<Integer,HashSet<Production>> hm =
-            new HashMap<Integer,HashSet<Production>>();
+    public Map<Integer, Set<Production>> getSetOfProductions() {
+        Map<Integer, Set<Production>> hm = new HashMap(prods.length);
         for(int i=0; i<prods.length; i++)
-            hm.put(new Integer(prods[i].getId()),
-                   prods[i].getSetOfProductions());
+            hm.put(prods[i].getId(), prods[i].getProductions());
         return hm;
     }
 }
