@@ -34,6 +34,6 @@ public class Bracket extends BracketedTokn{
    public Vector<BracketedTokn> getBracketedToks() {return bss;}
     
     public String toString() {
-	return "(" + "name:"+cId + ", linIndex:"+ lIndex + ", fId:"+fId+" "+bss.toString() + ")";
+	return '(' + "name:"+cId + ", linIndex:"+ lIndex + ", fId:"+fId+ ' ' +bss.toString() + ')';
     }
 }

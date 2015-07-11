@@ -121,7 +121,7 @@ public class parser extends java_cup.runtime.lr_parser {
 	return (grammaticalframework.Trees.absyn.Tree) res.value;
   }
 
-public <B,A extends java.util.LinkedList<? super B>> A cons_(B x, A xs) { xs.addFirst(x); return xs; }
+public static <B, A extends java.util.LinkedList<? super B>> A cons_(B x, A xs) { xs.addFirst(x); return xs; }
 
 public void syntax_error(java_cup.runtime.Symbol cur_token)
 {

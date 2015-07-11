@@ -32,12 +32,12 @@ public class AlternToksSymbol extends ToksSymbol {
 	StringBuffer sb = new StringBuffer("pre { ");
 	for (String s : toks) {
 	    sb.append(s);
-	    sb.append(" "); }
+	    sb.append(' '); }
 	sb.append("; ");
 	for (Alternative a : alts) {
 	    sb.append(a);
 	    sb.append("; "); }
-	sb.append("}");
+	sb.append('}');
         return sb.toString();
     };
 

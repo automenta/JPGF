@@ -97,10 +97,10 @@ public class PGF {
 
     public String toString() {
         String ss = "PGF : \nmajor version : " + majorVersion
-                + ", minor version : " + minorVersion + "\n";
+                + ", minor version : " + minorVersion + '\n';
         ss += "flags : (";
-        for (String flagName : this.flags.keySet())
-            ss += flagName + ": " + this.flags.get(flagName).toString() + "\n";
+        for (Map.Entry<String, RLiteral> stringRLiteralEntry : this.flags.entrySet())
+            ss += stringRLiteralEntry.getKey() + ": " + this.flags.get(stringRLiteralEntry.getKey()).toString() + '\n';
         ss += (")\nabstract : (" + abstr.toString() + ")\nconcretes : (");
         for (String name : this.concretes.keySet())
             ss += name + ", ";

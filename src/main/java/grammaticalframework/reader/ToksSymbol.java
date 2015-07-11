@@ -40,7 +40,7 @@ public class ToksSymbol extends Symbol {
     {
         String s = "Tokens : ";
         for(int i=0; i<toks.length; i++)
-            s+=(" "+toks[i]);
+            s+=(' ' +toks[i]);
         return s;
     }
 }

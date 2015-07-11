@@ -30,6 +30,6 @@ public class LeafKS extends BracketedTokn{
     }
 
     public String toString() {
-	return "\"" + Utils.concat(tokens) + "\"";
+	return '"' + Utils.concat(tokens) + '"';
     }
 }

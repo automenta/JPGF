@@ -34,11 +34,11 @@ public class Alternative {
 	StringBuffer sb = new StringBuffer();
 	for (String t : tokens) {
 	    sb.append(t);
-	    sb.append(" "); }
+	    sb.append(' '); }
 	sb.append("/ ");
 	for (String t : prefix) {
 	    sb.append(t);
-	    sb.append(" "); }
+	    sb.append(' '); }
         return sb.toString();
     }
 

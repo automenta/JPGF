@@ -36,6 +36,7 @@ public abstract class PGFTestCase extends TestCase {
     
     /* **** Support function for oppening pdf files **** */
 
+
     public static PGF getPGF(String filename) throws IOException {
         String fullname =
                 PGFTestCase.class.getResource(filename).getFile();
@@ -45,15 +46,15 @@ public abstract class PGFTestCase extends TestCase {
     
     /* **** Support function for using abstract trees **** */
 
-    protected Tree parseTree(String s) {
+    public static Tree parseTree(String s) throws Exception {
         Yylex l = new Yylex(new StringReader(s));
         parser p = new parser(l);
-        try {
+        //try {
             Tree parse_tree = p.pTree();
             return parse_tree;
-        } catch (Exception e) {
-            return null;
-        }
+        /*} catch (Exception e) {
+            e.printStackTrace();
+        }*/
     }
     
     

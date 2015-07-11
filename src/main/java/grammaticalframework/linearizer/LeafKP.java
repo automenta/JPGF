@@ -43,10 +43,10 @@ public class LeafKP extends BracketedTokn{
     public String toString() {
         String rez = "string names : [";
         for(int i=0;i< tokens.length;i++)
-            rez+= " " + tokens[i];
+            rez+= ' ' + tokens[i];
         rez+= "] , Alternatives : [";
         for(int i=0; i<alternatives.length;i++)
-            rez+= " " + alternatives[i].toString();
+            rez+= ' ' + alternatives[i].toString();
         rez+="]";
         return rez;
     }

@@ -91,10 +91,10 @@ public class Abstract {
         // 	ss+=(" "+flags[i].toString());
         ss += ") , Abstract Functions : (";
         for (int i = 0; i < absFuns.length; i++)
-            ss += (" " + absFuns[i].toString());
+            ss += (' ' + absFuns[i].toString());
         ss += ") , Abstract Categories : (";
         for (int i = 0; i < absCats.length; i++)
-            ss += (" " + absCats[i].toString());
+            ss += (' ' + absCats[i].toString());
         ss += ")";
         return ss;
     }

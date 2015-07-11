@@ -26,7 +26,7 @@ public class TypedExp extends Expr{
    t = _t ;}
 
  public String toString()
- {return "Typed Expression : [Expr : "+exp.toString()+" , Type : "+t.toString()+"]";}
+ {return "Typed Expression : [Expr : "+exp.toString()+" , Type : "+t.toString()+ ']';}
 
  public Expr getExpr() {return exp;}
  public Type getType() {return t;}

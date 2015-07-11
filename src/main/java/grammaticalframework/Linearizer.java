@@ -312,7 +312,7 @@ public class Linearizer {
     /**
      * flattens a bracketed token
      **/
-    private Vector<String> untokn(BracketedTokn bt, String after) {
+    private static Vector<String> untokn(BracketedTokn bt, String after) {
         if (bt instanceof LeafKS) {
             String[] d = ((LeafKS) bt).tokens;
             Vector<String> rez = new Vector<String>();
@@ -557,7 +557,7 @@ public class Linearizer {
     /**
      * computes the types of the arguments of a function type
      **/
-    private Vector<String> catSkeleton(Type t) {
+    private static Vector<String> catSkeleton(Type t) {
         Vector<String> rez = new Vector<String>();
         rez.add(t.getName());
         Hypo[] hypos = t.getHypos();
@@ -570,7 +570,7 @@ public class Linearizer {
     /**
      * creates a simple vector of vectors of bracketed tokens containing a string value
      **/
-    private Vector<Vector<BracketedTokn>> ss(String s) {
+    private static Vector<Vector<BracketedTokn>> ss(String s) {
         Vector<Vector<BracketedTokn>> bt = new Vector<Vector<BracketedTokn>>();
         Vector<BracketedTokn> v = new Vector<BracketedTokn>();
         String[] sts = new String[1];
@@ -606,7 +606,7 @@ public class Linearizer {
      * retrieves a sequence of bracketed tokens from an intermediate result of the linearization
      * according to 2 indices from a production
      **/
-    private Vector<BracketedTokn> getArg(int d, int r, Vector<CncType> cncTypes, Vector<Vector<Vector<BracketedTokn>>> linTables) {
+    private static Vector<BracketedTokn> getArg(int d, int r, Vector<CncType> cncTypes, Vector<Vector<Vector<BracketedTokn>>> linTables) {
         if (cncTypes.size() <= d) return new Vector<BracketedTokn>();
         CncType cncType = cncTypes.elementAt(d);
         Vector<Vector<BracketedTokn>> lin = linTables.elementAt(d);
@@ -677,7 +677,7 @@ public class Linearizer {
     /**
      * checks if a production is application production
      **/
-    private boolean isApp(Production p) {
+    private static boolean isApp(Production p) {
         return (p instanceof ApplProduction);
     }
 
@@ -685,28 +685,28 @@ public class Linearizer {
     /**
      * checks if an integer is the index of an integer literal
      **/
-    boolean isLiteralInt(int i) {
+    static boolean isLiteralInt(int i) {
         return i == -2;
     }
 
     /**
      * checks if an integer is the index of a string literal
      **/
-    boolean isLiteralString(int i) {
+    static boolean isLiteralString(int i) {
         return i == -1;
     }
 
     /**
      * checks if an integer is the index of a float literal
      **/
-    boolean isLiteralFloat(int i) {
+    static boolean isLiteralFloat(int i) {
         return i == -3;
     }
 
     /**
      * checks if an integer is the index of a variable literal
      **/
-    boolean isLiteralVar(int i) {
+    static boolean isLiteralVar(int i) {
         return i == -4;
     }
 

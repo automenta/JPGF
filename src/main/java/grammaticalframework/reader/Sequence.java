@@ -38,7 +38,7 @@ public class Sequence {
     public String toString()
     {String ss = "Symbols : [";
         for(int i=0; i<symbs.length; i++)
-            ss+=(" "+symbs[i].toString());
+            ss+=(' ' +symbs[i].toString());
         ss+="]";
         return ss;
     }

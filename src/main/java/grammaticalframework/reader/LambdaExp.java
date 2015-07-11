@@ -28,7 +28,7 @@ public LambdaExp(boolean _bType, String _vName, Expr _body)
    body = _body;}
 
 public String toString() {
-	return "Lambda Expression : [Bound Type : "+bType+" , Name : "+ vName + " , Body : "+body.toString() + "]";
+	return "Lambda Expression : [Bound Type : "+bType+" , Name : "+ vName + " , Body : "+body.toString() + ']';
 }
 
 public boolean getType() {return bType ;} 

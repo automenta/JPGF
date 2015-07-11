@@ -30,7 +30,7 @@ public class Utils {
 	    return "";
 	StringBuffer sb = new StringBuffer(tokens[0]);
 	for (int i = 1; i < tokens.length; i++) {
-	    sb.append(" ");
+	    sb.append(' ');
 	    sb.append(tokens[i]);
 	}
 	return sb.toString();

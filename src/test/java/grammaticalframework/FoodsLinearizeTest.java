@@ -35,8 +35,7 @@ public class FoodsLinearizeTest extends PGFTestCase
     }
 
     public void testFoodsEng()
-	throws UnknownLanguageException, Linearizer.LinearizerException
-    {
+			throws Exception {
 	Linearizer linearizer = new Linearizer(pgf, "FoodsEng");
 
 	String ex1 = "this fresh pizza is Italian";
@@ -51,8 +50,7 @@ public class FoodsLinearizeTest extends PGFTestCase
     }
 
     public void testFoodsSwe()
-	throws UnknownLanguageException, Linearizer.LinearizerException
-    {
+			throws Exception {
 	Linearizer linearizer = new Linearizer(pgf, "FoodsSwe");
 
 	Tree tree1 = parseTree("((Pred (This ((Mod Delicious) Pizza))) Fresh)");
@@ -62,8 +60,7 @@ public class FoodsLinearizeTest extends PGFTestCase
     }
 
     public void testFoodsIta()
-	throws UnknownLanguageException, Linearizer.LinearizerException
-    {
+			throws Exception {
 	Linearizer linearizer = new Linearizer(pgf, "FoodsIta");
 
 	String ex1 = "questa pizza deliziosa è fresca";

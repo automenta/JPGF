@@ -37,7 +37,7 @@ public class StartCatTest extends PGFTestCase
 	pgf = getPGF("Foods.pgf");
     }
 
-    public void testComment() throws UnknownLanguageException, ParseError {
+    public void testComment() throws Exception {
 	Parser parser = new Parser(pgf, "FoodsEng");
 	parser.setStartcat("Comment");
 	String ex1 = "this fresh pizza is Italian";
@@ -53,7 +53,7 @@ public class StartCatTest extends PGFTestCase
 	assertEquals(trees2.get(0),tree2);
     }
 
-    public void testItem() throws UnknownLanguageException, ParseError {
+    public void testItem() throws Exception {
 	Parser parser = new Parser(pgf, "FoodsEng");
 	parser.setStartcat("Item");
 	String ex1 = "this fresh pizza";

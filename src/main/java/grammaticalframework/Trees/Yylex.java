@@ -4,15 +4,15 @@ import java_cup.runtime.*;
 
 
 public class Yylex implements java_cup.runtime.Scanner {
-	private final int YY_BUFFER_SIZE = 512;
-	private final int YY_F = -1;
-	private final int YY_NO_STATE = -1;
-	private final int YY_NOT_ACCEPT = 0;
-	private final int YY_START = 1;
-	private final int YY_END = 2;
-	private final int YY_NO_ANCHOR = 4;
-	private final int YY_BOL = 65536;
-	private final int YY_EOF = 65537;
+	private static final int YY_BUFFER_SIZE = 512;
+	private static final int YY_F = -1;
+	private static final int YY_NO_STATE = -1;
+	private static final int YY_NOT_ACCEPT = 0;
+	private static final int YY_START = 1;
+	private static final int YY_END = 2;
+	private static final int YY_NO_ANCHOR = 4;
+	private static final int YY_BOL = 65536;
+	private static final int YY_EOF = 65537;
 
   String pstring = new String();
   public int line_num() { return (yyline+1); }
@@ -55,13 +55,13 @@ public class Yylex implements java_cup.runtime.Scanner {
 	}
 
 	private boolean yy_eof_done = false;
-	private final int STRING = 5;
-	private final int ESCAPED = 6;
-	private final int YYINITIAL = 0;
-	private final int COMMENT = 1;
-	private final int CHAREND = 4;
-	private final int CHARESC = 3;
-	private final int CHAR = 2;
+	private static final int STRING = 5;
+	private static final int ESCAPED = 6;
+	private static final int YYINITIAL = 0;
+	private static final int COMMENT = 1;
+	private static final int CHAREND = 4;
+	private static final int CHARESC = 3;
+	private static final int CHAR = 2;
 	private final int yy_state_dtrans[] = {
 		0,
 		27,
@@ -160,7 +160,7 @@ public class Yylex implements java_cup.runtime.Scanner {
 	private int yylength () {
 		return yy_buffer_end - yy_buffer_start;
 	}
-	private char[] yy_double (char buf[]) {
+	private static char[] yy_double(char buf[]) {
 		int i;
 		char newbuf[];
 		newbuf = new char[2*buf.length];
@@ -169,8 +169,8 @@ public class Yylex implements java_cup.runtime.Scanner {
 		}
 		return newbuf;
 	}
-	private final int YY_E_INTERNAL = 0;
-	private final int YY_E_MATCH = 1;
+	private static final int YY_E_INTERNAL = 0;
+	private static final int YY_E_MATCH = 1;
 	private java.lang.String yy_error_string[] = {
 		"Error: Internal error.\n",
 		"Error: Unmatched input.\n"
@@ -182,7 +182,7 @@ public class Yylex implements java_cup.runtime.Scanner {
 			throw new Error("Fatal Error.\n");
 		}
 	}
-	private int[][] unpackFromString(int size1, int size2, String st) {
+	private static int[][] unpackFromString(int size1, int size2, String st) {
 		int colonIndex = -1;
 		String lengthString;
 		int sequenceLength = 0;

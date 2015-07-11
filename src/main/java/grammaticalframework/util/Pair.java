@@ -76,7 +76,7 @@ public class Pair <A,B> implements Comparable<Pair<A,B>> {
         }
         
         public String toString() {
-                return "Pair(" + fst + ", " + snd +  ")";
+                return "Pair(" + fst + ", " + snd + ')';
         }
 
 	/**

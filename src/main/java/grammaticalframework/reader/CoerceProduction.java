@@ -32,7 +32,7 @@ public class CoerceProduction extends Production {
     }
 
     public String toString(){
-        return "Coercion(" + this.fId + " -> " +initId + ")";
+        return "Coercion(" + this.fId + " -> " +initId + ')';
     }
 
     public boolean equals(Object o)

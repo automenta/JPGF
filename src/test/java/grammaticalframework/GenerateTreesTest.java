@@ -33,7 +33,7 @@ public class GenerateTreesTest extends PGFTestCase {
 	pgf = getPGF("Foods.pgf");
     }
     
-    public void testGenerateTrees() {
+    public void testGenerateTrees() throws Exception {
 	GenerateTrees generator = new GenerateTrees(this.pgf);
 	String[] gold_ = new String[] {
 	    "(Very Boring)",

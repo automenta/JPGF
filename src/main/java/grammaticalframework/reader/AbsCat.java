@@ -44,10 +44,10 @@ public class AbsCat {
     public String toString() {
         String ss = "Name : "+ name + " , Hypotheses : (";
         for(int i=0; i<hypos.length; i++)
-            ss+=(" "+hypos[i].toString());
+            ss+=(' ' +hypos[i].toString());
         ss+=") , String Names : (";
         for(int i=0; i<functions.length; i++)
-            ss+=(" "+functions[i].toString());
+            ss+=(' ' +functions[i].toString());
         ss+=")";
         return ss;
     }

@@ -107,8 +107,8 @@ class PGFReader {
         int ii[] = new int[4];
         for (int i = 0; i < 4; i++)
             ii[i] = mDataInputStream.read();
-        if (DBG) System.err.println("PGF version : " + ii[0] + "." + ii[1]
-                + "." + ii[2] + "." + ii[3]);
+        if (DBG) System.err.println("PGF version : " + ii[0] + '.' + ii[1]
+                + '.' + ii[2] + '.' + ii[3]);
         // Reading the global flags
         Map<String, RLiteral> flags = getListFlag();
         if (flags.containsKey("index")) {
@@ -158,7 +158,7 @@ class PGFReader {
      * PGF flags: if the startcat flag is set then it is taken as default cat.
      * otherwise "Sentence" is taken as default category.
      */
-    private String getStartCat(Map<String, RLiteral> flags) {
+    private static String getStartCat(Map<String, RLiteral> flags) {
         RLiteral cat = flags.get("startcat");
         if (cat == null)
             return "Sentence";
@@ -167,11 +167,14 @@ class PGFReader {
 
     }
 
-    private Map<String, Integer> readIndex(String s) {
-        String[] items = s.split(" +");
+    final static java.util.regex.Pattern spacePlus = java.util.regex.Pattern.compile(" +");
+    final static java.util.regex.Pattern colon = java.util.regex.Pattern.compile(":");
+
+    private static Map<String, Integer> readIndex(String s) {
+        String[] items = spacePlus.split(s);
         Map<String, Integer> index = new HashMap<String, Integer>(items.length);
         for (String item : items) {
-            String[] i = item.split(":");
+            String[] i = colon.split(item);
             index.put(i[0], Integer.valueOf(i[1]));
         }
         return index;
@@ -190,7 +193,7 @@ class PGFReader {
      */
     private Abstract getAbstract() throws IOException {
         String name = getIdent();
-        if (DBG) System.err.println("Abstract syntax [" + name + "]");
+        if (DBG) System.err.println("Abstract syntax [" + name + ']');
         Map<String, RLiteral> flags = getListFlag();
         AbsFun[] absFuns = getListAbsFun();
         AbsCat[] absCats = getListAbsCat();
@@ -215,7 +218,7 @@ class PGFReader {
     private AbsFun getAbsFun() throws IOException {
         String name = getIdent();
         if (DBG) System.err.println("AbsFun: '"
-                + name + "'");
+                + name + '\'');
         Type t = getType();
         int i = getInt();
         int has_equations = mDataInputStream.read();
@@ -301,7 +304,7 @@ class PGFReader {
 
     private Expr getExpr() throws IOException {
         int sel = mDataInputStream.read();
-        Expr expr = null;
+        Expr expr;
         switch (sel) {
             case 0: //lambda abstraction
                 int bt = mDataInputStream.read();
@@ -357,7 +360,7 @@ class PGFReader {
 
     private Pattern getPattern() throws IOException {
         int sel = mDataInputStream.read();
-        Pattern patt = null;
+        Pattern patt;
         switch (sel) {
             case 0: //application pattern
                 String absFun = getIdent();
@@ -383,6 +386,7 @@ class PGFReader {
             case 5: //implicit argument
                 Pattern pp = getPattern();
                 patt = new ImpArgPattern(pp);
+                break;
             case 6: //inaccessible pattern
                 Expr e = getExpr();
                 patt = new InaccPattern(e);
@@ -395,7 +399,7 @@ class PGFReader {
 
     private RLiteral getLiteral() throws IOException {
         int sel = mDataInputStream.read();
-        RLiteral ss = null;
+        RLiteral ss;
         switch (sel) {
             case 0:
                 String str = getString();
@@ -480,7 +484,7 @@ class PGFReader {
     private Symbol getSymbol() throws IOException {
         int sel = mDataInputStream.read();
         if (DBG) System.err.println("Symbol: type=" + sel);
-        Symbol symb = null;
+        Symbol symb;
         switch (sel) {
             case 0: // category (non terminal symbol)
             case 1: // Lit (Not implemented properly)
@@ -644,7 +648,7 @@ class PGFReader {
             throws IOException {
         int sel = mDataInputStream.read();
         if (DBG) System.err.println("Production: type=" + sel);
-        Production prod = null;
+        Production prod;
         switch (sel) {
             case 0: //application
                 int i = getInt();

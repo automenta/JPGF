@@ -32,15 +32,15 @@ public class Type {
 	StringBuffer sb = new StringBuffer();
 	for (Hypo h: hypos) {
 	    if (h.type.isFunctionType())
-		sb.append("(");
+		sb.append('(');
 	    sb.append(h);
 	    if (h.type.isFunctionType())
-		sb.append(")");
+		sb.append(')');
 	    sb.append(" -> ");
 	}
 	sb.append(str);
 	for (Expr e: exprs) {
-	    sb.append(" ");
+	    sb.append(' ');
 	    sb.append(e);
 	}
 	return sb.toString();

@@ -54,6 +54,6 @@ public class Application extends Tree {
     }
 
     public String toString() {
-	return "(" + this.tree_1 + " " + tree_2 + ")";
+	return "(" + this.tree_1 + ' ' + tree_2 + ')';
     }
 }

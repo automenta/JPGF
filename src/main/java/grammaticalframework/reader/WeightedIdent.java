@@ -41,6 +41,6 @@ public class WeightedIdent {
 
     @Override
     public String toString() {
-        return ident + "(" + weightPercent() + "%)";
+        return ident + '(' + weightPercent() + "%)";
     }
 }

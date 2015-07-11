@@ -43,11 +43,11 @@ public class Generator {
         this.indirRules = new HashMap();
         AbsCat[] absCats = pgf.getAbstract().getAbsCats();
         AbsFun[] absFuns = pgf.getAbstract().getAbsFuns();
-        HashSet<String> dirFuns = new HashSet<String>();
-        HashSet<String> indirFuns = new HashSet<String>();
+
+
         for (int i = 0; i < absCats.length; i++) {
-            dirFuns = new HashSet<String>();
-            indirFuns = new HashSet<String>();
+            HashSet<String> dirFuns = dirFuns = new HashSet<String>();
+            HashSet<String> indirFuns = new HashSet<String>();
             WeightedIdent[] functions = absCats[i].getFunctions();
             for (int j = 0; j < functions.length; j++)
                 for (int k = 0; k < absFuns.length; k++)

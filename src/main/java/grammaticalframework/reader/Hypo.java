@@ -30,7 +30,7 @@ public class Hypo {
 
     public String toString() {
 	if (bind)
-	    return "(" + name + ": "  + type + ")";
+	    return '(' + name + ": "  + type + ')';
 	else
 	    return type.toString();
     }

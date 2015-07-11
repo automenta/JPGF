@@ -80,7 +80,7 @@ public class Parser {
         return this.parse(tokenize(phrase));
     }
 
-    private String[] tokenize(String phrase) {
+    private static String[] tokenize(String phrase) {
         return phrase.split(" ");
     }
 

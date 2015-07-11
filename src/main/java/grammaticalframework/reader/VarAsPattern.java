@@ -27,6 +27,6 @@ public VarAsPattern(String _name, Pattern _patt)
 
 
 public String toString()
-{return "Variable as Pattern : [ Variable Name : "+name + " , Pattern : "+patt + "]";}
+{return "Variable as Pattern : [ Variable Name : "+name + " , Pattern : "+patt + ']';}
 
 }

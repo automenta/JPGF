@@ -41,7 +41,7 @@ public class CncCat {
     }
 
     public String toString() {
-        return name + " [" + name + "::C" + firstFID + " ... C" + lastFID + "]";
+        return name + " [" + name + "::C" + firstFID + " ... C" + lastFID + ']';
     }
 
     public String getName() {

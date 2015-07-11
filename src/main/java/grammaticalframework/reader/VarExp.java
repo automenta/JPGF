@@ -24,7 +24,7 @@ public class VarExp extends Expr{
   {ind = _ind;}
 
  public String toString()
- {return "Variable Expression : [Index : "+ind+"]";}
+ {return "Variable Expression : [Index : "+ind+ ']';}
  
  public int getVarInd() {return ind;}
 }

@@ -43,7 +43,7 @@ public class ProductionSet {
     public String toString() {
         String ss = "Id : "+id+" , Productions : [";
         for (Production p : prods)
-            ss+=(" " + p.toString());
+            ss+=(' ' + p.toString());
         ss+="]";
         return ss;
     }

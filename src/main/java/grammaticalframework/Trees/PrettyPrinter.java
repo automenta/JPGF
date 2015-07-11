@@ -5,18 +5,18 @@ public class PrettyPrinter
   //For certain applications increasing the initial size of the buffer may improve performance.
   private static final int INITIAL_BUFFER_SIZE = 128;
   //You may wish to change the parentheses used in precedence.
-  private static final String _L_PAREN = new String("(");
-  private static final String _R_PAREN = new String(")");
+  private static final String _L_PAREN = "(";
+  private static final String _R_PAREN = ")";
   //You may wish to change render
   private static void render(String s)
   {
     if (s.equals("{"))
     {
-       buf_.append("\n");
+       buf_.append('\n');
        indent();
        buf_.append(s);
        _n_ = _n_ + 2;
-       buf_.append("\n");
+       buf_.append('\n');
        indent();
     }
     else if (s.equals("(") || s.equals("["))
@@ -25,7 +25,7 @@ public class PrettyPrinter
     {
        backup();
        buf_.append(s);
-       buf_.append(" ");
+       buf_.append(' ');
     }
     else if (s.equals("}"))
     {
@@ -33,27 +33,27 @@ public class PrettyPrinter
        backup();
        backup();
        buf_.append(s);
-       buf_.append("\n");
+       buf_.append('\n');
        indent();
     }
     else if (s.equals(","))
     {
        backup();
        buf_.append(s);
-       buf_.append(" ");
+       buf_.append(' ');
     }
     else if (s.equals(";"))
     {
        backup();
        buf_.append(s);
-       buf_.append("\n");
+       buf_.append('\n');
        indent();
     }
-    else if (s.equals("")) return;
+    else if (s.isEmpty()) return;
     else
     {
        buf_.append(s);
-       buf_.append(" ");
+       buf_.append(' ');
     }
   }
 
@@ -254,21 +254,21 @@ public class PrettyPrinter
   }
 
 
-  private static void pp(Integer n, int _i_) { buf_.append(n); buf_.append(" "); }
-  private static void pp(Double d, int _i_) { buf_.append(d); buf_.append(" "); }
-  private static void pp(String s, int _i_) { buf_.append(s); buf_.append(" "); }
-  private static void pp(Character c, int _i_) { buf_.append("'" + c.toString() + "'"); buf_.append(" "); }
+  private static void pp(Integer n, int _i_) { buf_.append(n); buf_.append(' '); }
+  private static void pp(Double d, int _i_) { buf_.append(d); buf_.append(' '); }
+  private static void pp(String s, int _i_) { buf_.append(s); buf_.append(' '); }
+  private static void pp(Character c, int _i_) { buf_.append('\'').append(c.toString()).append('\''); buf_.append(' '); }
   private static void sh(Integer n) { render(n.toString()); }
   private static void sh(Double d) { render(d.toString()); }
   private static void sh(Character c) { render(c.toString()); }
   private static void sh(String s) { printQuoted(s); }
-  private static void printQuoted(String s) { render("\"" + s + "\""); }
+  private static void printQuoted(String s) { render('"' + s + '"'); }
   private static void indent()
   {
     int n = _n_;
     while (n > 0)
     {
-      buf_.append(" ");
+      buf_.append(' ');
       n--;
     }
   }

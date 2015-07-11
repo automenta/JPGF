@@ -24,7 +24,7 @@ public class AbsNameExp extends Expr{
   {name = _name;}
 
   public String toString()
- {return "Abstract Name Expression : [Name : "+name+"]";}
+ {return "Abstract Name Expression : [Name : "+name+ ']';}
 
   public String getName(){return name;}
 

@@ -24,7 +24,7 @@ public class ImplExp extends Expr{
   {arg = _arg;}
 
  public String toString()
- {return "Implicit Arguments Expression : [ Argument : "+arg.toString()+"]"; }
+ {return "Implicit Arguments Expression : [ Argument : "+arg.toString()+ ']'; }
 
  public Expr getExp() {return arg;}
 }
