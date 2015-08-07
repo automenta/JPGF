@@ -18,59 +18,59 @@
 package grammaticalframework;
 
 import grammaticalframework.Trees.absyn.Tree;
-import grammaticalframework.parser.ParseError;
 
 import java.io.IOException;
 import java.util.List;
 
-/** This test the ability of the parser t use different start categories **/
-public class StartCatTest extends PGFTestCase
-{
+/**
+ * This test the ability of the parser t use different start categories
+ **/
+public class StartCatTest extends PGFTestCase {
 
-    public StartCatTest (String name) {
-	super(name);
+    public StartCatTest(String name) {
+        super(name);
     }
 
     PGF pgf;
 
-    public void setUp() throws IOException {
-	pgf = getPGF("Foods.pgf");
+    public void setUp() throws IOException, UnknownLanguageException {
+        pgf = getPGF("corpus/Foods.pgf");
     }
 
     public void testComment() throws Exception {
-	Parser parser = new Parser(pgf, "FoodsEng");
-	parser.setStartcat("Comment");
-	String ex1 = "this fresh pizza is Italian";
-	grammaticalframework.Trees.absyn.Tree tree1 = parseTree("((Pred (This ((Mod Fresh) Pizza))) Italian)");
-	List<Tree> trees1 = parser.parse(ex1).getTrees();
-	assertTrue(trees1.size()==1);
-	assertEquals(trees1.get(0),tree1);
+        Parser parser = new Parser(pgf, "FoodsEng");
+        parser.setStartcat("Comment");
+        String ex1 = "this fresh pizza is Italian";
+        grammaticalframework.Trees.absyn.Tree tree1 = parseTree("((Pred (This ((Mod Fresh) Pizza))) Italian)");
+        List<Tree> trees1 = parser.parse(ex1).getTrees();
+        assertTrue(trees1.size() == 1);
+        assertEquals(trees1.get(0), tree1);
 
-	String ex2 = "those boring fish are expensive";
-	grammaticalframework.Trees.absyn.Tree tree2=parseTree("((Pred (Those ((Mod Boring) Fish))) Expensive)");
-		List<Tree> trees2 = parser.parse(ex2).getTrees();
-	assertTrue(trees2.size()==1);
-	assertEquals(trees2.get(0),tree2);
+        String ex2 = "those boring fish are expensive";
+        grammaticalframework.Trees.absyn.Tree tree2 = parseTree("((Pred (Those ((Mod Boring) Fish))) Expensive)");
+        List<Tree> trees2 = parser.parse(ex2).getTrees();
+        assertTrue(trees2.size() == 1);
+        assertEquals(trees2.get(0), tree2);
     }
 
     public void testItem() throws Exception {
-	Parser parser = new Parser(pgf, "FoodsEng");
-	parser.setStartcat("Item");
-	String ex1 = "this fresh pizza";
-	grammaticalframework.Trees.absyn.Tree tree1 = parseTree("(This ((Mod Fresh) Pizza))");
-		List<Tree>  trees1 = parser.parse(ex1).getTrees();
-	assertTrue(trees1.size()==1);
-	assertEquals(trees1.get(0),tree1);
+        Parser parser = new Parser(pgf, "FoodsEng");
+        parser.setStartcat("Item");
+        String ex1 = "this fresh pizza";
+        grammaticalframework.Trees.absyn.Tree tree1 = parseTree("(This ((Mod Fresh) Pizza))");
+        List<Tree> trees1 = parser.parse(ex1).getTrees();
+        assertTrue(trees1.size() == 1);
+        assertEquals(trees1.get(0), tree1);
 
-	String ex2 = "those boring fish";
-	grammaticalframework.Trees.absyn.Tree tree2=parseTree("(Those ((Mod Boring) Fish))");
-		List<Tree>  trees2 = parser.parse(ex2).getTrees();
-	assertTrue(trees2.size()==1);
-	assertEquals(trees2.get(0),tree2);
+        String ex2 = "those boring fish";
+        grammaticalframework.Trees.absyn.Tree tree2 = parseTree("(Those ((Mod Boring) Fish))");
+        List<Tree> trees2 = parser.parse(ex2).getTrees();
+        assertTrue(trees2.size() == 1);
+        assertEquals(trees2.get(0), tree2);
     }
 
 
     public void tearDown() {
-	pgf = null;
+        pgf = null;
     }
 }

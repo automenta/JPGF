@@ -30,8 +30,8 @@ public class FoodsLinearizeTest extends PGFTestCase
 
     PGF pgf;
 
-    public void setUp() throws IOException {
-	pgf = getPGF("Foods.pgf");
+    public void setUp() throws IOException, UnknownLanguageException {
+        pgf = getPGF("corpus/Foods.pgf");
     }
 
     public void testFoodsEng()

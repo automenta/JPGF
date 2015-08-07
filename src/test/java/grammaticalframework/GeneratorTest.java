@@ -13,7 +13,7 @@ public class GeneratorTest  {
 
     @Test
     public void testGenerator() throws Exception {
-        PGF pgf = getPGF("Phrasebook.pgf");
+        PGF pgf = getPGF("corpus/Phrasebook.pgf");
         Linearizer linearizer = new Linearizer(pgf, "PhrasebookEng");
 
         Generator g = new Generator(pgf);

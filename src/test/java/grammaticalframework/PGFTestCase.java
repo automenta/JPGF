@@ -37,11 +37,15 @@ public abstract class PGFTestCase extends TestCase {
     /* **** Support function for oppening pdf files **** */
 
 
-    public static PGF getPGF(String filename) throws IOException {
+    public static PGF getPGF(String filename, String... languages) throws IOException, UnknownLanguageException {
         String fullname =
                 PGFTestCase.class.getResource(filename).getFile();
-        PGF pgf = fromFile(fullname);
-        return pgf;
+        if (languages.length == 0) {
+            return fromFile(fullname);
+        }
+        else {
+            return fromFile(fullname, languages);
+        }
     }
 
     

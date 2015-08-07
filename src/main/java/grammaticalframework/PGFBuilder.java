@@ -54,7 +54,7 @@ public class PGFBuilder {
      * @param filename  the path of the pgf file.
      * @param languages the list of desired languages
      */
-    public static PGF fromFile(String filename, String[] languages)
+    public static PGF fromFile(String filename, String... languages)
             throws FileNotFoundException, IOException, UnknownLanguageException {
         if (DBG) System.err.println("Reading pgf from file : " + filename);
         InputStream stream = new FileInputStream(filename);

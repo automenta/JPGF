@@ -31,8 +31,8 @@ public class AnswerTest extends PGFTestCase {
 
     PGF pgf;
 
-    public void setUp() throws IOException {
-        pgf = getPGF("Answer.pgf");
+    public void setUp() throws IOException, UnknownLanguageException {
+        pgf = getPGF("corpus/Answer.pgf");
     }
 
     public void testLinearization()

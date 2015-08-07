@@ -23,18 +23,18 @@ import java.io.IOException;
 
 public class GenerateTreesTest extends PGFTestCase {
     
-    private PGF pgf;
+    private PGF foods;
     
     public GenerateTreesTest (String name) {
 	super(name);
     }
 
-    public void setUp() throws IOException {
-	pgf = getPGF("Foods.pgf");
+    public void setUp() throws IOException, UnknownLanguageException {
+	    foods = getPGF("corpus/Foods.pgf");
     }
     
     public void testGenerateTrees() throws Exception {
-	GenerateTrees generator = new GenerateTrees(this.pgf);
+	GenerateTrees generator = new GenerateTrees(this.foods);
 	String[] gold_ = new String[] {
 	    "(Very Boring)",
 	    "(Very Delicious)",
@@ -59,6 +59,6 @@ public class GenerateTreesTest extends PGFTestCase {
     }
 
     public void tearDown() {
-	pgf = null;
+	foods = null;
     }
 }
