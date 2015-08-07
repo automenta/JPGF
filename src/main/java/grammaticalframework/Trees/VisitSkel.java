@@ -9,7 +9,7 @@ import grammaticalframework.Trees.absyn.*;
 
 public class VisitSkel
 {
-  public class TreeVisitor<R,A> implements Tree.Visitor<R,A>
+  public class TreeVisitor<R,A> implements AbsynTree.Visitor<R,A>
   {
     public R visit(grammaticalframework.Trees.absyn.Lambda p, A arg)
     {

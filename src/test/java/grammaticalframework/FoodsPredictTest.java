@@ -17,7 +17,8 @@
  */
 package grammaticalframework;
 
-import grammaticalframework.parser.ParseError;
+import grammaticalframework.parser.Parser;
+import org.grammaticalframework.pgf.ParseError;
 
 import java.io.IOException;
 import java.util.Arrays;

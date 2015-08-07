@@ -1,4 +1,6 @@
 package grammaticalframework.Trees;
+import grammaticalframework.Trees.absyn.AbsynTree;
+
 import java.io.*;
 
 public class Test
@@ -23,7 +25,7 @@ public class Test
     /* pLit */
     try
     {
-      grammaticalframework.Trees.absyn.Tree parse_tree = p.pTree();
+      AbsynTree parse_tree = p.pTree();
       System.out.println();
       System.out.println("Parse Succesful!");
       System.out.println();

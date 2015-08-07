@@ -1,7 +1,8 @@
 package grammaticalframework;
 
 
-import grammaticalframework.Trees.absyn.Tree;
+import grammaticalframework.Trees.absyn.AbsynTree;
+import grammaticalframework.parser.Parser;
 import org.junit.Test;
 
 import java.util.List;
@@ -17,7 +18,7 @@ public class GeneratorTest  {
         Linearizer linearizer = new Linearizer(pgf, "PhrasebookEng");
 
         Generator g = new Generator(pgf);
-        Tree randomTree = g.gen();
+        AbsynTree randomTree = g.gen();
 
         //System.out.println( PrettyPrinter.print(randomTree) );
 
@@ -28,7 +29,7 @@ public class GeneratorTest  {
 
         Parser p = new Parser(pgf, "PhrasebookEng");
 
-        List<Tree> parsed = p.parseToTrees(lin);
+        List<AbsynTree> parsed = p.parseToTrees(lin);
         System.out.println(parsed);
     }
 

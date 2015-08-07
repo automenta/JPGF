@@ -1,7 +1,7 @@
 package grammaticalframework;
 
 import com.google.common.io.Files;
-import grammaticalframework.Trees.absyn.Tree;
+import grammaticalframework.Trees.absyn.AbsynTree;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -28,7 +28,7 @@ public class ParseTest {
 
         System.out.println(gf);
 
-        Tree t = parseTree(gf);
+        AbsynTree t = parseTree(gf);
         System.out.println(t);
     }
 }

@@ -17,7 +17,7 @@
  */
 package grammaticalframework.parser
 
-import grammaticalframework.Trees.absyn.{Tree => AbsSynTree}
+import grammaticalframework.Trees.absyn.{AbsynTree => AbsSynTree}
 import grammaticalframework.reader._
 import scala.collection.JavaConverters._
 //import scala.collection.mutable.Stack

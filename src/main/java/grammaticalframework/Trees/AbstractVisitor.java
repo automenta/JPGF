@@ -17,6 +17,8 @@
  */
 package grammaticalframework.Trees;
 
+import grammaticalframework.Trees.absyn.AbsynTree;
+
 /** BNFC-Generated Abstract Visitor */
 public class AbstractVisitor<R,A> implements AllVisitor<R,A> {
 /* Tree */
@@ -26,7 +28,7 @@ public class AbstractVisitor<R,A> implements AllVisitor<R,A> {
     public R visit(grammaticalframework.Trees.absyn.Literal p, A arg) { return visitDefault(p, arg); }
     public R visit(grammaticalframework.Trees.absyn.MetaVariable p, A arg) { return visitDefault(p, arg); }
     public R visit(grammaticalframework.Trees.absyn.Function p, A arg) { return visitDefault(p, arg); }
-    public R visitDefault(grammaticalframework.Trees.absyn.Tree p, A arg) {
+    public R visitDefault(AbsynTree p, A arg) {
       throw new IllegalArgumentException(this.getClass().getName() + ": " + p);
     }
 /* Lit */

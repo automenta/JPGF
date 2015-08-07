@@ -1,0 +1,11 @@
+Building Phrasebook grammars in different formats using the main GF haskell code:
+
+
+me@xyz [03:56:50] [~/gf/examples/phrasebook] [master *]
+-> % ./gf -make -s -optimize-pgf -name=PhrasebookEng PhrasebookEng.gf +RTS -K32M
+-> % ./gf -make -s -optimize-pgf -f js -name=PhrasebookEng PhrasebookEng.gf +RTS -K32M
+-> % ./gf -make -s -optimize-pgf -f prolog -name=PhrasebookEng PhrasebookEng.gf +RTS -K32M
+-> % ./gf -make -s -optimize-pgf -f pgf_pretty -name=PhrasebookEng PhrasebookEng.gf +RTS -K32M
+
+me@xyz [04:14:22] [~/gf/examples/app] [master *]
+-> %  ../../gf -make -s -optimize-pgf -f {js,prolog,pgf_pretty}  -name=AppEng AppEng.gf +RTS

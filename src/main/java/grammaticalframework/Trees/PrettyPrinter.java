@@ -1,5 +1,7 @@
 package grammaticalframework.Trees;
 
+import grammaticalframework.Trees.absyn.AbsynTree;
+
 /** WARNING with the STringBuilder buffer this class is not thread safe.
  * ThreadLocal could do it
  */
@@ -66,7 +68,7 @@ public class PrettyPrinter
 
 
   //  print and show methods are defined for each category.
-  public static String print(grammaticalframework.Trees.absyn.Tree foo)
+  public static String print(AbsynTree foo)
   {
     pp(foo, 0);
     trim();
@@ -74,7 +76,7 @@ public class PrettyPrinter
     buf_.delete(0,buf_.length());
     return temp;
   }
-  public static String show(grammaticalframework.Trees.absyn.Tree foo)
+  public static String show(AbsynTree foo)
   {
     sh(foo);
     String temp = buf_.toString();
@@ -98,7 +100,7 @@ public class PrettyPrinter
   }
   /***   You shouldn't need to change anything beyond this point.   ***/
 
-  private static void pp(grammaticalframework.Trees.absyn.Tree foo, int _i_)
+  private static void pp(AbsynTree foo, int _i_)
   {
     if (foo instanceof grammaticalframework.Trees.absyn.Lambda)
     {
@@ -178,7 +180,7 @@ public class PrettyPrinter
   }
 
 
-  private static void sh(grammaticalframework.Trees.absyn.Tree foo)
+  private static void sh(AbsynTree foo)
   {
     if (foo instanceof grammaticalframework.Trees.absyn.Lambda)
     {

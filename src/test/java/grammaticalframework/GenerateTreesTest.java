@@ -18,7 +18,7 @@
 package grammaticalframework;
 
 import java.util.*;
-import grammaticalframework.Trees.absyn.Tree;
+import grammaticalframework.Trees.absyn.AbsynTree;
 import java.io.IOException;
 
 public class GenerateTreesTest extends PGFTestCase {
@@ -50,11 +50,11 @@ public class GenerateTreesTest extends PGFTestCase {
 	    "Warm"
 	};
 	
-	Set<Tree> gold = new HashSet();
+	Set<AbsynTree> gold = new HashSet();
 	for (String t: gold_)
 	    gold.add(parseTree(t));
 	
-	Set<Tree> val = new HashSet(generator.generateTrees("Quality", 1));
+	Set<AbsynTree> val = new HashSet(generator.generateTrees("Quality", 1));
 	assertEquals(gold, val);
     }
 

@@ -67,7 +67,7 @@ public class Linearizer {
     /**
      * Linearize a tree to a vector of tokens.
      **/
-    public Vector<String> linearizeTokens(Tree absyn)
+    public Vector<String> linearizeTokens(AbsynTree absyn)
             throws LinearizerException {
         return this.renderLin(this.linearize(absyn).elementAt(0));
     }
@@ -75,7 +75,7 @@ public class Linearizer {
     /**
      * Linearize a tree to a string.
      **/
-    public String linearizeString(Tree absyn) throws LinearizerException {
+    public String linearizeString(AbsynTree absyn) throws LinearizerException {
         Vector<String> words =
                 this.renderLin(this.linearize(absyn).elementAt(0));
         return Utils.concat((String[]) words.toArray(new String[words.size()]));
@@ -374,7 +374,7 @@ public class Linearizer {
         return rez;
     }
 
-    private Vector<LinTriple> linearize(Tree e) throws LinearizerException {
+    private Vector<LinTriple> linearize(AbsynTree e) throws LinearizerException {
         return this.lin0(new Vector<String>(), new Vector<String>(),
                 null, 0, e);
     }
@@ -393,7 +393,7 @@ public class Linearizer {
                                    Vector<String> ys,
                                    CncType mb_cty,
                                    Integer mb_fid,
-                                   Tree tree) throws LinearizerException {
+                                   AbsynTree tree) throws LinearizerException {
         if (DBG) System.err.println("lin0: " + tree);
         // if tree is a lambda, we add the variable to the list of bound
         // variables and we linearize the subtree.
@@ -401,7 +401,7 @@ public class Linearizer {
             xs.add(((Lambda) tree).ident_);
             return lin0(xs, ys, mb_cty, mb_fid, ((Lambda) tree).tree_);
         } else if (xs.isEmpty()) {
-            Vector<Tree> es = new Vector<Tree>();
+            Vector<AbsynTree> es = new Vector<AbsynTree>();
             if (tree instanceof Application)
                 do {
                     es.add(((Application) tree).tree_2);
@@ -412,7 +412,7 @@ public class Linearizer {
             else throw new RuntimeException("undefined construction for expressions !!!");
         } else {
             xs.addAll(ys);
-            Vector<Tree> exprs = new Vector<Tree>();
+            Vector<AbsynTree> exprs = new Vector<AbsynTree>();
             exprs.add(tree);
             for (int i = 0; i < xs.size(); i++)
                 exprs.add(new Literal(new StringLiteral(xs.elementAt(i))));
@@ -441,12 +441,12 @@ public class Linearizer {
                                     CncType mb_cty,
                                     int n_fid,
                                     String f,
-                                    Vector<Tree> es)
+                                    Vector<AbsynTree> es)
             throws LinearizerException {
         if (DBG) System.err.println("apply: " + f);
         Map<Integer, Set<Production>> prods = lProd.get(f);
         if (prods == null) {
-            Vector<Tree> newes = new Vector<Tree>();
+            Vector<AbsynTree> newes = new Vector<AbsynTree>();
             newes.add(new Literal(new StringLiteral(f)));
             System.out.println("Function " + f + " does not have a linearization !");
             return apply(xs, mb_cty, n_fid, "_V", newes);
@@ -462,7 +462,7 @@ public class Linearizer {
                     throw new LinearizerException("lengths of es and ctys don't match" + es.toString() + " -- " + ctys.toString());
                 Sequence[] lins = vApp.elementAt(i).getCncFun().sequences();
                 String cat = vApp.elementAt(i).getCncType().getCId();
-                Vector<Tree> copy_expr = new Vector<Tree>();
+                Vector<AbsynTree> copy_expr = new Vector<AbsynTree>();
                 for (int ind = 0; ind < es.size(); ind++)
                     copy_expr.add(es.elementAt(ind));
                 Vector<RezDesc> rezDesc = descend(n_fid, ctys, copy_expr, xs);
@@ -638,7 +638,7 @@ public class Linearizer {
      **/
     private Vector<RezDesc> descend(int n_fid,
                                     Vector<CncType> cncTypes,
-                                    Vector<Tree> exps,
+                                    Vector<AbsynTree> exps,
                                     Vector<String> xs)
             throws LinearizerException {
         Vector<RezDesc> rez = new Vector<RezDesc>();
@@ -649,7 +649,7 @@ public class Linearizer {
         } else {
             CncType cncType = cncTypes.firstElement();
             cncTypes.remove(0);
-            Tree exp = exps.firstElement();
+            AbsynTree exp = exps.firstElement();
             exps.remove(0);
             Vector<LinTriple> rezLin =
                     lin0(new Vector<String>(), xs, cncType, n_fid, exp);

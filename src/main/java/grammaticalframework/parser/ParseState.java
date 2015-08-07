@@ -19,10 +19,14 @@ package grammaticalframework.parser;
 
 
 import grammaticalframework.reader.*;
+import org.grammaticalframework.pgf.ParseError;
 import scala.Option;
+import scala.Tuple2;
+import scala.Tuple3;
 import scala.collection.immutable.List;
 import scala.collection.immutable.Nil$;
 
+import java.util.Iterator;
 import java.util.Stack;
 import java.util.Vector;
 
@@ -32,15 +36,116 @@ import java.util.Vector;
 
 public class ParseState {
 
+
+    public static class Chart {
+
+        public Chart(int i) {
+
+        }
+
+        public void addProduction(Production p) {
+
+        }
+
+        public ApplProduction[] getProductions(int id) {
+            return new ApplProduction[0];
+        }
+
+        public void addProduction(int n, CncFun f, int[] b) {
+
+        }
+
+        public Integer getCategory(int bd, int r, int position, int position1) {
+            return null;
+        }
+
+        public int generateFreshCategory(int a, int l, int j, int position) {
+            return 0;
+        }
+    }
+
+    public static class ParseTrie {
+
+        public Stack<ActiveItem> lookup(String... tokens) {
+            return null;
+        }
+
+        public void add(String[] tokens, Stack<ActiveItem> a) {
+
+        }
+
+        public String[] predict() {
+            return null;
+        }
+
+        public ParseTrie getSubTrie(String token) {
+            return null;
+        }
+    }
+
+    public static class ActiveItem {
+
+        public ActiveItem(int i, int id, CncFun function, int[] domain, int i1, int i2) {
+
+        }
+
+        public int begin() {
+            return 0;
+        }
+
+        public int category() {
+            return 0;
+        }
+
+        public CncFun function() {
+            return null;
+        }
+
+        public int[] domain() {
+            return new int[0];
+        }
+
+        public int constituent() {
+            return 0;
+        }
+
+        public int position() {
+            return 0;
+        }
+
+        public boolean hasNextSymbol() {
+            return false;
+        }
+
+        public Symbol nextSymbol2() {
+            return null;
+        }
+    }
+
+    public static class ActiveSet {
+
+        public boolean add(int bd, int r, ActiveItem item, int d) {
+            return false;
+        }
+
+        public Iterator<Tuple3<ActiveItem, Integer, Integer>> get(int n) {
+            return null;
+        }
+
+        public Iterable<Tuple2<ActiveItem, Integer>> get(int a, int l) {
+            return null;
+        }
+    }
+
     //final private Concrete grammar;
-    final private CncCat startcat;
-    final private Chart chart = new Chart(100); // TODO 100 is a bad value...
+    public final CncCat startcat;
+    public final Chart chart = new Chart(100); // TODO 100 is a bad value...
     private ParseTrie trie = new ParseTrie();
     private Stack<ActiveItem> agenda = new Stack();
-    private int position = 0;
+    int position = 0;
     // 'active' is the set of all the S_k's, holding the active items which are not
     // on the agenda.
-    private Vector<ActiveSet> active = new Vector();
+    private final Vector<ActiveSet> active = new Vector();
 
     public ParseState(final Concrete grammar, final String abstractStartcat)
             throws ParseError {
@@ -74,6 +179,10 @@ public class ParseState {
         }
     }
 
+    public int getPosition() {
+        return position;
+    }
+
     private void processActiveItem(ActiveItem item) {
         int j = item.begin();
         int A = item.category();
@@ -86,9 +195,10 @@ public class ParseState {
         if (!item.hasNextSymbol()) {
             // ------------------------- at the end --------------------------
             //log.finest("Case at the end")
-            if (chart.hasCategory(A, l, j, this.position)) {
-                int n = chart.getCategory(A, l, j, this.position).get().intValue();
-                scala.collection.Iterator<scala.Tuple3<ActiveItem, Integer, Integer>> oldactive = active.get(this.position).get(n);
+            Integer catt = chart.getCategory(A, l, j, this.position);
+            if (catt!=null) {
+                int n = chart.getCategory(A, l, j, this.position).intValue();
+                Iterator<Tuple3<ActiveItem, Integer, Integer>> oldactive = active.get(this.position).get(n);
                 while (oldactive.hasNext()) {
                     scala.Tuple3<ActiveItem, Integer, Integer> t = oldactive.next();
                     int r = t._3().intValue();
@@ -102,7 +212,7 @@ public class ParseState {
                 chart.addProduction(n, f, B);
             } else {
                 int N = chart.generateFreshCategory(A, l, j, this.position);
-                scala.collection.Iterator<scala.Tuple2<ActiveItem, Integer>> oldactive = active.get(j).get(A, l).iterator();
+                Iterator<Tuple2<ActiveItem, Integer>> oldactive = active.get(j).get(A, l).iterator();
                 while (oldactive.hasNext()) {
                     scala.Tuple2<ActiveItem, Integer> t = oldactive.next();
                     ActiveItem ip = t._1();
@@ -128,13 +238,13 @@ public class ParseState {
                 ActiveItem i = new ActiveItem(j, A, f, B, l, p + 1);
                 // SCAN
                 // this.trie.add(tokens, i)
-                Option<Stack<ActiveItem>> option = this.trie.lookup(tokens);
+                Stack<ActiveItem> option = this.trie.lookup(tokens);
                 if (option.isEmpty()) {
                     Stack<ActiveItem> a = new Stack();
                     a.push(i);
                     this.trie.add(tokens, a);
                 } else {
-                    option.get().push(i);
+                    option.push(i);
                 }
             } else {
                 // ------------------------- before <d,r> -----------------------
@@ -150,9 +260,9 @@ public class ParseState {
                         agenda.push(it);
                     }
                 }
-                Option<Integer> oCat = chart.getCategory(Bd, r, this.position, this.position);
-                if (!oCat.isEmpty()) {
-                    int catN = oCat.get().intValue();
+                Integer oCat = chart.getCategory(Bd, r, this.position, this.position);
+                if (oCat!=null) {
+                    int catN = oCat.intValue();
                     int[] newDomain = B.clone();
                     newDomain[d] = catN;
                     ActiveItem it = new ActiveItem(j, A, f, newDomain, l, p + 1);
@@ -170,27 +280,18 @@ public class ParseState {
         return this.trie.predict();
     }
 
-    public java.util.List<grammaticalframework.Trees.absyn.Tree> getTrees() {
-        scala.collection.Iterator<Tree> parseTrees = TreeBuilder.buildTrees(chart, startcat, position).iterator();
-        java.util.List<grammaticalframework.Trees.absyn.Tree> v = new java.util.ArrayList();
-        while (parseTrees.hasNext())
-            v.add(TreeConverter.intermediate2abstract(parseTrees.next()));
-
-        return v;
-    }
-
     public boolean scan(String token) {
-        scala.Option<ParseTrie> option = this.trie.getSubTrie(token);
-        if (option.isEmpty())
+        ParseTrie option = this.trie.getSubTrie(token);
+        if (option==null)
             return false;
         else {
-            ParseTrie newTrie = option.get();
+            ParseTrie newTrie = option;
             List nil = Nil$.MODULE$;
-            scala.Option<Stack<ActiveItem>> option2 = newTrie.lookup(nil);
-            if (option2.isEmpty())
+            Stack<ActiveItem> option2 = newTrie.lookup();
+            if (option2==null)
                 return false;
             else {
-                Stack<ActiveItem> agenda = option2.get();
+                Stack<ActiveItem> agenda = option2;
                 this.trie = newTrie;
                 this.position += 1;
                 this.agenda = agenda;

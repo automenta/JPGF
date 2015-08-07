@@ -33,7 +33,7 @@ import grammaticalframework.parser._
 //   , ImpliciteArgument => EImpliciterArgument
 //   }
 import grammaticalframework.Trees.absyn.{
-     Tree => ETree
+     AbsynTree => ETree
    , Lambda => ELambda
    , Application => EApplication
    , Literal => ELiteral

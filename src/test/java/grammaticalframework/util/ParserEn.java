@@ -2,23 +2,22 @@ package grammaticalframework.util;
 
 import grammaticalframework.Linearizer;
 import grammaticalframework.PGF;
-import grammaticalframework.Parser;
-import grammaticalframework.Trees.absyn.Tree;
+import grammaticalframework.Trees.absyn.AbsynTree;
 import grammaticalframework.UnknownLanguageException;
-import grammaticalframework.parser.ParseError;
+import grammaticalframework.parser.Parser;
+import org.grammaticalframework.pgf.ParseError;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 
 import static grammaticalframework.PGFBuilder.fromFile;
-import static grammaticalframework.PGFTestCase.getPGF;
 
 /**
  * Created by me on 7/10/15.
  */
 public class ParserEn {
-    public static void main(String[] args) throws UnknownLanguageException, Linearizer.LinearizerException, IOException, ParseError {
+    public static void main(String[] args) throws UnknownLanguageException, Linearizer.LinearizerException, IOException, ParseError, org.grammaticalframework.pgf.ParseError {
         //PGF pgf = getPGF("Phrasebook.pgf");
         PGF pgf = fromFile("/tmp/SUMO.pgf");
 
@@ -44,11 +43,11 @@ public class ParserEn {
 
             Parser p = new Parser(pgf, language);
 
-            List<Tree> parsed = p.parseToTrees(s);
+            List<AbsynTree> parsed = p.parseToTrees(s);
 
             System.out.println(" Parse: \t" + parsed);
 
-            for (Tree t : parsed) {
+            for (AbsynTree t : parsed) {
                 final String lin = linearizer.linearizeString(t);
                 System.out.println("Linear: \t" + lin);
             }

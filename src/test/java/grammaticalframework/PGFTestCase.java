@@ -17,7 +17,7 @@
  */
 package grammaticalframework;
 
-import grammaticalframework.Trees.absyn.Tree;
+import grammaticalframework.Trees.absyn.AbsynTree;
 import grammaticalframework.Trees.Yylex;
 import grammaticalframework.Trees.parser;
 import grammaticalframework.reader.*;
@@ -51,11 +51,11 @@ public abstract class PGFTestCase extends TestCase {
     
     /* **** Support function for using abstract trees **** */
 
-    public static Tree parseTree(String s) throws Exception {
+    public static AbsynTree parseTree(String s) throws Exception {
         Yylex l = new Yylex(new StringReader(s));
         parser p = new parser(l);
         //try {
-            Tree parse_tree = p.pTree();
+            AbsynTree parse_tree = p.pTree();
             return parse_tree;
         /*} catch (Exception e) {
             e.printStackTrace();

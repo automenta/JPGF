@@ -15,29 +15,37 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
-package grammaticalframework;
+package grammaticalframework.parser;
 
-import grammaticalframework.reader.*;
-import grammaticalframework.parser.*;
+import grammaticalframework.PGF;
+import grammaticalframework.Trees.absyn.AbsynTree;
+import grammaticalframework.UnknownLanguageException;
+import grammaticalframework.reader.CncCat;
+import grammaticalframework.reader.Concrete;
+import org.grammaticalframework.pgf.ParseError;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
 
 
 public class Parser {
+
     public static final String[] EMPTY = new String[0];
-    private Concrete language;
+
+    private final Concrete language;
     private String startcat;
-    /* ******************************** API ******************************** */
+
     public Parser(PGF pgf, Concrete language) {
         this.language = language;
         this.startcat = pgf.getAbstract().startcat();
     }
 
-    public Parser(PGF pgf, String language)
-        throws UnknownLanguageException
-    {
+    public Parser(PGF pgf, String language) throws UnknownLanguageException    {
         this(pgf, pgf.getConcrete(language));
     }
 
-    
+
     public void setStartcat(String startcat) {
         this.startcat = startcat;
     }
@@ -49,11 +57,13 @@ public class Parser {
      * @return the corresponding parse-state
      **/
     public ParseState parse(String[] tokens) throws ParseError {
+
         ParseState ps = new ParseState(this.language, this.startcat);
         for (String w : tokens)
             if (!ps.scan(w))
                 break;
         return ps;
+
     }
 
     /**
@@ -63,11 +73,22 @@ public class Parser {
      **/
     // FIXME: not using the start category ??
     // FIXME: Return collection
-    public java.util.List<grammaticalframework.Trees.absyn.Tree> parseToTrees(String[] tokens) throws ParseError {
-	    return this.parse(tokens).getTrees();
+    public java.util.List<AbsynTree> parseToTrees(String[] tokens) throws ParseError {
+        List<AbsynTree> v = new ArrayList();
+        buildTrees(tokens, i -> v.add( TreeConverter.intermediate2abstract( i ) ) );
+        return v;
     }
 
-    public java.util.List<grammaticalframework.Trees.absyn.Tree> parseToTrees(String tokens) throws ParseError {
+    public void buildTrees(String[] tokens, Consumer<InterTree> target) throws ParseError {
+        ParseState.Chart c = parse(tokens).chart;
+        CncCat startcat = parse(tokens).startcat;
+        int position = parse(tokens).getPosition();
+
+        target.accept(new InterTree());
+    }
+
+
+    public java.util.List<AbsynTree> parseToTrees(String tokens) throws ParseError {
         return parseToTrees(tokenize(tokens));
     }
 

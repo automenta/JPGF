@@ -19,7 +19,7 @@ package grammaticalframework;
 
 import grammaticalframework.Trees.absyn.Application;
 import grammaticalframework.Trees.absyn.Function;
-import grammaticalframework.Trees.absyn.Tree;
+import grammaticalframework.Trees.absyn.AbsynTree;
 import grammaticalframework.reader.AbsFun;
 import grammaticalframework.reader.Abstract;
 import grammaticalframework.reader.Type;
@@ -30,7 +30,7 @@ import java.util.Vector;
 
 
 /**
- * This class generates all {@link Tree}s up to a certain depth.
+ * This class generates all {@link AbsynTree}s up to a certain depth.
  * <p>
  * Usage:
  * <pre>
@@ -66,23 +66,23 @@ public class GenerateTrees {
     }
 
     /**
-     * Generates all {@link Tree}s where the root of the tree is the
+     * Generates all {@link AbsynTree}s where the root of the tree is the
      * given category and the depth is at most 'depth'
      *
      * @param startcat Root category of the tree
      * @param depth    Maximum depth of the tree
      * @return A collection of trees
      **/
-    public Collection<Tree> generateTrees(String startcat, int depth) {
+    public Collection<AbsynTree> generateTrees(String startcat, int depth) {
         //System.out.println("Generating trees for " + startcat + " [" + depth + "]");
-        Vector<Tree> trees = new Vector();
+        Vector<AbsynTree> trees = new Vector();
         for (AbsFun f : mAbstract.functions(startcat))
             if (depth > 0 || f.type.hypos.length == 0)
                 trees.addAll(generateTrees(f, depth));
         return trees;
     }
 
-    private Collection<Tree> generateTrees(AbsFun function, int depth) {
+    private Collection<AbsynTree> generateTrees(AbsFun function, int depth) {
         //System.out.println("Generating trees for " + function + " [" + depth + "]");
         Type t = function.type;
         int argc = function.type.hypos.length;
@@ -92,13 +92,13 @@ public class GenerateTrees {
         /* Since we asserted that 'function' is not a functor,
          * We know that its argument types are not function FFtypes. */
             argCat[i] = function.type.hypos[i].type.getName();
-        Collection<Tree>[] children = new Collection[argc];
+        Collection<AbsynTree>[] children = new Collection[argc];
         for (int i = 0; i < argc; i++) {
             children[i] = generateTrees(argCat[i], depth - 1);
         }
-        Vector<Tree> results = new Vector();
-        Tree f = new Function(function.name);
-        for (List<Tree> args : Utils.combine(children)) {
+        Vector<AbsynTree> results = new Vector();
+        AbsynTree f = new Function(function.name);
+        for (List<AbsynTree> args : Utils.combine(children)) {
             results.add(Application.application(f, args));
         }
         return results;

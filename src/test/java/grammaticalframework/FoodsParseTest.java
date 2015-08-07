@@ -1,4 +1,4 @@
-/* FoodsParseTest.java
+/* StartCatTest.java
  * Copyright (C) 2010 Grégoire Détrez, Ramona Enache
  *
  * This library is free software; you can redistribute it and/or
@@ -17,63 +17,88 @@
  */
 package grammaticalframework;
 
-import grammaticalframework.Trees.absyn.Tree;
-import grammaticalframework.parser.ParseError;
+import com.sun.deploy.panel.TreeBuilder;
+import grammaticalframework.Trees.absyn.AbsynTree;
+import grammaticalframework.parser.Parser;
+import grammaticalframework.parser.TreeConverter;
 
 import java.io.IOException;
 import java.util.List;
 
-public class FoodsParseTest extends PGFTestCase
-{
+/**
+ *
+ **/
+public class FoodsParseTest extends PGFTestCase {
 
-    public FoodsParseTest (String name) {
-	super(name);
-    }
-
+    Parser parser;
     PGF pgf;
+
+    public FoodsParseTest(String name) {
+        super(name);
+    }
 
     public void setUp() throws IOException, UnknownLanguageException {
         pgf = getPGF("corpus/Foods.pgf");
+
+        parser = new Parser(pgf, "FoodsEng");
     }
 
+    protected void match(String sentence, String treeStr) throws Exception {
+
+        AbsynTree expected = parseTree(treeStr);
+        List<AbsynTree> actual = parser.parseToTrees(sentence);
+
+        assertEquals(1, actual.size());
+        assertEquals(expected, actual.get(0));
+    }
+
+    public void testCommentCategory() throws Exception {
+
+        parser.setStartcat("Comment");
+
+        match("this fresh pizza is Italian",
+                "((Pred (This ((Mod Fresh) Pizza))) Italian)");
+
+        match("those boring fish are expensive",
+                "((Pred (Those ((Mod Boring) Fish))) Expensive)");
+    }
+
+    public void testItemCategory() throws Exception {
+
+        parser.setStartcat("Item");
+
+        match("this fresh pizza",
+                "(This ((Mod Fresh) Pizza))");
+
+        match("those boring fish",
+                "(Those ((Mod Boring) Fish))");
+
+    }
+
+
+
+
     public void testFoodsEng() throws Exception {
-	Parser parser = new Parser(pgf, "FoodsEng");
+        match("this fresh pizza is Italian",
+                "((Pred (This ((Mod Fresh) Pizza))) Italian)");
 
-	String ex1 = "this fresh pizza is Italian";
-	Tree tree1 = parseTree("((Pred (This ((Mod Fresh) Pizza))) Italian)");
-	List trees1 = parser.parse(ex1).getTrees();
-	assertTrue(trees1.size()==1);
-	assertEquals(trees1.get(0),tree1);
-
-	String ex2 = "those boring fish are expensive";
-	Tree tree2=parseTree("((Pred (Those ((Mod Boring) Fish))) Expensive)");
-	List trees2 = parser.parse(ex2).getTrees();
-	assertTrue(trees2.size()==1);
-	assertEquals(trees2.get(0),tree2);
+        match("those boring fish are expensive",
+            "((Pred (Those ((Mod Boring) Fish))) Expensive)");
     }
 
     public void testFoodsSwe() throws Exception {
-	Parser parser = new Parser(pgf, "FoodsSwe");
+        Parser parser = new Parser(pgf, "FoodsSwe");
 
-	String ex1 = "den här läckra pizzan är färsk";
-	Tree tree1 = parseTree("((Pred (This ((Mod Delicious) Pizza))) Fresh)");
-	List trees1 = parser.parse(ex1).getTrees();
-	assertTrue(trees1.size()==1);
-	assertEquals(trees1.get(0),tree1);
+        match("den här läckra pizzan är färsk",
+            "((Pred (This ((Mod Delicious) Pizza))) Fresh)");
     }
 
     public void testFoodsIta() throws Exception {
-	Parser parser = new Parser(pgf, "FoodsIta");
+        Parser parser = new Parser(pgf, "FoodsIta");
 
-	String ex1 = "questa pizza deliziosa è fresca";
-	Tree tree1 = parseTree("((Pred (This ((Mod Delicious) Pizza))) Fresh)");
-	List trees1 = parser.parse(ex1).getTrees();
-	assertTrue(trees1.size()==1);
-	assertEquals(trees1.get(0),tree1);
+        match("questa pizza deliziosa è fresca",
+                "((Pred (This ((Mod Delicious) Pizza))) Fresh)");
     }
 
 
-    public void tearDown() {
-	pgf = null;
-    }
 }

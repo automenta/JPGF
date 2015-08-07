@@ -63,7 +63,7 @@ public class Generator {
         }
     }
 
-    public Tree gen() throws Exception {
+    public AbsynTree gen() throws Exception {
         return this.gen(this.pgf.getAbstract().startcat());
     }
 
@@ -73,7 +73,7 @@ public class Generator {
      **/
     // FIXME what is 'type' for ???
     // FIXME couldn't dirFuns be an array ?
-    public Tree getDirect(String type, HashSet<String> dirFuns) {
+    public AbsynTree getDirect(String type, HashSet<String> dirFuns) {
         int rand = this.random.nextInt(dirFuns.size());
         return new Function((String) dirFuns.toArray()[rand]);
     }
@@ -82,7 +82,7 @@ public class Generator {
      * generates a category with a random indirect rule
      * creates more complex expressions
      **/
-    public Tree getIndirect(String type, HashSet<String> indirFuns) throws Exception {
+    public AbsynTree getIndirect(String type, HashSet<String> indirFuns) throws Exception {
         Iterator<String> it = indirFuns.iterator();
         Vector<String> vs = new Vector<String>();
         while (it.hasNext())
@@ -94,13 +94,13 @@ public class Generator {
             if (absFuns[i].name.equals(funcName)) {
                 Hypo[] hypos = absFuns[i].type.getHypos();
                 String[] tempCats = new String[hypos.length];
-                Tree[] exps = new Tree[hypos.length];
+                AbsynTree[] exps = new AbsynTree[hypos.length];
                 for (int k = 0; k < hypos.length; k++) {
                     tempCats[k] = hypos[k].type.getName();
                     exps[k] = gen(tempCats[k]);
                     if (exps[k] == null) return null;
                 }
-                Tree rez = new Function(funcName);
+                AbsynTree rez = new Function(funcName);
                 for (int j = 0; j < exps.length; j++)
                     rez = new Application(rez, exps[j]);
                 return rez;
@@ -113,7 +113,7 @@ public class Generator {
      * the empirical probability of using direct rules is 60%
      * this decreases the probability of having infinite trees for infinite grammars
      **/
-    public Tree gen(String type) throws Exception {
+    public AbsynTree gen(String type) throws Exception {
         if (type.equals("Integer"))
             return new Literal(new IntLiteral(generateInt()));
         else if (type.equals("Float"))
@@ -141,15 +141,15 @@ public class Generator {
      * the expressions are independent
      * the probability of having simple expressions is higher
      **/
-    public List<Tree> generateMany(String type, int count) throws Exception {
+    public List<AbsynTree> generateMany(String type, int count) throws Exception {
         int contor = 0;
-        List<Tree> rez = new ArrayList<Tree>(count);
+        List<AbsynTree> rez = new ArrayList<AbsynTree>(count);
         if (contor >= count) return rez;
         HashSet<String> dirFuns = dirRules.get(type);
         HashSet<String> indirFuns = indirRules.get(type);
         Iterator<String> itDir = dirFuns.iterator();
         while (itDir.hasNext()) {
-            Tree interm = getDirect(type, dirFuns);
+            AbsynTree interm = getDirect(type, dirFuns);
             if (interm != null) {
                 contor++;
                 rez.add(interm);
@@ -158,7 +158,7 @@ public class Generator {
         }
         itDir = indirFuns.iterator();
         while (itDir.hasNext()) {
-            Tree interm = getIndirect(type, indirFuns);
+            AbsynTree interm = getIndirect(type, indirFuns);
             if (interm != null) {
                 contor++;
                 rez.add(interm);
