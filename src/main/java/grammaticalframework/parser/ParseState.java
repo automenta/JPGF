@@ -22,12 +22,10 @@ import grammaticalframework.reader.*;
 import org.grammaticalframework.pgf.ParseError;
 import scala.Tuple2;
 import scala.Tuple3;
-import scala.collection.immutable.List;
-import scala.collection.immutable.Nil$;
 
-import java.util.Iterator;
-import java.util.Stack;
-import java.util.Vector;
+import java.util.*;
+
+import static com.google.common.collect.Lists.newArrayList;
 
 //import scala.collection.immutable.List;
 
@@ -37,7 +35,7 @@ public class ParseState {
 
     //final private Concrete grammar;
     public final CncCat startcat;
-    public final Chart chart = new Chart(100); // TODO 100 is a bad value...
+    public final ProductionChart chart = new ProductionChart(100); // TODO 100 is a bad value...
     // 'active' is the set of all the S_k's, holding the active items which are not
     // on the agenda.
     private final Vector<ActiveSet> active = new Vector();
@@ -53,16 +51,18 @@ public class ParseState {
             throw new ParseError("Invalid start category " + abstractStartcat);
         }
         // Adding all grammar productions in the chart
-        for (Production p : grammar.productions())
-            chart.addProduction(p);
+
+        chart.add(grammar.productions());
 
         // We create an initial agenda of all prodution with the
         // start category as left-hand-side.
-        for (int id = startcat.firstID(); id <= startcat.lastID(); id++)
-            for (ApplProduction prod : chart.getProductions(id)) {
-                ActiveItem it = new ActiveItem(0, id, prod.function, prod.domain, 0, 0);
+        for (int id = startcat.firstID(); id <= startcat.lastID(); id++) {
+            final int ID = id;
+            chart.forEachApplProduction(ID, prod -> {
+                ActiveItem it = new ActiveItem(0, ID, prod.function, prod.domain, 0, 0);
                 agenda.push(it);
-            }
+            });
+        }
 
         // Finally we process this agenda
         compute();
@@ -94,21 +94,25 @@ public class ParseState {
             //log.finest("Case at the end")
             Integer catt = chart.getCategory(A, l, j, this.position);
             if (catt != null) {
-                int n = chart.getCategory(A, l, j, this.position).intValue();
-                Iterator<Tuple3<ActiveItem, Integer, Integer>> oldactive = active.get(this.position).get(n);
-                while (oldactive.hasNext()) {
-                    scala.Tuple3<ActiveItem, Integer, Integer> t = oldactive.next();
-                    int r = t._3().intValue();
-                    // (xprime, dprime, r)
-                    ActiveItem i = new ActiveItem(this.position,
-                            n, f, B, r,
-                            0);
-                    //log.finest("Adding "+ i + " to the agenda")
-                    agenda.push(i);
+                int n = chart.getCategory(A, l, j, this.position);
+                if (n!=-1) {
+                    Iterator<Tuple3<ActiveItem, Integer, Integer>> oldactive = active.get(this.position).get(n);
+                    while (oldactive.hasNext()) {
+                        scala.Tuple3<ActiveItem, Integer, Integer> t = oldactive.next();
+                        int r = t._3().intValue();
+                        // (xprime, dprime, r)
+                        ActiveItem i = new ActiveItem(this.position,
+                                n, f, B, r,
+                                0);
+                        //log.finest("Adding "+ i + " to the agenda")
+                        agenda.push(i);
+                    }
+                    chart.addProduction(n, f, B);
                 }
-                chart.addProduction(n, f, B);
             } else {
+
                 int N = chart.generateFreshCategory(A, l, j, this.position);
+
                 Iterator<Tuple2<ActiveItem, Integer>> oldactive = active.get(j).get(A, l).iterator();
                 while (oldactive.hasNext()) {
                     scala.Tuple2<ActiveItem, Integer> t = oldactive.next();
@@ -151,11 +155,11 @@ public class ParseState {
                 int r = arg.cons();
                 int Bd = item.domain()[d];
                 if (this.active.get(this.position).add(Bd, r, item, d)) {
-                    for (ApplProduction prod : chart.getProductions(Bd)) {
+                    chart.forEachApplProduction(Bd, prod -> {
                         ActiveItem it = new ActiveItem(this.position, Bd, prod.function,
                                 prod.domain, r, 0);
                         agenda.push(it);
-                    }
+                    });
                 }
                 Integer oCat = chart.getCategory(Bd, r, this.position, this.position);
                 if (oCat != null) {
@@ -183,7 +187,7 @@ public class ParseState {
             return false;
         else {
             ParseTrie newTrie = option;
-            List nil = Nil$.MODULE$;
+
             Stack<ActiveItem> option2 = newTrie.lookup();
             if (option2 == null)
                 return false;
@@ -205,33 +209,6 @@ public class ParseState {
                 this.chart.toString() +
                 "== Trie ==\n" +
                 this.trie.toString();
-    }
-
-    public static class Chart {
-
-        public Chart(int i) {
-
-        }
-
-        public void addProduction(Production p) {
-
-        }
-
-        public ApplProduction[] getProductions(int id) {
-            return new ApplProduction[0];
-        }
-
-        public void addProduction(int n, CncFun f, int[] b) {
-
-        }
-
-        public Integer getCategory(int bd, int r, int position, int position1) {
-            return null;
-        }
-
-        public int generateFreshCategory(int a, int l, int j, int position) {
-            return 0;
-        }
     }
 
     public static class ParseTrie {

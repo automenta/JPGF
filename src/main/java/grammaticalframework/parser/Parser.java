@@ -17,25 +17,17 @@
  */
 package grammaticalframework.parser;
 
-import com.google.common.collect.Lists;
 import grammaticalframework.PGF;
 import grammaticalframework.UnknownLanguageException;
 import grammaticalframework.absyn.AbsynTree;
-import grammaticalframework.absyn.Application;
-import grammaticalframework.absyn.Function;
-import grammaticalframework.reader.ApplProduction;
 import grammaticalframework.reader.CncCat;
 import grammaticalframework.reader.Concrete;
 import org.grammaticalframework.pgf.ParseError;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static java.util.stream.Collectors.toList;
@@ -71,7 +63,7 @@ public class Parser {
      * @param tokens the input tokens
      * @return the corresponding parse-state
      **/
-    public ParseState parse(String[] tokens) throws ParseError {
+    public ParseState parse(String... tokens) throws ParseError {
 
         ParseState ps = new ParseState(this.language, this.startcat);
         for (String w : tokens)
@@ -98,7 +90,7 @@ public class Parser {
 
 
     public void buildTrees(String[] tokens, Consumer<AbsynTree> target) throws ParseError {
-        ParseState.Chart chart = parse(tokens).chart;
+        ProductionChart chart = parse(tokens).chart;
         CncCat startcat = parse(tokens).startcat;
         int position = parse(tokens).getPosition();
 
@@ -113,8 +105,7 @@ public class Parser {
             Integer m = chart.getCategory(catID, 0, 0, position /* length */);
             if (m == null) continue;
 
-            mkTreeForCat(catID, chart);
-
+            chart.mkTreeForCat(catID).forEach(target);
         }
     }
 
@@ -126,44 +117,8 @@ public class Parser {
     yield t
     }
     */
-    public static List<AbsynTree> mkTreeForCat(int catID, ParseState.Chart chart) {
-        ApplProduction[] pp = chart.getProductions(catID);
-        List<AbsynTree> r = new ArrayList(pp.length);
-        Stream.of(pp).map(p -> r.addAll( mkTreeForProduction(p, chart) ) );
-        return r;
-    }
 
 
-    /*
-    def mkTreesForProduction( p:Production, chart:Chart):List[Tree] = {
-    if (p.domain.length == 0)
-        List(new Application(p.function.name, Nil))
-    else
-        for (args <- listMixer( p.domain.toList.map(mkTreesForCat(_,chart)) ) )
-            yield new Application(p.function.name, args)
-    }
-    */
-    public static List<AbsynTree> mkTreeForProduction(ApplProduction p, ParseState.Chart chart) {
-
-        final Function fname =  new Function( p.function.name );
-
-        if (p.domain.length == 0) {
-
-            List<List<AbsynTree>> pdm = IntStream.of(p.domain).mapToObj(
-                    d -> mkTreeForCat(d, chart)
-            ).collect(toList());
-
-            return listMixer(pdm).stream()
-                            .map( l -> Application.make(fname, l ) )
-                            .collect(toList());
-        }
-        else {
-            return newArrayList(
-                    new Application( fname, null )
-            );
-        }
-
-    }
 
     /*
     def listMixer(l:List[List[Tree]]):List[List[Tree]] = l match {

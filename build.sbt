@@ -4,6 +4,7 @@ organization := "org.grammaticalframework"
 
 version := "1.0"
 
+resolvers += DefaultMavenRepository
 resolvers += "Typesafe Repository" at "http://repo.typesafe.com/typesafe/releases/"
 
 libraryDependencies += "commons-lang" % "commons-lang" % "2.6"
@@ -16,6 +17,7 @@ libraryDependencies += "junit" % "junit" % "4.7" % "test"
 
 libraryDependencies += "com.novocode" % "junit-interface" % "0.11" % "test"
 
+libraryDependencies += "com.goldmansachs" % "gs-collections" % "6.2.0"
 
 libraryDependencies += "com.google.guava" % "guava" % "r05"
 

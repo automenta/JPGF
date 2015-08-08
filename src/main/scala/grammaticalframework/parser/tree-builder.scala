@@ -29,7 +29,7 @@ object TreeBuilder {
 
   //val log = Logger.getLogger("org.grammaticalframework.parser.TreeBuilder")
 
-  def buildTrees( chart:Chart, startCat:CncCat, length:Int ):List[Tree] = {
+  def buildTrees(chart:ProductionChart, startCat:CncCat, length:Int ):List[Tree] = {
     //log.fine("Building trees with start category " + (0, startCat, 0, length))
     (startCat.firstID until startCat.lastID + 1).flatMap( catID =>
       chart.getCategory(catID, 0, 0, length) match {
@@ -38,14 +38,14 @@ object TreeBuilder {
       }).toList
   }
 
-  def mkTreesForCat(cat : Int, chart:Chart):List[Tree] = {
+  def mkTreesForCat(cat : Int, chart:ProductionChart):List[Tree] = {
     //log.fine("Making trees for category "+ cat)
     for {p <- chart.getProductions(cat).toList;
          t <- mkTreesForProduction(p, chart)}
     yield t
   }
 
-  def mkTreesForProduction( p:Production, chart:Chart):List[Tree] = {
+  def mkTreesForProduction( p:Production, chart:ProductionChart):List[Tree] = {
       if (p.domain.length == 0)
          List(new Application(p.function.name, Nil))
       else
