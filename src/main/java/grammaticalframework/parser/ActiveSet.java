@@ -15,7 +15,7 @@ public class ActiveSet {
 
     //IntObjectHashMap<Multimap<>> store = new HashMap[Int, MultiMap[Int, (ActiveItem,Int)]]
     //LongObjectMap<ObjectIntPair<ActiveItem>> store = new LongObjectHashMap();
-    IntObjectMap<IntObjectMap<Set<ObjectIntPair<ActiveItem>>>> store = new IntObjectHashMap();
+    IntObjectHashMap<IntObjectHashMap<Set<ObjectIntPair<ActiveItem>>>> store = new IntObjectHashMap();
 
 
     /*
@@ -39,12 +39,16 @@ public class ActiveSet {
 
     public boolean add(int cat, int cons, ActiveItem item, int cons2) {
 
-        IntObjectMap<Set<ObjectIntPair<ActiveItem>>> a = store.getIfAbsent(cat, () -> {
-            return new IntObjectHashMap<Set<ObjectIntPair<ActiveItem>>>();
+        final IntObjectHashMap<Set<ObjectIntPair<ActiveItem>>> a = store.getIfAbsent(cat, () -> {
+            IntObjectHashMap<Set<ObjectIntPair<ActiveItem>>> r = new IntObjectHashMap<Set<ObjectIntPair<ActiveItem>>>();
+            store.put(cat, r);
+            return r;
         });
 
         Set<ObjectIntPair<ActiveItem>> s = a.getIfAbsent(cons, () -> {
-            return new HashSet<ObjectIntPair<ActiveItem>>();
+            HashSet<ObjectIntPair<ActiveItem>> r = new HashSet<ObjectIntPair<ActiveItem>>();
+            a.put(cons, r);
+            return r;
         });
 
         return s.add(PrimitiveTuples.pair(item, cons2));
@@ -67,9 +71,11 @@ this.store.get(cat) match {
     }
 
     public void get(int cat, ActiveTripleConsumer recv) {
-        store.get(cat).forEachKeyValue((k, v) -> v.forEach(s -> {
-            recv.accept(s.getOne(), s.getTwo(), k);
-        }));
+        IntObjectMap<Set<ObjectIntPair<ActiveItem>>> a1 = store.get(cat);
+        if (a1 != null)
+            a1.forEachKeyValue((k, v) -> v.forEach(s -> {
+                recv.accept(s.getOne(), s.getTwo(), k);
+            }));
     }
 
 
@@ -85,6 +91,9 @@ this.store.get(cat) match {
 
      */
     public Set<ObjectIntPair<ActiveItem>> get(int cat, int cons) {
-        return store.get(cat).get(cons);
+        IntObjectMap<Set<ObjectIntPair<ActiveItem>>> a1 = store.get(cat);
+        if (a1 == null)
+            return null;
+        return a1.get(cons);
     }
 }

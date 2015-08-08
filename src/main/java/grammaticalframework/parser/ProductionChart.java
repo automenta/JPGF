@@ -1,8 +1,9 @@
 package grammaticalframework.parser;
 
-import com.google.common.collect.HashMultimap;
+import com.gs.collections.api.block.procedure.Procedure;
 import com.gs.collections.api.tuple.primitive.LongLongPair;
 import com.gs.collections.impl.map.mutable.primitive.ObjectIntHashMap;
+import com.gs.collections.impl.multimap.set.UnifiedSetMultimap;
 import com.gs.collections.impl.tuple.primitive.PrimitiveTuples;
 import grammaticalframework.Utils;
 import grammaticalframework.absyn.AbsynTree;
@@ -26,23 +27,26 @@ import static java.util.stream.Collectors.toList;
  */
 public class ProductionChart {
 
-    final HashMultimap<Integer, Production> prods = HashMultimap.create();
-    int indexMax = Integer.MIN_VALUE;
+    final UnifiedSetMultimap<Integer, Production> prods = new UnifiedSetMultimap();
+    int nextCat = 0; //Integer.MIN_VALUE;
+    final ObjectIntHashMap<LongLongPair> catKeeper = new ObjectIntHashMap();
 
     public ProductionChart(int nextCat) {
-        this.indexMax = nextCat;
+        this.nextCat = nextCat;
     }
 
     public void add(final Production... pp) {
         for (final Production p : pp) {
             int cc = p.getCategory();
             prods.put(cc, p);
-            indexMax = Math.max(indexMax, cc + 1);
+            nextCat = Math.max(nextCat, cc + 1);
         }
     }
 
     public void forEachApplProduction(int id, Consumer<ApplProduction> recv) {
-        prods.get(id).forEach(p -> uncoerce(p, recv));
+        prods.get(id).forEach((Procedure<Production>)( (p) -> uncoerce(p, recv)));
+
+                //forEach(p -> uncoerce(p, recv));
     }
 
     /**
@@ -109,7 +113,6 @@ public class ProductionChart {
 
 
 
-    final ObjectIntHashMap<LongLongPair> catKeeper = new ObjectIntHashMap();
 
 //    /** **********************************************************************
 //     *  Handling fresh categories
@@ -146,7 +149,7 @@ public class ProductionChart {
     }
 
     public int generateFreshCategory(int oldCat, int l, int j, int k) {
-        int cat = indexMax++;
+        int cat = nextCat++;
 
         catKeeper.put(PrimitiveTuples.pair(
                 Utils.pack(oldCat, l), Utils.pack(j, k)

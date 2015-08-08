@@ -4,6 +4,7 @@ import grammaticalframework.reader.CncFun;
 import grammaticalframework.reader.Symbol;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * Created by me on 8/8/15.
@@ -16,6 +17,7 @@ public class ActiveItem {
     public final int[] domain;
     public final int constituent;
     public final int position;
+    private final int hash;
 
     /*
     (val begin: Int,
@@ -33,6 +35,7 @@ public class ActiveItem {
         this.domain = domain;
         this.constituent = constituent;
         this.position = position;
+        this.hash = Objects.hash(begin, category, function, domain, constituent, position);
     }
 
 
@@ -74,6 +77,11 @@ public class ActiveItem {
         return false;
     }
 
+    @Override
+    public int hashCode() {
+        return hash;
+    }
+
     public boolean hasNextSymbol() {
         return position < function.sequence(constituent).length();
     }
@@ -107,8 +115,14 @@ public class ActiveItem {
                 buffer.toString
                 }
      */
+
     @Override
     public String toString() {
-        return super.toString();
+        return "[" + this.begin + ";" +
+                this.category + "->" + this.function.name +
+                "[" + Arrays.toString(domain) + "];" + this.constituent + ";" +
+                this.position + "]";
     }
+
+
 }

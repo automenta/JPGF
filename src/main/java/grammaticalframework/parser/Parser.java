@@ -66,9 +66,7 @@ public class Parser {
     public ParseState parse(String... tokens) throws ParseError {
 
         ParseState ps = new ParseState(this.language, this.startcat);
-        for (String w : tokens)
-            if (!ps.scan(w))
-                break;
+        ps.scan(tokens);
         return ps;
 
     }
@@ -102,8 +100,8 @@ public class Parser {
         }).toList */
 
         for (int catID = startcat.firstID(); catID <= startcat.lastID(); catID++) {
-            Integer m = chart.getCategory(catID, 0, 0, position /* length */);
-            if (m == null) continue;
+            int m = chart.getCategory(catID, 0, 0, position /* length */);
+            if (m == -1) continue;
 
             chart.mkTreeForCat(catID).forEach(target);
         }

@@ -17,13 +17,33 @@
  */
 package grammaticalframework.reader;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 public class CncFun {
     public final String name;
-    private final Sequence[] sequences;
+    public final Sequence[] sequences;
+    private final int hash;
 
     public CncFun(String _name, Sequence[] seqs) {
-        name = _name;
+        this.name = _name;
         this.sequences = seqs;
+        this.hash = Objects.hash(name, sequences);
+    }
+
+    @Override
+    public int hashCode() {
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) return true;
+        if (obj instanceof CncFun) {
+            CncFun c = (CncFun)obj;
+            return c.name.equals(name) && (Arrays.equals(c.sequences, sequences));
+        }
+        return false;
     }
 
     /**

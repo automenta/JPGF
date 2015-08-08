@@ -21,10 +21,9 @@ package grammaticalframework.parser;
 import com.gs.collections.api.tuple.primitive.ObjectIntPair;
 import grammaticalframework.reader.*;
 import org.grammaticalframework.pgf.ParseError;
+import org.magnos.trie.TrieNode;
 
-import java.util.Set;
-import java.util.Stack;
-import java.util.Vector;
+import java.util.*;
 
 //import scala.collection.immutable.List;
 
@@ -43,8 +42,11 @@ public class ParseState {
 
     int position = 0;
 
-    private ParseTrie trie = new ParseTrie();
-    private Stack<ActiveItem> agenda = new Stack();
+    ParseTrie trie = new ParseTrie();
+
+    TrieNode<String[], Deque<ActiveItem>> trieNode = null;
+
+    Deque<ActiveItem> agenda = new ArrayDeque();
 
     public ParseState(final Concrete grammar, final String abstractStartcat)
             throws ParseError {
@@ -64,7 +66,7 @@ public class ParseState {
             final int ID = id;
             chart.forEachApplProduction(ID, prod -> {
                 ActiveItem it = new ActiveItem(0, ID, prod.function, prod.domain, 0, 0);
-                agenda.push(it);
+                agendaAdd(it);
             });
         }
 
@@ -76,6 +78,11 @@ public class ParseState {
         // We have to create a new set S_k where k is the current position
         active.add(new ActiveSet());
         while (!agenda.isEmpty()) {
+            if (agenda.size() > 50000) {
+                System.err.println("err:");
+                System.out.println(agenda);
+                System.exit(1);
+            }
             processActiveItem(agenda.pop());
         }
     }
@@ -109,7 +116,7 @@ public class ParseState {
                                 n, f, B, r,
                                 0);
                         //log.finest("Adding "+ i + " to the agenda")
-                        agenda.push(i);
+                        agendaAdd(i);
                     });
                     chart.addProduction(n, f, B);
                 }
@@ -129,7 +136,7 @@ public class ParseState {
                                 ip.function, domain,
                                 ip.constituent, ip.position + 1);
                         //log.finest("Adding " + i + " to the agenda")
-                        agenda.push(i);
+                        agendaAdd(i);
                     }
                 }
                 chart.addProduction(N, f, B);
@@ -144,11 +151,11 @@ public class ParseState {
                 ActiveItem i = new ActiveItem(j, A, f, B, l, p + 1);
                 // SCAN
                 // this.trie.add(tokens, i)
-                Stack<ActiveItem> option = this.trie.lookup(tokens);
-                if (option.isEmpty()) {
-                    Stack<ActiveItem> a = new Stack();
-                    a.push(i);
-                    this.trie.add(tokens, a);
+                Deque<ActiveItem> option = this.trie.get(tokens);
+                if (option == null) {
+                    ArrayDeque<ActiveItem> ai = new ArrayDeque();
+                    ai.push(i);
+                    this.trie.put(tokens, ai);
                 } else {
                     option.push(i);
                 }
@@ -163,48 +170,54 @@ public class ParseState {
                     chart.forEachApplProduction(Bd, prod -> {
                         ActiveItem it = new ActiveItem(this.position, Bd, prod.function,
                                 prod.domain, r, 0);
-                        agenda.push(it);
+                        agendaAdd(it);
                     });
                 }
-                Integer oCat = chart.getCategory(Bd, r, this.position, this.position);
-                if (oCat != null) {
-                    int catN = oCat.intValue();
+                int oCat = chart.getCategory(Bd, r, this.position, this.position);
+                if (oCat != -1) {
+                    int catN = oCat;
                     int[] newDomain = B.clone();
                     newDomain[d] = catN;
                     ActiveItem it = new ActiveItem(j, A, f, newDomain, l, p + 1);
                     //log.finest("Adding " + it + " to the agenda");
-                    agenda.push(it);
+                    agendaAdd(it);
                 }
             }
         }
+    }
+
+    private void agendaAdd(ActiveItem i) {
+        System.out.println(" + " + i);
+        agenda.push(i);
     }
 
     /**
      * returns the set of possible next words
      */
     public String[] predict() {
-        return this.trie.predict();
+        if (trieNode == null) {
+            return null;
+        }
+        return trieNode.getKey();
     }
 
-    public boolean scan(String token) {
-        ParseTrie option = this.trie.getSubTrie(token);
-        if (option == null)
-            return false;
-        else {
-            ParseTrie newTrie = option;
+    public void scan(String[] token) {
 
-            Stack<ActiveItem> option2 = newTrie.lookup();
-            if (option2 == null)
-                return false;
-            else {
-                Stack<ActiveItem> agenda = option2;
-                this.trie = newTrie;
-                this.position += 1;
-                this.agenda = agenda;
-                this.compute();
-                //log.finer(this.trie.toString)
-                return true;
-            }
+        for (int i = 0; i < token.length; i++) {
+            String[] substring = Arrays.copyOfRange(token, 0, i);
+
+            Deque<ActiveItem> s = trie.get(substring);
+            if (s == null)
+                break;
+
+        /*Set<TrieNode<String[], Deque<ActiveItem>>> x = trie.nodeSet(token);
+        for (TrieNode<String[], Deque<ActiveItem>> s : x) {*/
+
+            this.position = i;
+            this.agenda = s;
+            this.compute();
+            //log.finer(this.trie.toString)
+            //}
         }
     }
 
