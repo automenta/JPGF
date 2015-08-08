@@ -31,14 +31,16 @@ public class Alternative {
     }
 
     public String toString() {
-	StringBuffer sb = new StringBuffer();
-	for (String t : tokens) {
-	    sb.append(t);
-	    sb.append(' '); }
-	sb.append("/ ");
-	for (String t : prefix) {
-	    sb.append(t);
-	    sb.append(' '); }
+        StringBuffer sb = new StringBuffer();
+        for (String t : tokens) {
+            sb.append(t);
+            sb.append(' ');
+        }
+        sb.append("/ ");
+        for (String t : prefix) {
+            sb.append(t);
+            sb.append(' ');
+        }
         return sb.toString();
     }
 

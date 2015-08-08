@@ -17,12 +17,14 @@
  */
 package grammaticalframework.reader;
 
-public class WildCardPattern extends Pattern{
+public class WildCardPattern extends Pattern {
 
-public WildCardPattern()
-{super();}
+    public WildCardPattern() {
+        super();
+    }
 
-public String toString()
-{return "Wild Card Pattern";}
+    public String toString() {
+        return "Wild Card Pattern";
+    }
 
 }

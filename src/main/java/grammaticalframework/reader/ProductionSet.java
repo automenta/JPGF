@@ -21,14 +21,14 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class ProductionSet {
-    private final int id;
     public final Set<Production> prods;
+    private final int id;
 
     public ProductionSet(int _id, Production[] _prods) {
         id = _id;
 
         this.prods = new HashSet<Production>(_prods.length);
-        for(int i=0; i < _prods.length; i++)
+        for (int i = 0; i < _prods.length; i++)
             prods.add(_prods[i]);
 
 
@@ -37,19 +37,22 @@ public class ProductionSet {
     public int length() {
         return this.prods.size();
     }
-    
 
 
     public String toString() {
-        String ss = "Id : "+id+" , Productions : [";
+        String ss = "Id : " + id + " , Productions : [";
         for (Production p : prods)
-            ss+=(' ' + p.toString());
-        ss+="]";
+            ss += (' ' + p.toString());
+        ss += "]";
         return ss;
     }
 
-    public int getId() {return id; }
+    public int getId() {
+        return id;
+    }
 
-    public Set<Production> getProductions() {return prods;}
+    public Set<Production> getProductions() {
+        return prods;
+    }
 
 }

@@ -18,7 +18,7 @@
 package grammaticalframework.reader;
 
 public class ToksSymbol extends Symbol {
-    String[] toks ;
+    String[] toks;
 
     /**
      * Constructor
@@ -30,17 +30,18 @@ public class ToksSymbol extends Symbol {
     /**
      * Accessors
      */
-    public String [] tokens() {
+    public String[] tokens() {
         return this.toks;
     }
 
-    public boolean isTerminal() { return true; }
+    public boolean isTerminal() {
+        return true;
+    }
 
-    public String toString()
-    {
+    public String toString() {
         String s = "Tokens : ";
-        for(int i=0; i<toks.length; i++)
-            s+=(' ' +toks[i]);
+        for (int i = 0; i < toks.length; i++)
+            s += (' ' + toks[i]);
         return s;
     }
 }

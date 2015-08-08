@@ -17,7 +17,7 @@
  */
 package grammaticalframework;
 
-import grammaticalframework.Trees.absyn.*;
+import grammaticalframework.absyn.*;
 import grammaticalframework.linearizer.*;
 import grammaticalframework.reader.*;
 
@@ -65,6 +65,124 @@ public class Linearizer {
     }
 
     /**
+     * flattens a bracketed token
+     **/
+    private static Vector<String> untokn(BracketedTokn bt, String after) {
+        if (bt instanceof LeafKS) {
+            String[] d = ((LeafKS) bt).tokens;
+            Vector<String> rez = new Vector<String>();
+            for (int i = d.length - 1; i >= 0; i--)
+                rez.add(d[i]);
+            return rez;
+        } else if (bt instanceof LeafKP) {
+            String[] d = ((LeafKP) bt).tokens;
+            Alternative[] alts = ((LeafKP) bt).getAlts();
+            Vector<String> rez = new Vector<String>();
+            for (int i = 0; i < alts.length; i++) {
+                String[] ss2 = alts[i].getAlt2();
+                for (int j = 0; j < ss2.length; j++)
+                    if (after.startsWith(ss2[j])) {
+                        String[] ss1 = alts[i].getAlt1();
+                        for (int k = ss1.length - 1; k >= 0; k--)
+                            rez.add(ss1[i]);
+                        return rez;
+                    }
+            }
+            for (int i = d.length - 1; i >= 0; i--)
+                rez.add(d[i]);
+            return rez;
+        } else {
+            Vector<String> rez = new Vector<String>();
+            Vector<BracketedTokn> bs = ((Bracket) bt).getBracketedToks();
+            for (int i = bs.size() - 1; i >= 0; i--) {
+                rez.addAll(untokn(bs.elementAt(i), after));
+                after = rez.lastElement();
+            }
+            return rez;
+        }
+    }
+
+    /**
+     * computes the types of the arguments of a function type
+     **/
+    private static Vector<String> catSkeleton(Type t) {
+        Vector<String> rez = new Vector<String>();
+        rez.add(t.getName());
+        Hypo[] hypos = t.getHypos();
+        for (int i = 0; i < hypos.length; i++)
+            rez.add(hypos[i].getType().getName());
+        return rez;
+    }
+
+    /**
+     * creates a simple vector of vectors of bracketed tokens containing a string value
+     **/
+    private static Vector<Vector<BracketedTokn>> ss(String s) {
+        Vector<Vector<BracketedTokn>> bt = new Vector<Vector<BracketedTokn>>();
+        Vector<BracketedTokn> v = new Vector<BracketedTokn>();
+        String[] sts = new String[1];
+        sts[0] = s;
+        v.add(new LeafKS(sts));
+        bt.add(v);
+        return bt;
+    }
+    
+    
+    /* ************************** Implementation *************************** */
+
+    /**
+     * retrieves a sequence of bracketed tokens from an intermediate result of the linearization
+     * according to 2 indices from a production
+     **/
+    private static Vector<BracketedTokn> getArg(int d, int r, Vector<CncType> cncTypes, Vector<Vector<Vector<BracketedTokn>>> linTables) {
+        if (cncTypes.size() <= d) return new Vector<BracketedTokn>();
+        CncType cncType = cncTypes.elementAt(d);
+        Vector<Vector<BracketedTokn>> lin = linTables.elementAt(d);
+        String cat = cncType.getCId();
+        int fid = cncType.getFId();
+        Vector<BracketedTokn> arg_lin = lin.elementAt(r);
+        if (arg_lin.isEmpty()) return arg_lin;
+        Vector<BracketedTokn> bt = new Vector<BracketedTokn>();
+        bt.add(new Bracket(cat, fid, r, arg_lin));
+        return bt;
+    }
+
+    /**
+     * checks if a production is application production
+     **/
+    private static boolean isApp(Production p) {
+        return (p instanceof ApplProduction);
+    }
+
+    /**
+     * checks if an integer is the index of an integer literal
+     **/
+    static boolean isLiteralInt(int i) {
+        return i == -2;
+    }
+
+    /**
+     * checks if an integer is the index of a string literal
+     **/
+    static boolean isLiteralString(int i) {
+        return i == -1;
+    }
+
+    /**
+     * checks if an integer is the index of a float literal
+     **/
+    static boolean isLiteralFloat(int i) {
+        return i == -3;
+    }
+
+    /**
+     * checks if an integer is the index of a variable literal
+     **/
+    static boolean isLiteralVar(int i) {
+        return i == -4;
+    }
+
+    /**
      * Linearize a tree to a vector of tokens.
      **/
     public Vector<String> linearizeTokens(AbsynTree absyn)
@@ -80,18 +198,6 @@ public class Linearizer {
                 this.renderLin(this.linearize(absyn).elementAt(0));
         return Utils.concat((String[]) words.toArray(new String[words.size()]));
     }
-
-    public class LinearizerException extends Exception {
-        LinearizerException() {
-        }
-
-        LinearizerException(String s) {
-            super(s);
-        }
-    }
-    
-    
-    /* ************************** Implementation *************************** */
 
     /**
      * constructs the l-productions of the concrete syntax for
@@ -265,7 +371,6 @@ public class Linearizer {
         return false;
     }
 
-
     /**
      * gets list of forest ids from the categories in ho_cats
      **/
@@ -280,7 +385,6 @@ public class Linearizer {
                         rezTemp.add(ind);
         return rezTemp;
     }
-
 
     /**
      * get all names of types from Concrete
@@ -307,44 +411,6 @@ public class Linearizer {
         for (int i = 0; i < hypos.length; i++)
             rez[i] = hypos[i].getType().getName();
         return rez;
-    }
-
-    /**
-     * flattens a bracketed token
-     **/
-    private static Vector<String> untokn(BracketedTokn bt, String after) {
-        if (bt instanceof LeafKS) {
-            String[] d = ((LeafKS) bt).tokens;
-            Vector<String> rez = new Vector<String>();
-            for (int i = d.length - 1; i >= 0; i--)
-                rez.add(d[i]);
-            return rez;
-        } else if (bt instanceof LeafKP) {
-            String[] d = ((LeafKP) bt).tokens;
-            Alternative[] alts = ((LeafKP) bt).getAlts();
-            Vector<String> rez = new Vector<String>();
-            for (int i = 0; i < alts.length; i++) {
-                String[] ss2 = alts[i].getAlt2();
-                for (int j = 0; j < ss2.length; j++)
-                    if (after.startsWith(ss2[j])) {
-                        String[] ss1 = alts[i].getAlt1();
-                        for (int k = ss1.length - 1; k >= 0; k--)
-                            rez.add(ss1[i]);
-                        return rez;
-                    }
-            }
-            for (int i = d.length - 1; i >= 0; i--)
-                rez.add(d[i]);
-            return rez;
-        } else {
-            Vector<String> rez = new Vector<String>();
-            Vector<BracketedTokn> bs = ((Bracket) bt).getBracketedToks();
-            for (int i = bs.size() - 1; i >= 0; i--) {
-                rez.addAll(untokn(bs.elementAt(i), after));
-                after = rez.lastElement();
-            }
-            return rez;
-        }
     }
 
     /**
@@ -479,7 +545,6 @@ public class Linearizer {
         }
     }
 
-
     private Vector<AppResult> getApps(Map<Integer, Set<Production>> prods, CncType mb_cty, String f) throws LinearizerException {
         if (mb_cty == null)
             if (f.equals("_V") || f.equals("_B")) return new Vector<AppResult>();
@@ -553,33 +618,6 @@ public class Linearizer {
         }
     }
 
-
-    /**
-     * computes the types of the arguments of a function type
-     **/
-    private static Vector<String> catSkeleton(Type t) {
-        Vector<String> rez = new Vector<String>();
-        rez.add(t.getName());
-        Hypo[] hypos = t.getHypos();
-        for (int i = 0; i < hypos.length; i++)
-            rez.add(hypos[i].getType().getName());
-        return rez;
-    }
-
-
-    /**
-     * creates a simple vector of vectors of bracketed tokens containing a string value
-     **/
-    private static Vector<Vector<BracketedTokn>> ss(String s) {
-        Vector<Vector<BracketedTokn>> bt = new Vector<Vector<BracketedTokn>>();
-        Vector<BracketedTokn> v = new Vector<BracketedTokn>();
-        String[] sts = new String[1];
-        sts[0] = s;
-        v.add(new LeafKS(sts));
-        bt.add(v);
-        return bt;
-    }
-
     /**
      * computes the sequence of bracketed tokens associated to a symbol
      **/
@@ -603,24 +641,6 @@ public class Linearizer {
     }
 
     /**
-     * retrieves a sequence of bracketed tokens from an intermediate result of the linearization
-     * according to 2 indices from a production
-     **/
-    private static Vector<BracketedTokn> getArg(int d, int r, Vector<CncType> cncTypes, Vector<Vector<Vector<BracketedTokn>>> linTables) {
-        if (cncTypes.size() <= d) return new Vector<BracketedTokn>();
-        CncType cncType = cncTypes.elementAt(d);
-        Vector<Vector<BracketedTokn>> lin = linTables.elementAt(d);
-        String cat = cncType.getCId();
-        int fid = cncType.getFId();
-        Vector<BracketedTokn> arg_lin = lin.elementAt(r);
-        if (arg_lin.isEmpty()) return arg_lin;
-        Vector<BracketedTokn> bt = new Vector<BracketedTokn>();
-        bt.add(new Bracket(cat, fid, r, arg_lin));
-        return bt;
-    }
-
-
-    /**
      * computes a sequence of bracketed tokens from the sequence of symbols of a concrete function
      **/
     private Vector<BracketedTokn> computeSeq(Sequence seqId, Vector<CncType> cncTypes, Vector<Vector<Vector<BracketedTokn>>> linTables) {
@@ -630,7 +650,6 @@ public class Linearizer {
             bt.addAll(compute(symbs[j], cncTypes, linTables));
         return bt;
     }
-
 
     /**
      * shuffles the results of of the intermediate linearization,
@@ -675,47 +694,20 @@ public class Linearizer {
     }
 
     /**
-     * checks if a production is application production
-     **/
-    private static boolean isApp(Production p) {
-        return (p instanceof ApplProduction);
-    }
-
-
-    /**
-     * checks if an integer is the index of an integer literal
-     **/
-    static boolean isLiteralInt(int i) {
-        return i == -2;
-    }
-
-    /**
-     * checks if an integer is the index of a string literal
-     **/
-    static boolean isLiteralString(int i) {
-        return i == -1;
-    }
-
-    /**
-     * checks if an integer is the index of a float literal
-     **/
-    static boolean isLiteralFloat(int i) {
-        return i == -3;
-    }
-
-    /**
-     * checks if an integer is the index of a variable literal
-     **/
-    static boolean isLiteralVar(int i) {
-        return i == -4;
-    }
-
-    /**
      * checks if an integer is the index of a literal
      **/
     boolean isLiteral(int i) {
         if (isLiteralString(i) || isLiteralInt(i) || isLiteralFloat(i) || isLiteralVar(i)) return true;
         return false;
+    }
+
+    public class LinearizerException extends Exception {
+        LinearizerException() {
+        }
+
+        LinearizerException(String s) {
+            super(s);
+        }
     }
 
 

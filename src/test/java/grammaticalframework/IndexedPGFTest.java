@@ -23,12 +23,6 @@ import java.util.HashSet;
 public class IndexedPGFTest extends PGFTestCase {
 
 
-
-
-    public IndexedPGFTest(String name) {
-        super(name);
-    }
-
     PGF foods, phrasebook, phraseIndexed;
 
     @Override

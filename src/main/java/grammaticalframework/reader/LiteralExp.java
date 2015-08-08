@@ -18,12 +18,17 @@
 package grammaticalframework.reader;
 
 public class LiteralExp extends Expr {
- private RLiteral value;
- 
- public LiteralExp(RLiteral _value) {value = _value; }
+    private RLiteral value;
 
- public String toString()
- {return "Literal Expression : " + value.toString();}
+    public LiteralExp(RLiteral _value) {
+        value = _value;
+    }
 
-public RLiteral getLiteral() {return value;}
+    public String toString() {
+        return "Literal Expression : " + value.toString();
+    }
+
+    public RLiteral getLiteral() {
+        return value;
+    }
 }

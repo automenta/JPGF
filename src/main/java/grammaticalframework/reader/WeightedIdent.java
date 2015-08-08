@@ -22,21 +22,23 @@ public class WeightedIdent {
     private final String ident;
 
     public WeightedIdent(String i, double weight) {
-	this.ident = i;
-	this.weight = weight;
+        this.ident = i;
+        this.weight = weight;
     }
 
     public String ident() {
-	return this.ident;
+        return this.ident;
     }
 
     public double weight() {
-	return this.weight;
+        return this.weight;
     }
 
-    /** weight, returned as a percent (0..100) */
+    /**
+     * weight, returned as a percent (0..100)
+     */
     public int weightPercent() {
-        return (int)(weight * 100.0);
+        return (int) (weight * 100.0);
     }
 
     @Override

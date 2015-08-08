@@ -1,7 +1,7 @@
 package grammaticalframework;
 
 
-import grammaticalframework.Trees.absyn.AbsynTree;
+import grammaticalframework.absyn.AbsynTree;
 import grammaticalframework.parser.Parser;
 import org.junit.Test;
 

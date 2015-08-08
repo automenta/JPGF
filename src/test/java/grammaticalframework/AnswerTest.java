@@ -17,7 +17,7 @@
  */
 package grammaticalframework;
 
-import grammaticalframework.Trees.absyn.AbsynTree;
+import grammaticalframework.absyn.AbsynTree;
 
 import java.io.IOException;
 import java.util.HashSet;
@@ -25,9 +25,6 @@ import java.util.Set;
 
 public class AnswerTest extends PGFTestCase {
 
-    public AnswerTest(String name) {
-        super(name);
-    }
 
     PGF pgf;
 

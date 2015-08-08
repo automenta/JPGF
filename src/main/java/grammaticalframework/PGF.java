@@ -27,11 +27,11 @@ import java.util.Set;
 
 public class PGF {
 
+    public final Abstract abstr;
+    private final Map<String, Concrete> concretes;
     private int majorVersion;
     private int minorVersion;
     private Map<String, RLiteral> flags;
-    public final Abstract abstr;
-    private final Map<String, Concrete> concretes;
 
     public PGF(int _majorVersion, int _minorVersion,
                Map<String, RLiteral> _flags,

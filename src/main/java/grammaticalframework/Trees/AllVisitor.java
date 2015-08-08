@@ -1,9 +1,11 @@
 package grammaticalframework.Trees;
 
-import grammaticalframework.Trees.absyn.AbsynTree;
+import grammaticalframework.absyn.Visitor;
 
-/** BNFC-Generated All Visitor */
-public interface AllVisitor<R,A> extends
-  AbsynTree.Visitor<R,A>,
-  grammaticalframework.Trees.absyn.Lit.Visitor<R,A>
-{}
+/**
+ * BNFC-Generated All Visitor
+ */
+public interface AllVisitor<R, A> extends
+        Visitor<R, A>,
+        grammaticalframework.absyn.Lit.Visitor<R, A> {
+}

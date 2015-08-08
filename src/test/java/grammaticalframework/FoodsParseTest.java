@@ -17,10 +17,8 @@
  */
 package grammaticalframework;
 
-import com.sun.deploy.panel.TreeBuilder;
-import grammaticalframework.Trees.absyn.AbsynTree;
+import grammaticalframework.absyn.AbsynTree;
 import grammaticalframework.parser.Parser;
-import grammaticalframework.parser.TreeConverter;
 
 import java.io.IOException;
 import java.util.List;
@@ -32,10 +30,6 @@ public class FoodsParseTest extends PGFTestCase {
 
     Parser parser;
     PGF pgf;
-
-    public FoodsParseTest(String name) {
-        super(name);
-    }
 
     public void setUp() throws IOException, UnknownLanguageException {
         pgf = getPGF("corpus/Foods.pgf");

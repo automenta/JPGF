@@ -1,19 +1,19 @@
 package org.grammaticalframework.pgf;
 
 public class TokenProb {
-	private String tok;
-	private double prob;
+    private String tok;
+    private double prob;
 
-	public TokenProb(String tok, double prob) {
-		this.tok  = tok;
-		this.prob = prob;
-	}
+    public TokenProb(String tok, double prob) {
+        this.tok = tok;
+        this.prob = prob;
+    }
 
-	public String getToken() {
-		return tok;
-	}
+    public String getToken() {
+        return tok;
+    }
 
-	public double getProb() {
-		return prob;
-	}
+    public double getProb() {
+        return prob;
+    }
 }

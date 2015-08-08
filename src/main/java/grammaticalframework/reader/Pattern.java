@@ -18,5 +18,5 @@
 package grammaticalframework.reader;
 
 public abstract class Pattern {
-    public abstract String toString();	    
+    public abstract String toString();
 }

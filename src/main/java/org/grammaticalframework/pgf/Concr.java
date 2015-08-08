@@ -1,52 +1,54 @@
 package org.grammaticalframework.pgf;
 
-import java.io.*;
-import java.util.*;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.util.List;
+import java.util.Map;
 
 public class Concr {
 
-	public native String getName();
+    private PGF gr;
+    private long ref;
 
-	public Iterable<ExprProb> parse(String startCat, String s) throws ParseError {
-		return new Parser(this, startCat, s, -1, null);
-	}
+    private Concr(PGF gr, long ref) {
+        this.gr = gr;
+        this.ref = ref;
+    }
 
-	public Iterable<ExprProb> parseWithHeuristics(String startCat, String s, double heuristics, Map<String,LiteralCallback> callbacks) throws ParseError {
-		return new Parser(this, startCat, s, heuristics, callbacks);
-	}
+    public native String getName();
 
-	public Iterable<TokenProb> complete(String startCat, String s, String prefix) throws ParseError {
-		return new Completer(this, startCat, s, prefix);
-	}
+    public Iterable<ExprProb> parse(String startCat, String s) throws ParseError {
+        return new Parser(this, startCat, s, -1, null);
+    }
 
-	public native String linearize(Expr expr);
+    public Iterable<ExprProb> parseWithHeuristics(String startCat, String s, double heuristics, Map<String, LiteralCallback> callbacks) throws ParseError {
+        return new Parser(this, startCat, s, heuristics, callbacks);
+    }
 
-	public native Map<String, String> tabularLinearize(Expr expr);
+    public Iterable<TokenProb> complete(String startCat, String s, String prefix) throws ParseError {
+        return new Completer(this, startCat, s, prefix);
+    }
 
-	public native Object[] bracketedLinearize(Expr expr);
+    public native String linearize(Expr expr);
 
-	public native List<MorphoAnalysis> lookupMorpho(String sentence);
+    public native Map<String, String> tabularLinearize(Expr expr);
 
-	public Iterable<FullFormEntry> lookupWordPrefix(String prefix) {
-		return new Lexicon(this, prefix);
-	}
+    public native Object[] bracketedLinearize(Expr expr);
 
-	public native boolean hasLinearization(String id);
+    public native List<MorphoAnalysis> lookupMorpho(String sentence);
 
-	public native void load(String path) throws FileNotFoundException;
+    public Iterable<FullFormEntry> lookupWordPrefix(String prefix) {
+        return new Lexicon(this, prefix);
+    }
 
-	public native void load(InputStream stream);
+    public native boolean hasLinearization(String id);
 
-	public native void unload();
+    //////////////////////////////////////////////////////////////////
+    // private stuff
 
-	//////////////////////////////////////////////////////////////////
-	// private stuff
-	
-	private PGF gr;
-	private long ref;
+    public native void load(String path) throws FileNotFoundException;
 
-	private Concr(PGF gr, long ref) {
-		this.gr  = gr;
-		this.ref = ref;
-	}
+    public native void load(InputStream stream);
+
+    public native void unload();
 }

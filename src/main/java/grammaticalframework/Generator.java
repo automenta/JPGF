@@ -17,7 +17,7 @@
  */
 package grammaticalframework;
 
-import grammaticalframework.Trees.absyn.*;
+import grammaticalframework.absyn.*;
 import grammaticalframework.reader.AbsCat;
 import grammaticalframework.reader.AbsFun;
 import grammaticalframework.reader.Hypo;
@@ -190,7 +190,6 @@ public class Generator {
     public double generateFloat() {
         return random.nextDouble();
     }
-    
-    
+
 
 }

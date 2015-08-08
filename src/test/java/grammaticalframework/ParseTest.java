@@ -1,7 +1,7 @@
 package grammaticalframework;
 
 import com.google.common.io.Files;
-import grammaticalframework.Trees.absyn.AbsynTree;
+import grammaticalframework.absyn.AbsynTree;
 import org.junit.Ignore;
 import org.junit.Test;
 

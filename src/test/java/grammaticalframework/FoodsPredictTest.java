@@ -25,9 +25,6 @@ import java.util.Arrays;
 
 public class FoodsPredictTest extends PGFTestCase {
 
-    public FoodsPredictTest(String name) {
-        super(name);
-    }
 
     PGF pgf;
 
@@ -35,10 +32,29 @@ public class FoodsPredictTest extends PGFTestCase {
         pgf = getPGF("corpus/Foods.pgf");
     }
 
-    public void testFoodsEng()
-            throws UnknownLanguageException, ParseError {
-        Parser parser = new Parser(pgf, "FoodsEng");
-        String[] words = new String[]{"that", "these", "this", "those"};
+    public void testFoodsEng()  throws Exception {
+        match(parser("FoodsEng"),
+                "that", "these", "this", "those");
+    }
+
+    public void testFoodsSwe() throws Exception {
+        match(parser("FoodsSwe"),
+                "de", "den", "det");
+    }
+
+
+    public void testFoodsIta() throws Exception {
+        match(parser("FoodsIta"),
+                "quei", "quel", "quella", "quelle",
+                "questa", "queste", "questi", "questo");
+    }
+
+
+    private Parser parser(String lang) throws UnknownLanguageException {
+        return new Parser(pgf, lang);
+    }
+
+    private void match(Parser parser, String... words) throws ParseError {
         String[] predictions = parser.parse().predict();
         Arrays.sort(predictions);
         assertEquals(words.length, predictions.length);
@@ -46,30 +62,6 @@ public class FoodsPredictTest extends PGFTestCase {
             assertEquals(words[i], predictions[i]);
     }
 
-    public void testFoodsSwe()
-            throws UnknownLanguageException, ParseError {
-        Parser parser = new Parser(pgf, "FoodsSwe");
-        String[] words = new String[]{"de", "den", "det"};
-        String[] predictions = parser.parse().predict();
-        Arrays.sort(predictions);
-        assertEquals(words.length, predictions.length);
-        for (int i = 0; i < words.length; i++)
-            assertEquals(words[i], predictions[i]);
-    }
-
-    public void testFoodsIta()
-            throws UnknownLanguageException, ParseError {
-        Parser parser = new Parser(pgf, "FoodsIta");
-
-        String[] words = new String[]{"quei", "quel", "quella", "quelle",
-                "questa", "queste", "questi", "questo"};
-
-        String[] predictions = parser.parse().predict();
-        Arrays.sort(predictions);
-        assertEquals(words.length, predictions.length);
-        for (int i = 0; i < words.length; i++)
-            assertEquals(words[i], predictions[i]);
-    }
 
 
     public void tearDown() {

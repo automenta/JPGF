@@ -17,16 +17,9 @@
  */
 package grammaticalframework;
 
-import grammaticalframework.Trees.absyn.AbsynTree;
-
 import java.io.IOException;
 
-public class FoodsLinearizeTest extends PGFTestCase
-{
-
-    public FoodsLinearizeTest (String name) {
-	super(name);
-    }
+public class FoodsLinearizeTest extends PGFTestCase {
 
     PGF pgf;
 
@@ -34,43 +27,37 @@ public class FoodsLinearizeTest extends PGFTestCase
         pgf = getPGF("corpus/Foods.pgf");
     }
 
-    public void testFoodsEng()
-			throws Exception {
-	Linearizer linearizer = new Linearizer(pgf, "FoodsEng");
+    protected void match(String lang, String sentence, String tree) throws Exception {
 
-	String ex1 = "this fresh pizza is Italian";
-	AbsynTree tree1 = parseTree("((Pred (This ((Mod Fresh) Pizza))) Italian)");
-	String lin1 = linearizer.linearizeString(tree1);
-	assertEquals(ex1,lin1);
-
-	String ex2 = "those boring fish are expensive";
-	AbsynTree tree2=parseTree("((Pred (Those ((Mod Boring) Fish))) Expensive)");
-	String lin2 = linearizer.linearizeString(tree2);
-	assertEquals(ex2,lin2);
-    }
-
-    public void testFoodsSwe()
-			throws Exception {
-	Linearizer linearizer = new Linearizer(pgf, "FoodsSwe");
-
-	AbsynTree tree1 = parseTree("((Pred (This ((Mod Delicious) Pizza))) Fresh)");
-	String ex1 = "den här läckra pizzan är färsk";
-	String lin1 = linearizer.linearizeString(tree1);
-	assertEquals(ex1,lin1);
-    }
-
-    public void testFoodsIta()
-			throws Exception {
-	Linearizer linearizer = new Linearizer(pgf, "FoodsIta");
-
-	String ex1 = "questa pizza deliziosa è fresca";
-	AbsynTree tree1 = parseTree("((Pred (This ((Mod Delicious) Pizza))) Fresh)");
-	String lin1 = linearizer.linearizeString(tree1);
-	assertEquals(ex1,lin1);
+        assertEquals(sentence, new Linearizer(pgf, lang).linearizeString(
+                parseTree(tree)
+        ));
     }
 
 
-    public void tearDown() {
-	pgf = null;
+    public void testFoodsEng() throws Exception {
+
+        match("FoodsEng",
+                "this fresh pizza is Italian",
+                "((Pred (This ((Mod Fresh) Pizza))) Italian)");
+        match("FoodsEng",
+                "those boring fish are expensive",
+                "((Pred (Those ((Mod Boring) Fish))) Expensive)");
+
     }
+
+    public void testFoodsSwe() throws Exception {
+        match("FoodsSwe",
+                "den här läckra pizzan är färsk",
+                "((Pred (This ((Mod Delicious) Pizza))) Fresh)");
+    }
+
+    public void testFoodsIta() throws Exception {
+
+        match("FoodsIta",
+                "questa pizza deliziosa è fresca",
+                "((Pred (This ((Mod Delicious) Pizza))) Fresh)");
+    }
+
+
 }

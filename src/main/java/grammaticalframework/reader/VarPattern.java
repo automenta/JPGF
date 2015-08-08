@@ -18,11 +18,13 @@
 package grammaticalframework.reader;
 
 public class VarPattern extends Pattern {
-String name;
+    String name;
 
-public VarPattern(String _name)
-{name = _name; }
+    public VarPattern(String _name) {
+        name = _name;
+    }
 
-public String toString()
-{return "Variable Pattern : " + name;}
+    public String toString() {
+        return "Variable Pattern : " + name;
+    }
 }

@@ -17,7 +17,7 @@
  */
 package grammaticalframework;
 
-import grammaticalframework.Trees.absyn.AbsynTree;
+import grammaticalframework.absyn.AbsynTree;
 import grammaticalframework.Trees.Yylex;
 import grammaticalframework.Trees.parser;
 import grammaticalframework.reader.*;
@@ -30,9 +30,7 @@ import static grammaticalframework.PGFBuilder.*;
 
 public abstract class PGFTestCase extends TestCase {
 
-    public PGFTestCase(String name) {
-        super(name);
-    }
+
     
     /* **** Support function for oppening pdf files **** */
 

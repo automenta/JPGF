@@ -18,29 +18,27 @@
 package grammaticalframework.reader;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 public class Concrete {
+    public final String startCat;
     private String name;
-    private Map<String, RLiteral> flags ;
+    private Map<String, RLiteral> flags;
     private Sequence[] seqs;
     private CncFun[] cncFuns;
     private ProductionSet[] prods;
-    private Map<String, CncCat> cncCats ;
-    private int fId ;
-    public final String startCat;
+    private Map<String, CncCat> cncCats;
+    private int fId;
 
-    public Concrete (String name,
-                     Map<String,RLiteral> flags,
-                     Sequence[] _seqs,
-                     CncFun[] _cncFuns,
-                     ProductionSet[] _prods,
-                     Map<String, CncCat> cncCats,
-                     int _fId,
-                     String defaultStartCat)
-    {
+    public Concrete(String name,
+                    Map<String, RLiteral> flags,
+                    Sequence[] _seqs,
+                    CncFun[] _cncFuns,
+                    ProductionSet[] _prods,
+                    Map<String, CncCat> cncCats,
+                    int _fId,
+                    String defaultStartCat) {
         this.name = name;
         this.flags = flags;
         seqs = _seqs;
@@ -58,51 +56,51 @@ public class Concrete {
         return name;
     }
 
-    public static class UnknownCategory extends Exception {
-	private final String cat;
-	
-	public UnknownCategory(String c) {
-	    this.cat = c;
-	}
-
-	public String toString() {
-	    return "Unknown category " + cat;
-	}
-
-    }
-
     /**
      * returns the concretes categories (forest indices) corresponding to the
      * given abstract category.
+     *
      * @param absCat the name of the abstract category
      * @return the CncCat object or null if the category in unknown.
      **/
     public CncCat concreteCats(String absCat) throws UnknownCategory {
         CncCat c = this.cncCats.get(absCat);
-	if (c != null)
-	    return c;
-	else
-	    throw new UnknownCategory(absCat);
+        if (c != null)
+            return c;
+        else
+            throw new UnknownCategory(absCat);
     }
 
-    public Sequence[] getSequences() {return seqs;}
-    public CncFun[] getCncFuns() {return cncFuns;}
-    public ProductionSet[] getProductionSet() {return prods;}
+    public Sequence[] getSequences() {
+        return seqs;
+    }
+
+    public CncFun[] getCncFuns() {
+        return cncFuns;
+    }
+
+    public ProductionSet[] getProductionSet() {
+        return prods;
+    }
+
     public CncCat[] getCncCat() {
         CncCat[] array = new CncCat[this.cncCats.size()];
         int i = 0;
-        for ( CncCat c : this.cncCats.values()) {
+        for (CncCat c : this.cncCats.values()) {
             array[i] = c;
             i++;
         }
         return array;
     }
-    public int getFId() {return fId;}
+
+    public int getFId() {
+        return fId;
+    }
 
     public CncCat startCat() {
         CncCat cat = this.cncCats.get(this.startCat);
         if (cat == null)
-            return new CncCat(this.startCat,0,0,null);
+            return new CncCat(this.startCat, 0, 0, null);
         else
             return cat;
     }
@@ -112,10 +110,10 @@ public class Concrete {
         for (ProductionSet ps : this.prods) {
             size += ps.length();
         }
-        Production [] prods = new Production[size];
+        Production[] prods = new Production[size];
         int i = 0;
         for (ProductionSet ps : this.prods)
-            for (Production p: ps.getProductions()) {
+            for (Production p : ps.getProductions()) {
                 prods[i] = p;
                 i++;
             }
@@ -123,13 +121,26 @@ public class Concrete {
     }
 
     public String toString() {
-        return "concrete"  + this.name;
+        return "concrete" + this.name;
     }
 
     public Map<Integer, Set<Production>> getSetOfProductions() {
         Map<Integer, Set<Production>> hm = new HashMap(prods.length);
-        for(int i=0; i<prods.length; i++)
+        for (int i = 0; i < prods.length; i++)
             hm.put(prods[i].getId(), prods[i].getProductions());
         return hm;
+    }
+
+    public static class UnknownCategory extends Exception {
+        private final String cat;
+
+        public UnknownCategory(String c) {
+            this.cat = c;
+        }
+
+        public String toString() {
+            return "Unknown category " + cat;
+        }
+
     }
 }

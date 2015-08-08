@@ -18,16 +18,12 @@
 package grammaticalframework;
 
 import java.util.*;
-import grammaticalframework.Trees.absyn.AbsynTree;
+import grammaticalframework.absyn.AbsynTree;
 import java.io.IOException;
 
 public class GenerateTreesTest extends PGFTestCase {
     
     private PGF foods;
-    
-    public GenerateTreesTest (String name) {
-	super(name);
-    }
 
     public void setUp() throws IOException, UnknownLanguageException {
 	    foods = getPGF("corpus/Foods.pgf");

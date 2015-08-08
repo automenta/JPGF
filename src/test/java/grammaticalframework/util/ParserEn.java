@@ -2,7 +2,7 @@ package grammaticalframework.util;
 
 import grammaticalframework.Linearizer;
 import grammaticalframework.PGF;
-import grammaticalframework.Trees.absyn.AbsynTree;
+import grammaticalframework.absyn.AbsynTree;
 import grammaticalframework.UnknownLanguageException;
 import grammaticalframework.parser.Parser;
 import org.grammaticalframework.pgf.ParseError;

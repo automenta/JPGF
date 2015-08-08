@@ -17,9 +17,9 @@
  */
 package grammaticalframework;
 
-import grammaticalframework.Trees.absyn.Application;
-import grammaticalframework.Trees.absyn.Function;
-import grammaticalframework.Trees.absyn.AbsynTree;
+import grammaticalframework.absyn.AbsynTree;
+import grammaticalframework.absyn.Application;
+import grammaticalframework.absyn.Function;
 import grammaticalframework.reader.AbsFun;
 import grammaticalframework.reader.Abstract;
 import grammaticalframework.reader.Type;
@@ -99,7 +99,7 @@ public class GenerateTrees {
         Vector<AbsynTree> results = new Vector();
         AbsynTree f = new Function(function.name);
         for (List<AbsynTree> args : Utils.combine(children)) {
-            results.add(Application.application(f, args));
+            results.add(Application.make(f, args));
         }
         return results;
     }

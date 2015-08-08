@@ -18,13 +18,17 @@
 package grammaticalframework.reader;
 
 public class LiteralPattern extends Pattern {
-private RLiteral value;
+    private RLiteral value;
 
-public LiteralPattern(RLiteral _value)
-{value = _value; }
+    public LiteralPattern(RLiteral _value) {
+        value = _value;
+    }
 
-public String toString()
-{return "Literal Pattern : "+value.toString();}
+    public String toString() {
+        return "Literal Pattern : " + value.toString();
+    }
 
-public RLiteral getLit() {return value;}
+    public RLiteral getLit() {
+        return value;
+    }
 }

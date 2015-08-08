@@ -87,8 +87,9 @@ public class PGFBuilder {
 
 class PGFReader {
 
+    final static java.util.regex.Pattern spacePlus = java.util.regex.Pattern.compile(" +");
+    final static java.util.regex.Pattern colon = java.util.regex.Pattern.compile(":");
     private static final boolean DBG = false;
-
     private DataInputStream mDataInputStream;
     private Set<String> languages;
 
@@ -100,6 +101,43 @@ class PGFReader {
         this.mDataInputStream = new DataInputStream(is);
         this.languages = new HashSet(Arrays.asList(languages));
     }
+
+    /**
+     * This function guess the default start category from the
+     * PGF flags: if the startcat flag is set then it is taken as default cat.
+     * otherwise "Sentence" is taken as default category.
+     */
+    private static String getStartCat(Map<String, RLiteral> flags) {
+        RLiteral cat = flags.get("startcat");
+        if (cat == null)
+            return "Sentence";
+        else
+            return ((StringLit) cat).getValue();
+
+    }
+
+    private static Map<String, Integer> readIndex(String s) {
+        String[] items = spacePlus.split(s);
+        Map<String, Integer> index = new HashMap<String, Integer>(items.length);
+        for (String item : items) {
+            String[] i = colon.split(item);
+            index.put(i[0], Integer.valueOf(i[1]));
+        }
+        return index;
+    }
+
+    private static int makeInt16(int j1, int j2) {
+        int i = 0;
+        i |= j1 & 0xFF;
+        i <<= 8;
+        i |= j2 & 0xFF;
+        return i;
+    }
+
+    
+    /* ************************************************* */
+    /* Reading abstract grammar                          */
+    /* ************************************************* */
 
     public PGF readPGF() throws IOException, UnknownLanguageException {
         Map<String, Integer> index = null;
@@ -154,38 +192,6 @@ class PGFReader {
     }
 
     /**
-     * This function guess the default start category from the
-     * PGF flags: if the startcat flag is set then it is taken as default cat.
-     * otherwise "Sentence" is taken as default category.
-     */
-    private static String getStartCat(Map<String, RLiteral> flags) {
-        RLiteral cat = flags.get("startcat");
-        if (cat == null)
-            return "Sentence";
-        else
-            return ((StringLit) cat).getValue();
-
-    }
-
-    final static java.util.regex.Pattern spacePlus = java.util.regex.Pattern.compile(" +");
-    final static java.util.regex.Pattern colon = java.util.regex.Pattern.compile(":");
-
-    private static Map<String, Integer> readIndex(String s) {
-        String[] items = spacePlus.split(s);
-        Map<String, Integer> index = new HashMap<String, Integer>(items.length);
-        for (String item : items) {
-            String[] i = colon.split(item);
-            index.put(i[0], Integer.valueOf(i[1]));
-        }
-        return index;
-    }
-
-    
-    /* ************************************************* */
-    /* Reading abstract grammar                          */
-    /* ************************************************* */
-
-    /**
      * This function reads the part of the pgf binary corresponding to
      * the abstract grammar.
      *
@@ -213,7 +219,6 @@ class PGFReader {
         Expr exp = getExpr();
         return new Eq(patts, exp);
     }
-
 
     private AbsFun getAbsFun() throws IOException {
         String name = getIdent();
@@ -265,7 +270,6 @@ class PGFReader {
 
         return absCats;
     }
-
 
     private Type getType() throws IOException {
         Hypo[] hypos = getListHypo();
@@ -348,7 +352,6 @@ class PGFReader {
         }
         return expr;
     }
-
 
     private Eq[] getListEq() throws IOException {
         int npoz = getInt();
@@ -550,6 +553,11 @@ class PGFReader {
         return new CncFun(name, seqs);
     }
 
+    /* ************************************************* */
+    /* Reading LinDefs                                   */
+    /* ************************************************* */
+    // LinDefs are stored as an int map (Int -> [Int])
+
     private CncFun[] getListCncFun(Sequence[] sequences)
             throws IOException {
         int npoz = getInt();
@@ -558,11 +566,6 @@ class PGFReader {
             cncFuns[i] = getCncFun(sequences);
         return cncFuns;
     }
-
-    /* ************************************************* */
-    /* Reading LinDefs                                   */
-    /* ************************************************* */
-    // LinDefs are stored as an int map (Int -> [Int])
 
     private LinDef[] getListLinDef()
             throws IOException {
@@ -573,6 +576,10 @@ class PGFReader {
         return linDefs;
     }
 
+    /* ************************************************* */
+    /* Reading productions and production sets           */
+    /* ************************************************* */
+
     private LinDef getLinDef()
             throws IOException {
         int key = getInt();
@@ -582,10 +589,6 @@ class PGFReader {
             funIds[i] = getInt();
         return new LinDef(key, funIds);
     }
-
-    /* ************************************************* */
-    /* Reading productions and production sets           */
-    /* ************************************************* */
 
     /**
      * Read a production set
@@ -797,7 +800,6 @@ class PGFReader {
         return strs;
     }
 
-
     // Weighted idents are a pair of a String (the ident) and a double
     // (the ident).
     private WeightedIdent[] getListWeightedIdent()
@@ -835,14 +837,6 @@ class PGFReader {
         for (int i = 0; i < npoz; i++)
             vec[i] = getInt();
         return vec;
-    }
-
-    private static int makeInt16(int j1, int j2) {
-        int i = 0;
-        i |= j1 & 0xFF;
-        i <<= 8;
-        i |= j2 & 0xFF;
-        return i;
     }
 
     // Reading doubles
