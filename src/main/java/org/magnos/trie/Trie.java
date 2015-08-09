@@ -16,9 +16,12 @@
 
 package org.magnos.trie;
 
-import com.gs.collections.impl.map.mutable.primitive.IntObjectHashMap;
-
-import java.util.*;
+import java.util.AbstractCollection;
+import java.util.AbstractSet;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 
 /**
@@ -78,7 +81,7 @@ public class Trie<S, T> implements Map<S, T>
     */
    public Trie( TrieSequencer<S> sequencer, T defaultValue )
    {
-      this.root = new TrieNode<S, T>( null, defaultValue, null, 0, 0, new IntObjectHashMap<TrieNode<S, T>>() );
+      this.root = new TrieNode<S, T>( null, defaultValue, null, 0, 0, new PerfectHashMap<TrieNode<S, T>>() );
       this.sequences = new SequenceSet( root );
       this.values = new ValueCollection( root );
       this.entries = new EntrySet( root );
@@ -137,7 +140,8 @@ public class Trie<S, T> implements Map<S, T>
       TrieNode<S, T> node = root.children.get( sequencer.hashOf( query, 0 ) );
 
       // The root doesn't have a child that starts with the given sequence...
-      if (node == null)      {
+      if (node == null)
+      {
          // Add the sequence and value directly to root!
          return putReturnNull( root, value, query, queryOffset, queryLength );
       }
@@ -614,6 +618,7 @@ public class Trie<S, T> implements Map<S, T>
    public void clear()
    {
       root.children.clear();
+      root.size = 0;
    }
 
    /**
@@ -998,7 +1003,7 @@ public class Trie<S, T> implements Map<S, T>
 
       private TrieNode<S, T> findNext()
       {
-         if (indices[0] == root.size())
+         if (root.children==null || indices[0] == root.children.capacity())
          {
             return null;
          }
@@ -1013,11 +1018,11 @@ public class Trie<S, T> implements Map<S, T>
 
          while (!foundValue)
          {
-            final IntObjectHashMap<TrieNode<S, T>> children = node.children;
-            final int childCapacity = children.size();
+            final PerfectHashMap<TrieNode<S, T>> children = node.children;
+            final int childCapacity = children.capacity();
             int id = indices[depth] + 1;
 
-            while (id < childCapacity && children.get( id ) == null)
+            while (id < childCapacity && children.valueAt( id ) == null)
             {
                id++;
             }
@@ -1036,7 +1041,7 @@ public class Trie<S, T> implements Map<S, T>
             else
             {
                indices[depth] = id;
-               node = children.get( id );
+               node = children.valueAt( id );
 
                if (node.hasChildren())
                {
@@ -1093,6 +1098,5 @@ public class Trie<S, T> implements Map<S, T>
 
       }
    }
-
 
 }

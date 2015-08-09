@@ -35,7 +35,8 @@ public class ActiveItem {
         this.domain = domain;
         this.constituent = constituent;
         this.position = position;
-        this.hash = Objects.hash(begin, category, function, domain, constituent, position);
+        this.hash = Objects.hash(begin, category, function, domain,
+                constituent, position);
     }
 
 
@@ -68,10 +69,12 @@ public class ActiveItem {
         if (obj == this) return true;
         if (obj instanceof ActiveItem) {
             ActiveItem a = (ActiveItem) obj;
-            return a.category == category &&
-                    a.function == function /*toEquals?*/ &&
+            return  a.hash == hash &&
+                    a.category == category &&
+                    a.begin == begin &&
                     a.constituent == constituent &&
                     a.position == position &&
+                    a.function.equals( function ) &&
                     Arrays.equals(a.domain, domain);
         }
         return false;

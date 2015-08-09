@@ -1,7 +1,8 @@
 package grammaticalframework.parser;
 
 import org.magnos.trie.Trie;
-import org.magnos.trie.TrieSequencer;
+import org.magnos.trie.TrieMatch;
+import org.magnos.trie.TrieSequencerCharSequence;
 
 import java.util.*;
 
@@ -19,30 +20,36 @@ import java.util.*;
  *
  * @param value the value at this node.
  **/
-public class ParseTrie extends Trie<String[], Deque<ActiveItem>> {
+public class ParseTrie  {
 
-    private static final org.magnos.trie.TrieSequencer<String[]> seq = new TrieSequencer<String[]>() {
+    //TODO use a String[] impl like we tried originally
+    final Trie<String, Collection<ActiveItem>> data = new Trie(new TrieSequencerCharSequence());
 
-        @Override public int matches(String[] sequenceA, int indexA, String[] sequenceB, int indexB, int count) {
-            for (int i = 0; i < count; i++) {
-                if (!sequenceA[indexA + i].equals( sequenceB[indexB + i] )) {
-                    return i;
-                }
-            }
-            return count;
-        }
+    //Map<List<String>,ArrayDeque<ActiveItem>> data = new HashMap();
+    //Multimap<List<String>,ArrayDeque<ActiveItem>> data = HashMultimap.create();
 
-        @Override public int lengthOf(String[] sequence) {
-            return sequence.length;
-        }
+    public static String key(String[] s) {
+        return String.join(" ", s);
+    }
 
-        @Override public int hashOf(String[] sequence, int i) {
-            return sequence[i].hashCode();
-        }
-    };
+    public Collection<ActiveItem> get(String[] substring) {
+        //System.out.println("get: " + Arrays.asList(substring) + " " + data.get(key(substring)));
+        return data.get(key(substring), TrieMatch.STARTS_WITH);
+    }
 
-    public ParseTrie() {
-        super(seq);
+    public Collection<ActiveItem> get(String substring) {
+        //System.out.println("get: " + substring + " " + data.get(substring));
+        return data.get(substring, TrieMatch.STARTS_WITH);
+    }
+
+    public void put(String[] tokens, Collection<ActiveItem> ai) {
+        //System.out.println("put: " + Arrays.asList(tokens) + " -> " + ai);
+        Collection<ActiveItem> exists;
+        data.put(key(tokens), ai);
+    }
+
+    public Set<Map.Entry<String, Collection<ActiveItem>>> entries(String s) {
+        return data.entrySet(s, TrieMatch.STARTS_WITH);
     }
 
 

@@ -17,30 +17,28 @@
  */
 package grammaticalframework.reader;
 
+import java.util.Arrays;
+
 public class ApplProduction extends Production {
+
     public final CncFun function;
     public final int[] domain;
+    private final int hash;
 
     public ApplProduction(int fId, CncFun function, int[] domain) {
         super(0, fId);
         this.function = function;
         this.domain = domain;
+        this.hash = 31 * function.hashCode() + Arrays.hashCode(domain);
     }
 
-    public CncFun function() {
-        return this.function;
-    }
-
-    public int[] domain() {
-        return this.domain;
-    }
 
     public CncFun getFunction() {
         return function;
     }
 
     public int[] getArgs() {
-        return this.domain;
+        return domain;
     }
 
     public String toString() {
@@ -60,18 +58,22 @@ public class ApplProduction extends Production {
         return s;
     }
 
-    ;
 
+    @Override
     public boolean equals(Object o) {
-        if (o instanceof ApplProduction) {
-            ApplProduction newo = (ApplProduction) o;
-            if (!newo.getFunction().equals(function))
-                return false;
-            if (domain.length != newo.getArgs().length) return false;
-            for (int i = 0; i < domain.length; i++)
-                if (domain[i] != newo.getArgs()[i]) return false;
-            return true;
-        }
-        return false;
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ApplProduction that = (ApplProduction) o;
+
+        if (!function.equals(that.function)) return false;
+        if (!Arrays.equals(domain, that.domain)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return hash;
     }
 }

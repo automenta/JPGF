@@ -19,8 +19,8 @@ package grammaticalframework.reader;
 
 public abstract class Production {
 
-    protected int fId;
-    private int sel;
+    public final int fId;
+    public final int sel;
 
     public Production(int selector, int fId) {
         this.sel = selector;
@@ -31,21 +31,21 @@ public abstract class Production {
         return this.fId;
     }
 
-    public int range() {
+    /*public int range() {
         return this.fId;
-    }
+    }*/
 
-    public abstract String toString();
+    //public abstract String toString();
 
-    // Domain is the domain of the concrete function
-    public abstract int[] domain();
+//    // Domain is the domain of the concrete function
+//    public abstract int[] domain();
 
-    public int getSel() {
-        return sel;
-    }
-
-    public int getFId() {
-        return fId;
-    }
+//    public int getSel() {
+//        return sel;
+//    }
+//
+//    public int getFId() {
+//        return fId;
+//    }
 
 }

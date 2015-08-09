@@ -21,9 +21,9 @@ package grammaticalframework.parser;
 import com.gs.collections.api.tuple.primitive.ObjectIntPair;
 import grammaticalframework.reader.*;
 import org.grammaticalframework.pgf.ParseError;
-import org.magnos.trie.TrieNode;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 //import scala.collection.immutable.List;
 
@@ -44,7 +44,7 @@ public class ParseState {
 
     ParseTrie trie = new ParseTrie();
 
-    TrieNode<String[], Deque<ActiveItem>> trieNode = null;
+    Set<Map.Entry<String, Collection<ActiveItem>>> prediction = null;
 
     Deque<ActiveItem> agenda = new ArrayDeque();
 
@@ -151,13 +151,13 @@ public class ParseState {
                 ActiveItem i = new ActiveItem(j, A, f, B, l, p + 1);
                 // SCAN
                 // this.trie.add(tokens, i)
-                Deque<ActiveItem> option = this.trie.get(tokens);
+                Collection<ActiveItem> option = this.trie.get(tokens);
                 if (option == null) {
-                    ArrayDeque<ActiveItem> ai = new ArrayDeque();
-                    ai.push(i);
+                    HashSet<ActiveItem> ai = new HashSet();
+                    ai.add(i);
                     this.trie.put(tokens, ai);
                 } else {
-                    option.push(i);
+                    option.add(i);
                 }
             } else {
                 // ------------------------- before <d,r> -----------------------
@@ -187,36 +187,77 @@ public class ParseState {
     }
 
     private void agendaAdd(ActiveItem i) {
-        System.out.println(" + " + i);
         agenda.push(i);
     }
 
     /**
      * returns the set of possible next words
      */
-    public String[] predict() {
-        if (trieNode == null) {
+    public Set<Map.Entry<String, Collection<ActiveItem>>> predict() {
+        if (prediction == null) {
             return null;
         }
-        return trieNode.getKey();
+        return prediction;
     }
 
+
+    /*
+
+    public boolean scan(String token) {
+        scala.Option<ParseTrie> option = this.trie.getSubTrie(token);
+        if (option.isEmpty())
+            return false;
+        else {
+            ParseTrie newTrie = option.get();
+            List nil = Nil$.MODULE$;
+            scala.Option<Stack<ActiveItem>> option2 = newTrie.lookup(nil);
+            if (option2.isEmpty())
+                return false;
+            else {
+                Stack<ActiveItem> agenda = option2.get();
+                this.trie = newTrie;
+                this.position += 1;
+                this.agenda = agenda;
+                this.compute();
+                //log.finer(this.trie.toString)
+                return true;
+            }
+        }
+    }
+     */
     public void scan(String[] token) {
 
-        for (int i = 0; i < token.length; i++) {
-            String[] substring = Arrays.copyOfRange(token, 0, i);
+        System.out.println( trie.get(token) );
 
-            Deque<ActiveItem> s = trie.get(substring);
-            if (s == null)
+        for (int i = 0; i < token.length; i++) {
+            //String[] substring = Arrays.copyOfRange(token, 0, i+1);
+
+            this.position = i;
+
+            Collection<ActiveItem> s = trie.get(token[i]);
+            if (s == null || s.isEmpty())
                 break;
+
 
         /*Set<TrieNode<String[], Deque<ActiveItem>>> x = trie.nodeSet(token);
         for (TrieNode<String[], Deque<ActiveItem>> s : x) {*/
 
-            this.position = i;
-            this.agenda = s;
+//            System.out.println(i + " " + Arrays.toString(Arrays.copyOfRange(token, 0, i+1))
+//                    + " " +  token[i]);
+//            System.out.println( trie.entries( token[i] ) );
+//            System.out.println( trie.entries(
+//                    String.join(" ", Arrays.copyOfRange(token, 0, i+1))  )
+//            );
+//            System.out.println("");
+
+            //this.prediction = trie.data.entrySet(token[i]);
+            System.out.println("  " + trie.data.keySet(token[i]));
+
+            this.agenda.addAll(s);
+
+
             this.compute();
-            //log.finer(this.trie.toString)
+
             //}
         }
     }
@@ -230,4 +271,10 @@ public class ParseState {
     }
 
 
+    public boolean predicts(String[] words) {
+        Set<Map.Entry<String, Collection<ActiveItem>>> p = predict();
+        if (p == null) return false;
+        Set<String> x = p.stream().map(e -> e.getKey()).collect(Collectors.toSet());
+        return x.contains( String.join(" ", words) );
+    }
 }

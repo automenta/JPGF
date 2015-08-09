@@ -17,11 +17,15 @@
  */
 package grammaticalframework;
 
+import grammaticalframework.parser.ActiveItem;
 import grammaticalframework.parser.Parser;
 import org.grammaticalframework.pgf.ParseError;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Map;
+import java.util.Set;
 
 public class FoodsPredictTest extends PGFTestCase {
 
@@ -55,11 +59,12 @@ public class FoodsPredictTest extends PGFTestCase {
     }
 
     private void match(Parser parser, String... words) throws ParseError {
-        String[] predictions = parser.parse().predict();
-        Arrays.sort(predictions);
+        assertTrue( parser.parse(words).predicts(words) );
+
+        /*Arrays.sort(predictions);
         assertEquals(words.length, predictions.length);
         for (int i = 0; i < words.length; i++)
-            assertEquals(words[i], predictions[i]);
+            assertEquals(words[i], predictions[i]);*/
     }
 
 

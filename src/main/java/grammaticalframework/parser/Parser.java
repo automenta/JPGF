@@ -103,7 +103,8 @@ public class Parser {
             int m = chart.getCategory(catID, 0, 0, position /* length */);
             if (m == -1) continue;
 
-            chart.mkTreeForCat(catID).forEach(target);
+            List<AbsynTree> tree = chart.mkTreeForCat(catID);
+            tree.forEach(target);
         }
     }
 

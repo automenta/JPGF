@@ -17,6 +17,9 @@
  */
 package grammaticalframework.reader;
 
+/** subclasses need to implement hash and toEquals */
 public abstract class Symbol {
+
     public abstract String toString();
+
 }

@@ -41,7 +41,7 @@ public class CncFun {
         if (obj == this) return true;
         if (obj instanceof CncFun) {
             CncFun c = (CncFun)obj;
-            return c.name.equals(name) && (Arrays.equals(c.sequences, sequences));
+            return (hash!=c.hash) && c.name.equals(name) && (Arrays.equals(c.sequences, sequences));
         }
         return false;
     }

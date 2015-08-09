@@ -16,9 +16,6 @@
 
 package org.magnos.trie;
 
-import com.gs.collections.api.map.primitive.IntObjectMap;
-import com.gs.collections.impl.map.mutable.primitive.IntObjectHashMap;
-
 import java.util.Map.Entry;
 
 
@@ -72,8 +69,8 @@ public class TrieNode<S, T> implements Entry<S, T>
    protected S sequence;
    protected int start;
    protected int end;
-   protected IntObjectHashMap<TrieNode<S, T>> children = null;
-
+   protected PerfectHashMap<TrieNode<S, T>> children = null;
+   protected int size;
 
    /**
     * Instantiates a new TrieNode.
@@ -92,13 +89,14 @@ public class TrieNode<S, T> implements Entry<S, T>
     * @param children
     *        The intial set of children.
     */
-   protected TrieNode( TrieNode<S, T> parent, T value, S sequence, int start, int end, IntObjectHashMap<TrieNode<S, T>> children )
+   protected TrieNode( TrieNode<S, T> parent, T value, S sequence, int start, int end, PerfectHashMap<TrieNode<S, T>> children )
    {
       this.parent = parent;
       this.sequence = sequence;
       this.start = start;
       this.end = end;
       this.children = children;
+      this.size = calculateSize( children );
       this.setValue( value );
    }
 
@@ -134,12 +132,6 @@ public class TrieNode<S, T> implements Entry<S, T>
       return c;
    }
 
-   public int size() {
-      if (children == null)
-         return 0;
-      return children.size();
-   }
-
    /**
     * Adds the given child to this TrieNode. The child TrieNode is expected to
     * have had this node's reference passed to it's constructor as the parent
@@ -156,10 +148,13 @@ public class TrieNode<S, T> implements Entry<S, T>
       int hash = sequencer.hashOf( child.sequence, end );
 
       if (children == null)
-         children = new IntObjectHashMap();
-
-      children.put( hash, child );
-
+      {
+         children = new PerfectHashMap<TrieNode<S, T>>( hash, child );
+      }
+      else
+      {
+         children.put( hash, child );
+      }
    }
 
    /**
@@ -185,7 +180,7 @@ public class TrieNode<S, T> implements Entry<S, T>
       // With one child, become the child!
       else if (childCount == 1)
       {
-         TrieNode<S, T> child = children.get( 0 );
+         TrieNode<S, T> child = children.valueAt( 0 );
 
          children = child.children;
          value = child.value;
@@ -201,34 +196,49 @@ public class TrieNode<S, T> implements Entry<S, T>
       }
    }
 
+   /**
+    * Adds the given size to this TrieNode and it's parents.
+    * 
+    * @param amount
+    *        The amount of size to add.
+    */
+   private void addSize( int amount )
+   {
+      TrieNode<S, T> curr = this;
 
+      while (curr != null)
+      {
+         curr.size += amount;
+         curr = curr.parent;
+      }
+   }
 
-//   /**
-//    * Sums the sizes of all non-null TrieNodes in the given map.
-//    *
-//    * @param nodes
-//    *        The map to calculate the total size of.
-//    * @return The total size of the given map.
-//    */
-//   private int calculateSize( PerfectHashMap<TrieNode<S, T>> nodes )
-//   {
-//      int size = 0;
-//
-//      if (nodes != null)
-//      {
-//         for (int i = nodes.capacity() - 1; i >= 0; i--)
-//         {
-//            TrieNode<S, T> n = nodes.valueAt( i );
-//
-//            if (n != null)
-//            {
-//               size += n.size;
-//            }
-//         }
-//      }
-//
-//      return size;
-//   }
+   /**
+    * Sums the sizes of all non-null TrieNodes in the given map.
+    * 
+    * @param nodes
+    *        The map to calculate the total size of.
+    * @return The total size of the given map.
+    */
+   private int calculateSize( PerfectHashMap<TrieNode<S, T>> nodes )
+   {
+      int size = 0;
+
+      if (nodes != null)
+      {
+         for (int i = nodes.capacity() - 1; i >= 0; i--)
+         {
+            TrieNode<S, T> n = nodes.valueAt( i );
+
+            if (n != null)
+            {
+               size += n.size;
+            }
+         }
+      }
+
+      return size;
+   }
 
    /**
     * Ensures all child TrieNodes to this node are pointing to the correct
@@ -238,9 +248,9 @@ public class TrieNode<S, T> implements Entry<S, T>
    {
       if (children != null)
       {
-         for (int i = 0; i < children.size(); i++)
+         for (int i = 0; i < children.capacity(); i++)
          {
-            TrieNode<S, T> c = children.get( i );
+            TrieNode<S, T> c = children.valueAt( i );
 
             if (c != null)
             {
@@ -330,7 +340,7 @@ public class TrieNode<S, T> implements Entry<S, T>
     */
    public int getSize()
    {
-      return children.size();
+      return size;
    }
 
    /**
@@ -400,6 +410,14 @@ public class TrieNode<S, T> implements Entry<S, T>
 
       value = newValue;
 
+      if (previousValue == null && value != null)
+      {
+         addSize( 1 );
+      }
+      else if (previousValue != null && value == null)
+      {
+         addSize( -1 );
+      }
 
       return previousValue;
    }

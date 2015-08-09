@@ -17,11 +17,16 @@
  */
 package grammaticalframework.reader;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 public class Sequence {
+    private final int hash;
     Symbol[] symbs;
 
     public Sequence(Symbol[] _symbs) {
         symbs = _symbs;
+        this.hash = Arrays.hashCode(symbs);
     }
 
     public Symbol symbol(int index) {
@@ -34,6 +39,24 @@ public class Sequence {
 
     public Symbol[] getSymbols() {
         return symbs;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Sequence sequence = (Sequence) o;
+
+        // Probably incorrect - comparing Object[] arrays with Arrays.equals
+        if (sequence.hash!=hash && !Arrays.equals(symbs, sequence.symbs)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return hash;
     }
 
     public String toString() {

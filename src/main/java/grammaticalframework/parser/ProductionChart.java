@@ -104,7 +104,8 @@ public class ProductionChart {
                     .collect(toList());
         } else {
             return newArrayList(
-                    new Application(fname, null)
+                    fname
+                    //new Application(fname, null)
             );
         }
 
@@ -148,14 +149,16 @@ public class ProductionChart {
         ),-1);
     }
 
-    public int generateFreshCategory(int oldCat, int l, int j, int k) {
-        int cat = nextCat++;
+    public int generateFreshCategory(final int oldCat, int l, int j, int k) {
 
-        catKeeper.put(PrimitiveTuples.pair(
+        int result = catKeeper.getIfAbsentPut(PrimitiveTuples.pair(
                 Utils.pack(oldCat, l), Utils.pack(j, k)
-        ), cat);
+        ), nextCat+1);
 
-        return cat;
+        if (result == nextCat+1)
+            nextCat = nextCat+1;
+
+        return result;
     }
 
 //    def getFreshCategory(oldCat:Int, l:Int, j:Int, k:Int):Int =

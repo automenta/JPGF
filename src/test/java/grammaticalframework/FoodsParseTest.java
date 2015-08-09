@@ -42,6 +42,8 @@ public class FoodsParseTest extends PGFTestCase {
         AbsynTree expected = parseTree(treeStr);
         List<AbsynTree> actual = parser.parseToTrees(sentence);
 
+        System.out.println(actual + " =?= " + expected);
+
         assertEquals(1, actual.size());
         assertEquals(expected, actual.get(0));
     }

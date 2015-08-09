@@ -18,6 +18,7 @@
 package grammaticalframework.reader;
 
 public class CoerceProduction extends Production {
+
     private int initId;
 
     public CoerceProduction(int fId, int _initId) {
@@ -29,9 +30,9 @@ public class CoerceProduction extends Production {
         return initId;
     }
 
-    public int[] domain() {
+    /*public int[] domain() {
         return new int[]{this.initId};
-    }
+    }*/
 
     public String toString() {
         return "Coercion(" + this.fId + " -> " + initId + ')';
@@ -43,6 +44,10 @@ public class CoerceProduction extends Production {
         return false;
     }
 
+    @Override
+    public int hashCode() {
+        return initId;
+    }
 }
 
 

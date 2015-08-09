@@ -17,14 +17,19 @@
  */
 package grammaticalframework.reader;
 
+import java.util.Arrays;
+
 public class ToksSymbol extends Symbol {
-    String[] toks;
+
+    private final int hash;
+    public final String[] toks;
 
     /**
      * Constructor
      */
     public ToksSymbol(String[] _toks) {
         toks = _toks;
+        this.hash = Arrays.hashCode(toks);
     }
 
     /**
@@ -36,6 +41,24 @@ public class ToksSymbol extends Symbol {
 
     public boolean isTerminal() {
         return true;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ToksSymbol that = (ToksSymbol) o;
+
+        // Probably incorrect - comparing Object[] arrays with Arrays.equals
+        if (that.hash != hash && !Arrays.equals(toks, that.toks)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return hash;
     }
 
     public String toString() {
